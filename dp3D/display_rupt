@@ -1,0 +1,272 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the rupt files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    November 2006
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+file2display=rupt
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
+
+# need a $file2display file in the current directory
+# need a file2display file in the current directory
+if [ -f $file2display ];then     
+  echo ""
+  numcol=`head -1 $file2display | awk '{print NF }'`
+  let "numcol = numcol + 1"
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file $file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi     
+# the old format:
+echo "$1" > istimethere
+nistimethere=`grep -c "\-time"  istimethere`
+rm -f istimethere
+if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
+# if mixing  columns of $file2display and visco:
+# old format:
+  if [ -f visco  ];then 
+    case $1 in
+    -time_s )
+        Xcol="1"
+      ;;
+    -time_h )
+        Xcol="2"
+        ;;
+    -time_y )
+        Xcol="3"
+        ;;       
+    esac
+    file2look="visco"
+  else
+    file2look="tstress"
+    case $1 in
+    -dgeom )
+        Xcol="23"
+	file2look="zave"
+      ;;
+    -timestep )
+        Xcol="5"
+      ;;
+    -time_s )
+        Xcol="6"
+      ;;
+    -time_h )
+        Xcol="7"
+        ;;
+    -time_y )
+        Xcol="8"
+        ;;       
+    esac
+  fi
+  awk '{print $'$Xcol'}' $file2look > tmp1
+  paste $file2display tmp1 > visco$file2display
+fi
+
+case $1 in
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($1)'
+      ;;
+  -dgeom )
+      Xlabel='"Geometric Relative Density "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -epsx )
+      Xlabel='"Strain (x)"'
+      Xcolumn='(-$2)'
+      ;; 
+  -epsy )
+      Xlabel='"Strain (y)"'
+      Xcolumn='(-$3)'
+      ;; 
+  -epsz )
+      Xlabel='"Strain (z)"'
+      Xcolumn='(-$4)'
+      ;; 
+  -timestep )
+      Xlabel='"Timestep "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_s )
+      Xlabel='"Time (sec) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_h )
+      Xlabel='"Time (hour) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_y )
+      Xlabel='"Time (year) "'
+      Xcolumn='($'$numcol')'
+      ;;       
+     * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are  -dens -dgeom : density / geometric density"
+       echo "                     -epsx -epsy -epsz : x y and z strain"
+       echo ""
+       echo " valid y labels are  -bonds : Number of bonds"
+       echo "                     -Nrupt : Number of bonds broken in tension"
+       echo "                     -Trupt : Number of bonds broken in shear"
+       echo "                     -Nc    : Number of clusters"
+       echo "                     -nmax1 : Size of the biggest cluster"
+       echo "                     -nmax2 : Size of the second biggest cluster"
+       echo "                     -npercluster : Average number of particle per cluster"
+       echo "                     -sigN_bmin : Min bond normal stress"
+       echo "                     -sigN_bmax : Max bond normal stress"
+       echo "                     -sigT_bmax : Max bond shear stress"        
+       exit 
+esac
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY_std"gnup_display plot_$file2display
+
+    echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+
+    for option in $Option_l
+    do
+    case $option in
+    -bonds )
+      Title='"Number_of_bonds"'
+      Ylabel='"Nb"'
+      Ycolumn='($5)'
+       ;;
+    -Nrupt )
+      Title='"Number_of_bonds_broken_in_tension"'
+      Ylabel='"Nb"'
+      Ycolumn='($6)'
+       ;;       
+    -Trupt )
+      Title='"Number_of_bonds_broken_in_shear"'
+      Ylabel='"Nb"'
+      Ycolumn='($7)'
+       ;;
+    -Nc )
+      Title='"Number_of_clusters"'
+      Ylabel='"nc"'
+      Ycolumn='($8)'
+       ;;       
+    -nmax1 )
+      Title='"Size_of_the_biggest_cluster"'
+      Ylabel='"n"'
+      Ycolumn='($9)'
+       ;;       
+    -nmax2 )
+      Title='"Size_of_the_second_biggest_cluster"'
+      Ylabel='"n"'
+      Ycolumn='($10)'
+       ;;       
+    -npercluster )
+      Title='"Average_number_of_particle_per_cluster"'
+      Ylabel='"n"'
+      Ycolumn='($11)'      
+      ;; 
+    -sigN_bmin )
+      Title='"Min_bond_normal_stress"'
+      Ylabel='"stress (MPa)"'
+      Ycolumn='($12)'      
+      ;; 
+    -sigN_bmax )
+      Title='"Max_bond_normal_stress"'
+      Ylabel='"stress (MPa)"'
+      Ycolumn='($13)'      
+      ;; 
+    -sigT_bmax )
+      Title='"Max_bond_shear_stress"'
+      Ylabel='"stress (MPa)"'
+      Ycolumn='($14)'      
+      ;; 
+     xrange* )
+      echo $option > tmp1 
+      sed 's/xrange/set xrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      xrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    yrange* )
+      echo $option > tmp1 
+      sed 's/yrange/set yrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      yrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    anim )
+      export file2display Xcolumn Ycolumn
+      $BINARY_std/animate_my_gif 
+      plot="no"
+      ;;
+     * )
+      if [ "$option" = "$end_option" -a $i -gt 0 -o "$option" = "-keep" -o "$option" = "-keep_nodisplay" ];then
+# this is the end of the y label list, no more to plot
+        if [ "$option" != "-keep_nodisplay" ];then
+          gnuplot -geometry 560x400 -persist plot_$file2display   
+        fi
+        rm -f tmp1 tmp2 tmp3
+       if [ $nistimethere != "0" -a $option != "-keep" -a $option != "-keep_nodisplay" ];then
+          rm  -f visco$file2display*
+        fi
+	exit  
+      else
+       if [ "$option" = "$end_option" ];then
+         echo "need a y label"
+       else 
+         echo "$option is not a valid y label"
+       fi
+       echo " valid y labels are  -bonds : Number of bonds"
+       echo "                     -Nrupt : Number of bonds broken in tension"
+       echo "                     -Trupt : Number of bonds broken in shear"
+       echo "                     -Nc    : Number of clusters"
+       echo "                     -nmax1 : Size of the biggest cluster"
+       echo "                     -nmax2 : Size of the second biggest cluster"
+       echo "                     -npercluster : Average number of particle per cluster"
+       echo "                     -sigN_bmin : Min bond normal stress"
+       echo "                     -sigN_bmax : Max bond normal stress"
+       echo "                     -sigT_bmax : Max bond shear stress"        
+       exit       
+      fi      
+    esac
+    if [ "$plot" != "no" ];then
+#   a valid y label has been chosen    
+      let "i+=1"
+# the last y chosen gives the ylabel
+      echo "set ylabel $Ylabel" >> plot_$file2display
+# the title of the plot is pwd    
+      echo "set title  '"$(pwd)"'" >> plot_$file2display
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+      if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
+        ls -1 -Q visco$file2display > tmp1
+      else
+        ls -1 -Q $file2display > tmp1
+      fi
+    
+      if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+        sed 's/^/plot /g' tmp1 > tmp2
+      else
+# replot everywhere except for the first line (1,1)
+        sed 's/^/replot /g' tmp1 > tmp2 
+      fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+      sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
+# Not the most elegant !:    
+      sed 's/_/ /g' tmp3 > tmp2
+
+     sed 's/$/ w l lw 2 /g' tmp2 > tmp3
+     cat tmp3 >> plot_$file2display
+    fi
+    done
+   
+rm -f tmp1 tmp2 tmp3

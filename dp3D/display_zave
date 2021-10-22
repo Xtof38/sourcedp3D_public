@@ -1,0 +1,333 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the zave files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    November 2006
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
+
+file2display=zave
+
+# need a file2display file in the current directory
+if [ -f $file2display ];then     
+  echo ""
+  numcol=`head -1 $file2display | awk '{print NF }'`
+  let "numcol = numcol + 1"
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file $file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi   
+
+# the old format:
+echo "$1" > istimethere
+nistimethere=`grep -c "\-time"  istimethere`
+rm -f istimethere
+if [ $nistimethere != "0" ];then
+# if mixing  columns of $file2display and visco:
+# old format:
+  if [ -f visco  ];then 
+    case $1 in
+    -time_s )
+        Xcol="1"
+      ;;
+    -time_h )
+        Xcol="2"
+        ;;
+    -time_y )
+        Xcol="3"
+        ;;       
+    esac
+    file2look="visco"
+  else
+    case $1 in
+    -timestep )
+        Xcol="5"
+      ;;
+    -time_s )
+        Xcol="6"
+      ;;
+    -time_h )
+        Xcol="7"
+        ;;
+    -time_y )
+        Xcol="8"
+        ;;       
+    esac
+    file2look="tstress"
+  fi
+  awk '{print $'$Xcol'}' $file2look > tmp1
+  paste $file2display tmp1 > visco$file2display
+fi
+
+
+case $1 in
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($1)'
+      ;;
+  -dgeom )
+      Xlabel='"Geometric Relative Density "'
+      Xcolumn='($23)'
+      ;;
+  -epsx )
+      Xlabel='"Strain (x)"'
+      Xcolumn='(-$2)'
+      ;; 
+  -epsy )
+      Xlabel='"Strain (y)"'
+      Xcolumn='(-$3)'
+      ;; 
+  -epsz )
+      Xlabel='"Strain (z)"'
+      Xcolumn='(-$4)'
+      ;;
+  -timestep )
+      Xlabel='"Timestep "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_s )
+      Xlabel='"Time (sec) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_h )
+      Xlabel='"Time (hour) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_y )
+      Xlabel='"Time (year) "'
+      Xcolumn='($'$numcol')'
+      ;;       
+     * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are  -dens -dgeom : density / geometric density"
+       echo "                     -epsx -epsy -epsz : x y and z strain"
+       echo "                     -time_s -time_h -time_y : time in sec, hour or year"       
+       echo ""       
+       echo " valid y labels are  -z or -zave : coordination number "
+       echo "                     -z11 : number of type 1 particles in contact with a type 1 particle"
+       echo "                     -z12 : number of type 2 particles in contact with a type 1 particle"
+       echo "                     -z21 : number of type 1 particles in contact with a type 2 particle"
+       echo "                     -z22 : number of type 2 particles in contact with a type 2 particle"
+       echo "                     -zclumps : number of contacts per clump"
+       echo "                     -a or -contact : Contact radius / (mean_part_radius)"
+       echo "                     -ageom : Geometric contact radius / (mean_part_radius)"
+       echo "                     -ao2rpeq : Contact radius / (2rpeq)"
+       echo "                     -aHertzo2rpeq : Hertzian contact radius / (2rpeq)"
+       echo "                     -h -ho2rpeq : Indentation  Indentation / (2rpeq)"
+       echo "                     -unload : % of unloading_contacts"
+       echo "                     -tensile : % of contacts in tension"
+       echo "                     -size : mean size (micron)"       
+       echo "                     -snap : cumulative number of snapped plastic contacts"       
+       echo "                     -Npart : number of particles"       
+       echo "                     -rp : particle mean radius"       
+       echo "                     -sigma_rp : standard deviation of particle radii"       
+       exit 
+esac
+
+
+# gnup_display  is the standard view for gnuplot and display_  
+    cp -f "$BINARY_std"gnup_display plot_$file2display
+    echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+
+    for option in $Option_l
+    do
+    case $option in
+    -dgeom )
+      Title='"Geometric_Relative_Density"'
+      Ylabel='"dgeom"'
+      Ycolumn='($23)'
+       ;;
+    -z | -zave )
+      Title='"Average_coordination_number"'
+      Ylabel='"z"'
+      Ycolumn='($5)'
+       ;;
+    -z11 )
+      Title='"z11"'
+      Ylabel='"z"'
+      Ycolumn='($6)'
+       ;;       
+    -z12 )
+      Title='"z12"'
+      Ylabel='"z"'
+      Ycolumn='($7)'
+       ;;
+    -z21 )
+      Title='"z21"'
+      Ylabel='"z"'
+      Ycolumn='($8)'
+       ;;       
+    -z22 )
+      Title='"z22"'
+      Ylabel='"z"'
+      Ycolumn='($9)'
+       ;;       
+    -zclumps  )
+      Title='"zclumps"'
+      Ylabel='"z"'
+      Ycolumn='($10)'
+       ;;       
+    -a | -contact )
+      Title='"Contact_radius_\/_(mean_part_radius)"'
+      Ylabel='"a\/R"'
+      Ycolumn='($11)'      
+      ;; 
+    -ageom )
+      Title='"Geometric_contact_radius_\/_(mean_part_radius)"'
+      Ylabel='"ageom\/R"'
+      Ycolumn='($11*0.7071)'      
+      ;; 
+    -unload )
+      Title='"%_of_unloading_contacts"'
+      Ylabel='"% "'
+      Ycolumn='($12)'      
+      ;; 
+    -tensile )
+      Title='"%_of_contacts_in_tension"'
+      Ylabel='"%"'
+      Ycolumn='($13)'      
+      ;; 
+    -snap )
+      Title='"cumulative_number_of_snapped_plastic_contacts"'
+      Ylabel='"k"'
+      Ycolumn='($14)'      
+      ;; 
+    -stick )
+      Title='"%_of_sticking_contacts"'
+      Ylabel='"%"'
+      Ycolumn='($15)'      
+      ;; 
+    -ao2rpeq )
+      Title='"Contact_radius_\/_(2*rpeq)"'
+      Ylabel='"a\/2rpeq"'
+      Ycolumn='($16)'      
+      ;; 
+    -aHertzo2rpeq )
+      Title='"Hertzian_contact_radius_\/_(2*rpeq)"'
+      Ylabel='"a\/2rpeq"'
+      Ycolumn='($17)'      
+      ;; 
+    -Npart )
+      Title='"number_of_particles"'
+      Ylabel='"N"'
+      Ycolumn='($18)'      
+      ;; 
+    -ho2rpeq )
+      Title='"indentation_\/_(2*rpeq)"'
+      Ylabel='"h\/2rpeq"'
+      Ycolumn='($19)'      
+      ;; 
+    -h )
+      Title='"indentation_\/_(mean_part_radius)"'
+      Ylabel='"h\/R"'
+      Ycolumn='($20)'      
+      ;; 
+    -size )
+      Title='"mean_particle_size_(micron)"'
+      Ylabel='"particle size (micron)"'
+      Ycolumn='(2*$21)'      
+      ;; 
+    -sigma_rp )
+      Title='"relative_standard_deviation_of_particle_radii_\/_(mean_part_radius)"'
+      Ylabel='"relative sigmacd ../"'
+      Ycolumn='($22)'      
+      ;; 
+    xrange* )
+      echo $option > tmp1 
+      sed 's/xrange/set xrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      xrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    yrange* )
+      echo $option > tmp1 
+      sed 's/yrange/set yrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      yrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    anim )
+      export file2display Xcolumn Ycolumn
+      $BINARY_std/animate_my_gif 
+      plot="no"
+      ;;
+     * )
+      if [ "$option" = "$end_option" -a $i -gt 0 -o "$option" = "-keep" ];then
+# this is the end of the y label list, no more to plot
+        gnuplot -geometry 560x400 -persist plot_$file2display   
+        rm -f tmp1 tmp2 tmp3
+       if [ $nistimethere != "0" -a $option != "-keep" ];then
+          rm  -f visco$file2display*
+        fi
+	exit  
+      else
+       if [ "$option" = "$end_option" ];then
+         echo "need a y label"
+       else 
+         echo "$option is not a valid y label"
+       fi
+       echo " valid y labels are  -z or -zave : coordination number "
+       echo "                     -z11 : number of type 1 particles in contact with a type 1 particle"
+       echo "                     -z12 : number of type 2 particles in contact with a type 1 particle"
+       echo "                     -z21 : number of type 1 particles in contact with a type 2 particle"
+       echo "                     -z22 : number of type 2 particles in contact with a type 2 particle"
+       echo "                     -a or -contact : Contact radius / (mean_part_radius)"
+       echo "                     -ageom : Geometric contact radius / (mean_part_radius)"       
+       echo "                     -ao2rpeq : Contact radius / (2rpeq)"
+       echo "                     -asa0 : Mean(Contact radius / plastic contact radius)"
+       echo "                     -h -ho2rpeq : Indentation  Indentation / (2rpeq)"
+       echo "                     -horiprj :    Indentation / (ri + rj) (local strain)"
+       echo "                     -surf :    free normalized surface"
+       echo "                     -unload : % of unloading_contacts"
+       echo "                     -tensile : % of contacts in tension"
+       echo "                     -snap : cumulative number of snapped plastic contacts"
+       exit       
+      fi      
+    esac
+#   a valid y label has been chosen    
+    if [ "$plot" != "no" ];then
+      let "i+=1"
+# the last y chosen gives the ylabel
+      echo "set ylabel $Ylabel" >> plot_$file2display
+# the title of the plot is pwd    
+      echo "set title  '"$(pwd)"'" >> plot_$file2display
+
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+      if [ $nistimethere != "0" ];then
+        ls -1 -Q visco$file2display > tmp1
+      else
+        ls -1 -Q $file2display > tmp1
+      fi
+      if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+        sed 's/^/plot /g' tmp1 > tmp2
+      else
+# replot everywhere except for the first line (1,1)
+        sed 's/^/replot /g' tmp1 > tmp2 
+      fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line
+      sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
+# Not the most elegant !:    
+      sed 's/_/ /g' tmp3 > tmp2
+
+      sed 's/$/ w l lw 2/g' tmp2 > tmp3
+      cat tmp3 >> plot_$file2display
+    fi
+    done
+   
+ rm -f tmp1 tmp2 tmp3

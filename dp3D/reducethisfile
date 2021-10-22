@@ -1,0 +1,50 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to reduce the size of "$1" by a factor $2
+###########################################################################
+
+if [ "$1" = "" -o "$2" = "" ];then
+  echo "reducethisfile usage: reducethisfile file reduc_factor (reduc_factor<=10)"
+  exit
+fi
+# Christophe.martin@inpg.fr   April 2007
+#I will find a more elegant way later !
+       numstep=$2
+       if [ "$numstep" = 2 ];then
+         sed -n '1,${p;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 3 ];then
+         sed -n '1,${p;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 4 ];then
+         sed -n '1,${p;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 5 ];then
+         sed -n '1,${p;n;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 6 ];then
+         sed -n '1,${p;n;n;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 7 ];then
+         sed -n '1,${p;n;n;n;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 8 ];then
+         sed -n '1,${p;n;n;n;n;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 9 ];then
+         sed -n '1,${p;n;n;n;n;n;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       if [ "$numstep" = 10 ];then
+         sed -n '1,${p;n;n;n;n;n;n;n;n;n;}' "$1" > filetmp
+         mv -f filetmp "$1"
+       fi
+       

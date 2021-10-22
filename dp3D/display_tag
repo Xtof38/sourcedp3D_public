@@ -1,0 +1,374 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the _tag* files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    October 2006
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+file2display=tag
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16 $17 $18 $19"
+
+# need a $file2display file in the current directory
+
+numtagfile=`ls _$file2display* | grep -c "_$file2display"`
+
+if [ $numtagfile != "0" ];then 
+  name=`ls _$file2display* | head -1` 
+  numcol=`head -1 $name | awk '{print NF }'`
+  let "numcol = numcol + 1"  
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file _$file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi   
+# the old format:
+echo "$1" > istimethere
+nistimethere=`grep -c 'time\_h\|time\_y'  istimethere`
+rm -f istimethere
+
+if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
+# if mixing  columns of $file2display and visco:
+# old format:
+  if [ -f visco  ];then 
+    case $1 in
+    -time_h )
+        Xcol="2"
+        ;;
+    -time_y )
+        Xcol="3"
+        ;;       
+    esac
+    file2look="visco"
+  else
+    file2look="tstress"
+    case $1 in
+    -dgeom )
+        Xcol="23"
+	file2look="zave"
+      ;;
+    -time_h )r
+        Xcol="7"
+        ;;
+    -time_y )
+        Xcol="8"
+        ;;       
+    esac
+  fi
+  awk '{print $'$Xcol'}' $file2look > tmp1
+  fichlist=`ls _$file2display*`
+  
+  for fich in $fichlist
+  do
+# if the potential contact did not exist from the very begining there is a difflength
+# in time:
+  let " difflength = $(grep -c . tmp1) - $(grep -c . $fich)"
+  if [ "$difflength" -gt "0" ];then
+# copy the second line of $fich as many time as necessary to readjust the time accordingly
+    sed '1!d'  $fich > tmp2
+    sed '2!d'  $fich > tmp3
+    let "iii=0"
+    until [ "$iii" = "$difflength" ];do
+      cat tmp3 >> tmp2
+      let "iii+=1"
+    done
+# taking away the first comment line of $fich
+    sed '1,1d' $fich > tmp3
+    cat tmp3 >> tmp2  
+#tmp1 is put at the end (the last column) of visco$fich
+    paste tmp2 tmp1 > visco$fich
+  else
+#tmp1 is put at the end (the last column) of visco$fich
+    paste $fich tmp1 > visco$fich
+  fi
+  done
+fi
+case $1 in
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($1)'
+      ;;
+  -dgeom )
+      Xlabel='"Geometric Relative Density "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -epsx )
+      Xlabel='"Strain (x)"'
+      Xcolumn='(-$2)'
+      ;; 
+  -epsy )
+      Xlabel='"Strain (y)"'
+      Xcolumn='(-$3)'
+      ;; 
+  -epsz )
+      Xlabel='"Strain (z)"'
+      Xcolumn='(-$4)'
+      ;; 
+  -h )
+      Xlabel='"h/(2*Rpeq) "'
+      Xcolumn='($16)'
+      ;;         
+  -h1 )
+      Xlabel='"h1/(2*Rpeq) "'
+      Xcolumn='($17)'
+      ;;         
+  -indent )
+      Xlabel='"indent/(2*Rpeq) "'
+      Xcolumn='($18)'
+      ;;         
+  -timestep )
+      Xlabel='"Timestep "'
+      Xcolumn='($5)'
+      ;;
+  -time_s )
+      Xlabel='"Time (sec) "'
+      Xcolumn='($28)'
+      ;;
+  -time_h )
+      Xlabel='"Time (hour) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_y )
+      Xlabel='"Time (year) "'
+      Xcolumn='($'$numcol')'
+      ;; 
+       * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are " 
+       echo " -dens                    density" 
+       echo " -h                       force indentation"
+       echo " -indent                  geometric indentation"
+       echo " -time_s -time_h -time_y  time in sec, hour or year"       
+       echo " -timestep                time step"       
+       echo " -epsx -epsy or -epsz     x y and z strain"
+       exit 
+esac
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY_std"gnup_display plot_$file2display
+echo "set grid" >> plot_$file2display
+echo "set title $Title" >> plot_$file2display
+echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+
+    for option in $Option_l
+    do
+
+      case $option in
+      -status )
+        Title='"Status of the bond"'
+        Ylabel='"status"'
+        Ycolumn='($6)'
+       ;;
+      -forceN )
+        Title='"Normal force at the contact"'
+        Comment='", Forces are < 0 in compression"'
+        Ylabel='"force (N)"'
+        Ycolumn='($8)'
+       ;;       
+      -sigN )
+        Title='"Normal stress at the contact"'
+        Comment='", Stresses are < 0 in compression"'
+        Ylabel='"stress (MPa)"'
+        Ycolumn='($9)'
+       ;;
+      -sigT )
+        Title='"Tangential stress at the contact"'
+        Ylabel='"stress (MPa)"'
+        Ycolumn='($10)'
+       ;;       
+      -sigN_b )
+        Title='"Max normal stress at the bonded contact"'
+        Comment='", Stresses are < 0 in compression"'
+        Ylabel='"stress (MPa)"'
+        Ycolumn='($11)'
+         ;;
+      -sigT_b )
+        Title='"Max tangential stress at the bonded contact"'
+        Ylabel='"stress (MPa)"'
+        Ycolumn='($12)'
+         ;;       
+      -rmom )
+        Title='"Resisting moment at the contact"'
+        Ylabel='"M (N.m)"'
+        Ycolumn='($13)'
+         ;;         
+      -uN )
+        Title='"Normal velocity at the contact"'
+        Comment='",   > 0 for particles coming toward each other"'
+        Ylabel='"uN (µm.s-1)"'
+        Ycolumn='($14)'
+         ;;         
+      -a )
+        Title='"Contact radius (normalized by 2 * equivalent radius)"'
+        Ylabel='"a/(2*Rpeq) "'
+        Ycolumn='($15)'
+         ;;         
+      -h )
+        Title='"Indentation (normalized by 2 * equivalent radius)"'
+        Comment='", h  > 0 for indentation"'
+        Ylabel='"h/(2*Rpeq) "'
+        Ycolumn='($16)'
+         ;;         
+      -h1 )
+        Title='"Plastic indentation (normalized by 2 * equivalent radius)"'
+        Ylabel='"h1/(2*Rpeq) "'
+        Ycolumn='($17)'
+         ;;           
+      -ncoi )
+        Title='"Coordination number of particle i"'
+        Ylabel='"nco "'
+        Ycolumn='($20)'
+         ;;           
+      -ncoj )
+        Title='"Coordination number of particle j"'
+        Ylabel='"nco "'
+        Ycolumn='($21)'
+         ;;           
+      -deltaT )
+        Title='"Accumulated tangential displacement (normalized by 2 * equivalent radius)"'
+        Ylabel='"deltaT(2*Rpeq)"'
+        Ycolumn='($22)'
+         ;;           
+      -repulsN )
+        Title='"Normal repulsive force at the contact"'
+        Comment='", Forces are < 0 in compression"'
+        Ylabel='"force (N)"'
+        Ycolumn='($23)'
+        ;; 
+      -attractN )
+        Title='"Normal attractive force at the contact"'
+        Comment='", Forces are < 0 in compression"'
+        Ylabel='"force (N)"'
+        Ycolumn='($8-$23)'
+        ;; 
+      -slide )
+        Title='"Sliding status (0=stick;1=slide)"'
+        Ylabel='"Status"'
+        Ycolumn='($24)'
+        ;; 
+      -2Rpeq | -2rpeq )
+        Title='"2*Rpeq/(mean radius particle)"'
+        Ylabel='"Equivalent radius"'
+        Ycolumn='($25)'
+        ;; 
+      -a2 )
+        Title='"(a/(mean radius particle))**2"'
+        Ylabel='"(a/rpmean)**2"'
+        Ycolumn='($26)'
+        ;; 
+    xrange* )
+      echo $option > tmp1 
+      sed 's/xrange/set xrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      xrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    yrange* )
+      echo $option > tmp1 
+      sed 's/yrange/set yrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      yrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    anim )
+      export file2display Xcolumn Ycolumn
+      $BINARY_std/animate_my_gif 
+      plot="no"
+      ;;
+     * )
+      if [ "$option" = "$end_option" -a "$i" -gt 0 ] || [ "$#" -gt 2 -a "$option" = "-keep" ];then
+# this is the end of the y label list, no more to plot
+        gnuplot -geometry 560x400 -persist plot_$file2display   
+        rm -f tmp1 tmp2 tmp3 
+        if [ $nistimethere != "0" -a $option != "-keep" ];then
+          rm  -f visco_$file2display*
+        fi
+	exit  
+      else
+       if [ "$option" = "$end_option" ];then
+         echo "need a y label"
+       else 
+         if [ "$#" -gt 2 ];then
+           echo "$option is not a valid y label"
+         fi
+       fi     
+         echo "valid y labels are: "
+         echo "-forceN,-repulsN,-attractN   normal force, repulsive force, attractive force"
+         echo "-sigN -sigT              normal and tangential stress"
+         echo "-sigN_b -sigT_b          normal and tangential stress at a bonded contact"
+         echo "-rmom                    resisting moment at the contact"
+         echo "-uN                      normal velocity at contact"
+         echo "-deltaT                  accumulated tangential displacement at contact"
+         echo "-a -2Rpeq                contact radius, 2*equivalent radius"
+         echo "-a2                      square of (contact radius/rpmean)"
+         echo "-status                  status of the contact"
+         echo "-h  -h1                  current, max plastic indentation"
+         echo "-ncoi -ncoj              coordination number of particles i and j"
+         echo "-slide                   sliding status of contact"
+         exit 
+      fi
+     esac
+#   a valid y label has been chosen    
+    if [ "$plot" != "no" ];then 
+      let "i+=1"
+# the last y chosen gives the ylabel
+      echo "set ylabel $Ylabel" >> plot_$file2display
+    
+      echo "set title $Title" >> plot_$file2display
+      echo "Displaying $Title $Comment" 
+
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+      if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
+        ls -1 -Q visco_$file2display* > tmp1
+      else
+        ls -1 -Q _$file2display* > tmp1
+      fi
+      if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+        sed '1,1 s/^/plot /g' tmp1 > tmp3
+      else
+# replot everywhere except for the first line (1,1)
+        sed 's/^/replot /g' tmp1 > tmp3       
+      fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+      sed 's/$/ u '$Xcolumn':'$Ycolumn' title /g' tmp3 > tmp2
+# number of lines in tmp1
+      numlines=`grep -c "_$file2display"  < tmp1`
+     let "ii=0"
+     until [ "$numlines" = "0" ]
+     do
+       let "numlines-=1"
+       let "ii+=1"
+# get the first line of tmp1       
+       tocopy=`sed -n ''1'p' tmp1`
+# and copy it on th ith line of tmp2
+       if  [ "$numlines" = "0" ];then
+         sed ''$ii','$ii' s/$/'$tocopy'specialtagtoreplace123456789/g' tmp2 > tmp3
+       else
+         sed ''$ii','$ii' s/$/'$tocopy'/g' tmp2 > tmp3
+       fi
+# decreasing the number of lines in tmp1            
+       sed '1,1d' tmp1 > tmp4
+       mv -f tmp3 tmp2   
+       mv -f tmp4 tmp1    
+     done 
+sed 's/$/ w l lw 2 ,\\/g' tmp2 > tmp3
+sed '/specialtagtoreplace123456789/s/,\\//g' tmp3 > tmp2
+sed 's/specialtagtoreplace123456789//' tmp2 > tmp3
+cat tmp3 >> plot_$file2display
+    fi
+
+    done
+
+rm -f tmp1 tmp2 tmp3 tmp4

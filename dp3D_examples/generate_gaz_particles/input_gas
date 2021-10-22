@@ -1,0 +1,63 @@
+######################################################################
+#                    general conditions                              #
+######################################################################
+# coordinate file:
+file_init
+______________________________________________________________________
+# packing density to reach:
+# packing_density= relative_overlap=
+packing_density=0.30
+______________________________________________________________________
+# boundary conditions:
+# 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z cyl_x cyl_y
+# cyl_z
+1x1y1z
+______________________________________________________________________
+# simulation box size ratios:
+# x= y= z=
+x=5.00
+y=5.00
+z=5.00
+______________________________________________________________________
+# size distribution:
+# plus_minus normal lognormal
+plus_minus
+______________________________________________________________________
+# options:
+# none initial_file= attach=(mat_n-mat_nn)
+none
+______________________________________________________________________
+######################################################################
+#                    classes                                         #
+######################################################################
+# prop. of class (particle sizes in µm)               1:
+# number= mat= name= particle_size= deviation= Temp= motif= max_angle=
+number=2000
+mat=1
+name=cu
+particle_size=1000.00
+deviation=0.05
+______________________________________________________________________
+# prop. of class (particle sizes in µm)               2:
+# number= mat= name= particle_size= deviation= Temp= motif= max_angle=
+number=4000
+mat=1
+name=ar
+particle_size=700.00
+deviation=0.05
+______________________________________________________________________
+# prop. of class (particle sizes in µm)               3:
+# number= mat= name= particle_size= deviation= Temp= motif= max_angle=
+number=30000
+mat=2
+name=zr
+particle_size=200.00
+deviation=0.05
+______________________________________________________________________
+######################################################################
+#                            numerics                                #
+######################################################################
+# random seed:
+# random_seed=
+random_seed=-2
+______________________________________________________________________

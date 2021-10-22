@@ -1,0 +1,201 @@
+#!/bin/bash
+! $Id: ddp3D,v 2.9 2021/03/01 16:32:52 chris Exp $
+
+###########################################################################
+# This is a script to display dp3D results
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    March 2007
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+
+#this is to use display_tag:
+  if [ "$1" = "-tag" -o "$1" = "-spy" -o "$1" = "-histo" -o "$1" = "-anim" ];then
+   option="$1"
+   c1="$2";c2="$3";c3="$4";c4="$5";c5="$6";c6="$7";c7="$8";c8="$9"
+   c8="-keep"
+  else
+   option="-none"
+   c1="$1";c2="$2";c3="$3";c4="$4";c5="$5";c6="$6";c7="$7";c8="$8"
+  fi    
+  if [ "$1" != "-histo" -a "$option" != "-tag" -a "$option" != "-spy" ];then
+    if [ "$c1" != "-dens" -a "$c1" != "-dgeom" -a "$c1" != "-epsx" -a "$c1" != "-epsy" -a "$c1" != "-epsz" -a\
+         "$c1" != "-time_s" -a "$c1" != "-time_h" -a "$c1" != "-time_y"  -a\
+         "$c1" != "-h" -a "$c1" != "-timestep" -a "$c1" != "-p" -a\
+         "$c1" != "-Temp" -a "$c1" != "-rp" ];then
+      echo "ddp3D usage:" 
+      echo "ddp3D -option(optional) -xtoplot -y1toplot -y2toplot etc... xrange/x1:x2/ yrange/y1:y2/"
+      tput bold ;echo "valid x labels for ddp3D are :"; tput sgr0
+      echo "-dens -dgeom               density / geometric density"
+      echo "-epsx  -epsy  -epsz        x y and z strain"
+      echo "-time_s  -time_h  -time_y  time in sec, hour or year" 
+      echo "-timestep                  timestep" 
+      echo "-p                         pressure" 
+      echo "-Temp                      temperature (deg. C)" 
+      echo "-rp                        mean radius" 
+      tput bold ;echo "valid special options  are -tag; -spy; -histo or -anim"; tput sgr0
+      echo ""
+      echo "ex:  ddp3D -dens -p                  plots pressure = f(density)" 
+      echo "ex:  ddp3D -tag -dens -a             plots contact size = f(density) for tagged particles" 
+      echo "ex:  ddp3D -spy -time_s -uz          plots z velocity = f(time(sec)) for spyed particles" 
+      echo "ex:  ddp3D -epsx -sigxx yrange/0:1/  plots sigxx = f(epsx) with sigxx scale bounded" 
+      echo "ex:  ddp3D -anim -epsx -sigxx        plots sigxx = f(epsx) with an animated curve" 
+      echo "ex:  ddp3D -histo -z                 plots an histogram of coordination numbers" 
+
+
+
+      if [ "$c1" != "-help" ];then
+        exit           
+      fi
+    fi
+  fi
+  case $option in
+    -none | -anim )
+# these are the c2 options with no ambiguity with the object existence
+    case $c2 in 
+      -Mises | -q  | -eps | -eps[x-z]  | -dt | -ferror  )
+#generic eps= epsx epsy epsz      
+      if [ "$c2" = "-eps" ];then
+        c5="$c3";c6="$c4";c2="-epsx";c3="-epsy";c4="-epsz"
+      fi
+      tocall=$BINARY_std"display_tstress"
+      ;;
+      -z | -zave | -z11 | -z12 | -z21 | -z22 | -zclumps | -asa0 | -a | -ageom | -ao2rpeq \
+      | -contact | -unload | -tensile | -snap | -stick | -apo | -app | -ho2rpeq \
+      | -h | -horiprj | -sigma_rp | -dgeom | -size | -aHertzo2rpeq | -Npart )
+      tocall=$BINARY_std"display_zave"
+      ;;
+      -bonds )
+      if [ -f object ];then
+        echo "bonds between particles or with objects (type part or obj)?" 
+        read answer
+        case $answer in
+          part | particle | p )
+	  tocall=$BINARY_std"display_rupt"
+	  ;;
+          object | obj | o )
+	  tocall=$BINARY_std"display_object"
+	  ;;
+	  * )
+	  echo "not a valid answer"
+	  exit
+	  ;;	 
+        esac
+      else
+        tocall=$BINARY_std"display_rupt"
+      fi
+      ;;
+      -Nrupt | -Trupt | -Nc | -nmax1 | -nmax2 | -npercluster )
+      tocall=$BINARY_std"display_rupt"
+      ;;
+      -sig | -pressure | -p | -press | -P | -pressure_n | -Mises | -q   \
+      | -sig[x-z][x-z] | -sigthetar  \
+      | -sig[x-z][x-z]_[0-9] \
+      | -sig[x-z][x-z]_mat_[0-9] )
+
+#generic sig= sigxx sigyy sigzz      
+      if [ "$c2" = "-sig" ];then
+        c5="$c3";c6="$c4";c2="-sigxx";c3="-sigyy";c4="-sigzz"
+      fi
+      if [ -f object ];then
+        if [ "$c2" = "-sigrr" -o "$c2" = "-sigthetar" ];then
+          answer="object"
+        else
+          echo "macro stress or stress with objects (type macro or obj)?" 
+          read answer
+        fi
+        case $answer in
+          macro | m )
+	  tocall=$BINARY_std"display_tstress"
+	  ;;
+          object | obj | o )
+	  tocall=$BINARY_std"display_object"
+	  ;;
+	  * )
+	  echo "not a valid answer"
+	  exit
+	  ;;	 
+        esac
+      else
+#generic sig= sigxx sigyy sigzz      
+        if [ "$c2" = "-sig" ];then
+          c5="$c3";c6="$c4";c2="-sigxx";c3="-sigyy";c4="-sigzz"
+        fi
+        tocall=$BINARY_std"display_tstress"
+      fi
+      ;;
+      -forcex | -forcey | -forcez | -lastbondx | -lastbondy \
+      | -lastbondz | -kn1_obj )
+      tocall=$BINARY_std"display_object"
+      ;;
+      -dens | -epsdot | -epsxdot | -epsydot | -epszdot | -epsvdot \
+      | -Ddot | -kin | -kin_n | -delta | -Temp | -temp | -rp )
+#generic eps= epsx epsy epsz      
+      if [ "$c2" = "-epsdot" ];then
+        c5="$c3";c6="$c4";c2="-epsxdot";c3="-epsydot";c4="-epszdot"
+      fi
+      tocall=$BINARY_std"display_tstress"
+      ;;
+      * )
+      if [ "$c2" = "" ];then
+        echo "ddp3D needs a y label"
+      else
+        echo "$c2 is not a valid y label"
+      fi
+      $BINARY_std"ddp3D_valid_y_labels"
+    esac
+    ;;
+    -tag )
+      tocall=$BINARY_std"display_tag"
+    ;;
+    -spy )
+      tocall=$BINARY_std"display_spy"
+    ;;
+    -histo )
+      case "$2" in
+      -class )
+        tocall=$BINARY_std"display_histoclust"
+      ;;
+      "" )
+        c1="help"
+        tocall=$BINARY_std"display_histo"
+      ;;
+       -long_axis_x | -long_axis_y | -long_axis_z ) 
+          echo "generating _histo$c2"
+          cdp3D -long_axis $c2
+          tocall=$BINARY_std"display_histo"
+      ;;
+       -normal_axis_x | -normal_axis_y | -normal_axis_z ) 
+          echo "generating _histo$c2"
+          cdp3D -normal_axis $c2
+          tocall=$BINARY_std"display_histo"
+      ;;
+       -size_cluster ) 
+          echo "generating _histo$c2"
+          cdp3D -size_cluster $c2
+          tocall=$BINARY_std"display_histo"
+      ;;
+      * )
+        if [ -f "$c2" ];then
+          echo "generating _histo$c2"
+          cdp3D -histo $c2
+          tocall=$BINARY_std"display_histo"
+        else
+         echo "ddp3D usage: ddp3D -histo -option coordfile "
+         echo "where coordfile file exists"
+         exit
+        fi
+      esac
+    ;;
+  esac
+        
+# the call to the correct display_:
+  $tocall  $c1 $c2 $c3 $c4 $c5 $c6 $c7 $c8 $c9
+
+  if [ $option = "-anim" ];then
+    echo "$tocall" 
+    opt=$(echo "$tocall" | sed "s|$BINARY_std||1" | sed "s|display_||1" )
+    animate_my_gif $opt
+    gnuplot -geometry 560x400 -persist plot_"$opt"_anim
+  fi

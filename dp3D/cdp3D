@@ -1,0 +1,654 @@
+#!/bin/bash
+! $Id: cdp3D,v 2.16 2021/07/05 12:02:18 chris Exp $
+
+###########################################################################
+# This is a script to help transform _coord files
+# by resizing particles
+# by translating objects
+# by cutting the packing
+# by modifying the bc ...
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr   
+# first created september 2006
+
+rm -f dp3D_coord.tmp
+rm -f option_dp3D.tmp
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+
+theuser=`whoami`
+numberofarg="$#"
+if [ "$1" = "" ];then
+  more $BINARY_std/help_cdp3D
+  exit
+fi
+
+
+# the numerical options are given after the file name, 
+# it may be given a real or integer (see part tag ...)
+# if blank, it is set to zero
+if [ "$numberofarg" -gt "2" ];then
+  option_num=`eval echo ""\\\$$(($numberofarg))""`
+  isitaword=$(echo $option_num | grep -i -c "[a-z]")
+  if [ "$isitaword" != "0" ];then
+    option_num="0"
+  fi  
+else
+  option_num="0"
+fi
+
+# _exit is an option for developers, it will not go into the fortran 90 executables
+# instead it will only write the tmp files necessary for reading 
+# by these executables
+#removing the _exit after the main option
+option_wo_exit=`echo $1 | sed 's/_exit//'`
+isthere_exit=`echo  $1  | grep -c _exit`
+if [ "$isthere_exit" = "0" ];then
+  option_exit="false"
+  opt="$1"  
+  if [ "$1" = "-gaz" ];then
+#   from french to english:
+    opt="-gas"
+  fi
+else
+  option_exit="true"
+  opt=`echo $1 |sed "s|_exit||1"` 
+  if [ "$opt" = "-gaz" ];then
+#   from french to english:
+    opt="-gas"
+  fi
+fi
+
+# opt without -:
+optn=`echo "$opt" | sed 's/-//g'`
+opttest=`echo $optn |sed "s|_read||1"`
+opttest=`echo $opttest |sed "s|_write||1"`
+
+answer="none"
+readfile=`echo -e "$optn" | grep  "_read"`
+writefile=`echo -e "$optn" | grep  "_write"`
+readorwritefile=`echo -e "$optn" | grep -o "_write\|_read"`
+
+# this part is more trouble (for example for merge), comment it or work on it:
+#if [ -f script_dp3D -a "$4" != "paste" -a "$writefile" != "" ];then
+#  while [ "$answer" != "y" -a "$answer" != "n" ];do
+#    echo "There is already a script_dp3D. Do you want to save it (y/n)?"
+#    read answer
+#    case $answer in
+#    y )
+#      echo "Print a new name for the old script_dp3D:"
+#      read newName
+#      mv -i script_dp3D $newName
+#      ;;
+#    n )
+#      rm -f script_dp3D
+#      ;;
+#    esac
+#  done
+#fi
+
+if [ "$writefile" != "" ];then
+  if  [ "$opttest" = "merge" ];then
+    echo "=======================================================" >> script_dp3D
+  else
+    echo "=======================================================" > script_dp3D
+  fi
+  echo "script_dp3D created on `date +%D` with option: -$opttest" >> script_dp3D
+  echo "-------------------------------------------------------" >> script_dp3D
+  echo " " >> script_dp3D
+  echo "-$optn" > option_dp3D.tmp
+fi
+if [ "$readfile" != "" ];then
+  echo "-$optn" > option_dp3D.tmp
+fi
+
+case $opttest in
+  bc )
+	echo 'Adding or moving plane objects'
+       ;;
+  bonds )
+        echo 'Creates bonds between particles and/or with objetcs'
+       ;;
+  break_bonds )
+        echo 'Creates a _histc files with chosen bonds broken'
+       ;;
+  class )
+        echo 'Creates a file with distribution size of clusters'
+       ;;
+  clumps )
+        echo 'Creates a _clumps file for further use of clumps'
+       ;;
+  contact )
+        echo 'Translates individual objects to tangent or contact nearest particle'
+       ;;
+  cubic )
+        echo 'Creates a file with a cubic arrangement of particles'
+       ;;
+  cut_rect )
+        echo 'Modifies the simulation box coordinates.'
+        echo 'Particles that are outside the new rectangular box limits are removed'	
+       ;;
+  cut_cyl )
+        echo 'Modifies the simulation box coordinates.'
+        echo 'Particles that are outside (or inside) z axis cylinder limits are removed'	
+       ;;
+  conduct )
+        echo 'Conductivity computation'
+       ;;
+  dens | sinter )
+	echo 'Artificially densify a packing by simply enlarging the size of the particles'
+       ;;
+  disp_field )
+	echo 'Displays displacement field on a 2D section from particles nnn mmm'	
+       ;;
+  export_nxyz | export_nxyzR | export_old_dp3D )
+	echo 'Export dp3D coordinate file into n x y z or n x y z R or old dp3D format file'	
+       ;;
+  gaz | gas )
+	echo 'Generates a gas of particles or clusters. Need a input_gas file'
+       ;;
+  image )
+        echo 'Generates a coordinate file from a binary 3D image (.raw)'
+       ;;
+  import_xyz | import_nxyz | import_Geodict )
+        echo 'Import x y z, n x y z, or Geodict format into dp3D format'
+       ;;
+  info | full_info | histo )
+        echo 'Gives geometric information on the packing'
+       ;;
+  library | lib ) 
+        echo "Sorts coordinate packings of the current dir (+recursive) into /home0/chris/sourcedp3D/dp3D_library"
+       ;;
+  long_axis ) 
+        echo "Computes the orientation of the longest axis of clusters"
+       ;;
+  keep | rm  )
+	echo 'Keep or rm particles according to their name or number  '	
+       ;;
+  merge )
+        echo 'Merging two packings into one'
+       ;;
+  mixt | mixture )
+        echo 'Generating a mixture of particles, sub options include clusters, gradient and stripes'
+       ;;
+  Nnetwork )
+	echo 'Displays the normal force network on a 2D section from particles nnn mmm'	
+       ;;
+  noisolated )
+	echo 'Enlarges particles with no contact to form one contact  '	
+       ;;
+  normal_axis ) 
+        echo "Computes the orientation of the normal axis of clusters"
+       ;;
+  object )
+	echo 'Convert particles into spherical objects'	
+       ;;
+  part )
+        echo 'Gives geometric information on particles m n ...'
+       ;;
+  pick )
+	echo 'pick particles according to their number or to their coordinates  '	
+       ;;
+  probe_x | probe_y | probe_z )
+        echo 'Information on packing gradient along x,y or z axis'
+       ;;
+  probecyl_x | probecyl_y | probecyl_z )
+        echo 'Information on packing gradient along cylinder of axis x,y or z'
+       ;;
+  probe_Temp_x | probe_Temp_y | probe_Temp_z )
+        echo 'Information on packing Temperature along axis x,y or z'
+       ;;
+  rdf )
+	echo 'Computes the Radial Distribution Function of the packing  '	
+       ;;
+  renum )
+	echo 'Renumbers the packing to save on cache miss '	
+       ;;
+  resize )
+	echo 'Resizes particles (without any densification)  '	
+       ;;
+  rmobj )
+	echo 'Remove all objects  '	
+       ;;
+  rotate )
+	echo 'Rotates packing around axis by a given angle  '	
+       ;;
+  spy )
+        echo 'Spy particles '
+       ;;
+  size_cluster )
+        echo 'Computes the cluster size along long axis'
+       ;;
+  surface )
+        echo 'Pick particles that are surfacing a cluster '
+       ;;
+  tag )
+        echo 'Tag particles '
+       ;;
+  trans* )
+	echo 'Translates the whole packing (with the objects, if any) '
+       ;;
+  voronoi )
+        echo  'Performs a radical voronoi tesselation(voro++)'
+       ;;
+  voxel | voxel_file )
+        echo 'Voxelize a coordinate file '
+       ;;
+
+
+     * )
+        more $BINARY_std/help_cdp3D
+        exit
+esac
+      echo "'$opt' $option_num" > dp3D_coord.tmp
+       if [ $opttest != "lib" -a $opttest != "library" \
+            -a $opttest != "gas" ];then
+         if [ "$2" != "" ];then
+	   file=$2
+	   echo "'$file'" >> dp3D_coord.tmp
+         else
+           echo "coord file to consider or to create ?"
+           read file
+           echo "'$file'" >> dp3D_coord.tmp 
+         fi
+
+#testing if the script file exists:
+         if [ -f $file -o $opttest = "cubic" ];then     
+           echo ""
+         else
+           echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+           echo "file $file does not exist !"
+           echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+	   exit
+         fi   
+       fi
+
+case $opttest in
+  tag  | spy | part | Nnetwork | disp_field )
+      echo "'$file'" > tagpartnum.tmp
+      let "numpart = $numberofarg - 2"
+      echo "$numpart" >> tagpartnum.tmp
+      if [ $opttest = "Nnetwork" -o $opttest = "disp_field" ];then
+        if [ -f TAGFILE ];then
+          rotate=`grep -c "rotate.*90" TAGFILE`
+          if [ $rotate = "1" ];then
+            opt="$opt"_rot
+          fi
+        fi
+      fi
+
+      echo "$opt" >> tagpartnum.tmp
+      rm -f tagpart.tmp
+# this is because not possible to pass more than 9 arguments with
+# `eval echo ""\\\$$(($ii))""`  :
+      echo ""$*"" > tmp1
+      for ((  ii = 3 ;  ii <= $numberofarg;  ii++  ))
+      do
+        part=`awk '{ print $'$ii' }'  tmp1` 
+        let "part = $part +7"
+        echo "0 $part" >> tagpart.tmp
+      done
+      rm -f tmp1
+      if [ $numberofarg = 2 ];then 
+        echo "You need to select particles number to be "$opt"[ed]"
+        exit
+      fi
+      if  [ $option_exit = "true" ];then
+        rm -f dp3D_coord.tmp
+        if  [ $option_exit = "true" ];then
+          echo "next executable trs_tag_rm"
+        fi
+        exit
+      else
+        rm -f plot_$opttest
+        trs_tag_rm
+        if [ $opttest = "Nnetwork" -o $opttest = "disp_field" ];then
+          if [ -f plot_$opttest ];then
+            head -1 plot_$opttest > tmp1
+            xxf=`awk '//{ print $2}' tmp1`
+            yyf=`awk '//{ print $3}' tmp1`
+            rm -f tmp1
+            gnuplot -geometry "$xxf"'x'"$yyf" -persist plot_$opttest
+          fi
+        fi
+      fi
+      rm -f tmp1
+
+       ;;
+  gas )
+# look if it is the old version:
+      old_dp3D_gas=$(grep -c "entities to pack" input_gas)
+      if  [ $option_exit = "true" ];then
+        if  [ $old_dp3D_gas = "0" ];then
+          echo "next executable: dp3D_gas"
+        else
+          echo "next executable: dp3D_gas_old"
+        fi
+        exit
+      else
+        if [ "$2" = "-write" ];then
+          mv -f cond-gas cond-gas.save
+          mv -f cond-gaz cond-gaz.save
+        fi
+        if  [ $old_dp3D_gas = "0" ];then
+          $BINARY_std/dp3D_gas
+        else
+          $BINARY_std/dp3D_gas_old
+        fi
+      fi
+       ;;
+  info | full_info | bonds | object | histo  | class | renum | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_cut"
+        exit
+      else
+        $BINARY_std/dp3D_cut
+      fi      
+       ;;
+  bc )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_bc"      
+        exit
+      else       
+        $BINARY_std/dp3D_bc
+      fi
+       ;;
+  probe_x | probe_y | probe_z | probe_Temp_x | probe_Temp_y | probe_Temp_z | probecyl_x | probecyl_y | probecyl_z )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_cut"
+        exit
+      else       
+        $BINARY_std/dp3D_cut
+      fi
+
+      echo "set size square" > plot_probe
+      echo "set grid" >> plot_probe
+      Tempyn=$(echo "$opttest" | grep -c  Temp)
+      if [ $Tempyn = "0" ];then
+        title_plot="Relative density"
+        ycol='$9'
+      else
+        title_plot="Temperature (deg.C)"
+        ycol='$3'
+      fi
+      echo "set xlabel '"$title_plot "'" >> plot_probe
+      echo "set title  '$title_plot along "$opttest" axis '" | sed 's/-probe_//g' >> plot_probe
+      echo "set ylabel '"$opttest" (micron)'" | sed 's/-probe_//g'  >> plot_probe
+      echo "plot '""$2_$opttest""' u ("'$2'"):("$ycol") \
+title '"$title_plot of packing "$2""' w l lw 2 " | sed 's/-//g' >> plot_probe
+      nline=$(grep -c . "$2_$opttest")
+      if  [ $nline = "0" -o $nline = "1" -o $nline = "2" ];then 
+        echo "no probe to plot"
+      else
+        gnuplot -geometry 560x400 -persist plot_probe
+      fi
+# plot for the first distribution of theta angles calculated by zanis_contact
+       
+      if [ -f "$2"_"$opttest"_histo_001 ];then
+        echo " using file $2_$opttest_histo_001 to plot the histogram of contact angles for layer 001"       
+        echo "set size square" > plot_probe_histo
+        echo "set grid" >> plot_probe_histo
+        echo "set xlabel '"contact angle"'" >> plot_probe_histo
+        echo "set title  'histogram of contact angles along "$opttest" axis '" | sed 's/-probe_//g' >> plot_probe_histo
+        echo "set ylabel 'number of occurences'" | sed 's/-probe_//g'  >> plot_probe_histo
+        echo "plot '""$2"_"$opttest"_histo_001"' u ("'$1'"):("'$2'") title '' w l lw 2 " | sed 's/-//g' >> plot_probe_histo
+        gnuplot -geometry 560x400 -persist plot_probe_histo
+      fi
+       ;;
+  library | lib )
+      $BINARY_std/dp3D_lib
+       ;;
+  rm | keep | cut_rect | cut_cyl | noisolated | pick )
+# prepares the tagpartnum.tmp and the tagpart.tmp file to be read by trs_tag_rm
+      $BINARY_std/dp3D_cut
+      if [ -f tagpartnum.tmp ];then
+        if  [ $option_exit = "true" ];then
+          echo "next executable: trs_tag_rm"
+          exit
+        else       
+          trs_tag_rm
+        fi
+      fi
+       ;;
+  rmobj | rmobject )
+# removes "correctly" all objects
+       echo "$file" > tagpartnum.tmp
+       echo "1" >> tagpartnum.tmp
+       echo "-rmobj" >> tagpartnum.tmp
+      if  [ $option_exit = "true" ];then
+        echo "next executable: trs_tag_rm"
+        exit
+      else       
+       trs_tag_rm
+      fi
+       ;;
+  mixt | mixture )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_mixture"
+        exit
+      else       
+        $BINARY_std/dp3D_mixture
+      fi
+       ;;
+  merge )
+      if  [ $option_exit = "true" ];then
+        exit
+      else       
+         if  [ "$3" = "" ];then
+           echo "I need two files for this option"
+           echo "cdp3D -merge file1 file2"
+           exit           
+         else
+           $BINARY_std/dp3D_merge $2 $3 $optn
+         fi
+      fi
+       ;;
+  conduct )
+	  if [ $option_exit = "true" ]; then
+	    exit
+	  else
+		dp3D_conduct
+	  fi
+	   ;;
+  dens | sinter )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_size"
+        exit
+      else       
+        $BINARY_std/dp3D_size
+      fi
+       ;;
+  trans* | trans_m | trans_p | contact )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_translate"
+        exit
+      else       
+        $BINARY_std/dp3D_translate
+      fi
+       ;;
+  rdf )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_rdf"      
+        exit
+      else       
+        $BINARY_std/dp3D_rdf
+      fi
+      echo "set size square" > plot_probe
+      echo "set grid" >> plot_probe
+      echo "set xlabel '"r/2R  "'" >> plot_probe
+      echo "set title  'Radial Distribution Function '" >> plot_probe
+      echo "set ylabel 'g(r)'"  >> plot_probe
+      echo "plot '""$2_rdf""' u ("'$1'"):("'$3'") \
+title '"Radial Distribution Function of packing "$2""' w l lw 2 " | sed 's/-//g' >> plot_probe
+      gnuplot -geometry 560x400 -persist plot_probe
+
+       ;;
+  resize )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_size"      
+        exit
+      else       
+        $BINARY_std/dp3D_size
+      fi
+       ;;
+  voxel | voxel_file )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_voxel"      
+        exit
+      else       
+        $BINARY_std/dp3D_voxel
+      fi
+       ;;
+  image )
+# prepares the tagpartnum.tmp and the tagpart.tmp file to be read by trs_tag_rm
+      $BINARY_std/dp3D_raw
+      if  [ $option_exit = "true" ];then
+        echo "next executable: trs_tag_rm"      
+        exit
+      else       
+        trs_tag_rm
+      fi
+       ;;
+  import_xyz )
+      numcol=$(head -1 $file | awk '{ print NF}')
+      if [ $numcol != "3" -a $numcol != "4" ];then
+        echo "Number of columns in the first line: " $numcol
+        echo "The first line of the file should be of the type x y z or x y z R"
+        echo "Suggestion: rm the first line of file " $file
+        exit
+      fi
+      numpart=$(grep -cve '^\s*$'  $file)
+      echo "$numcol columns and $numpart particles"
+      sed -e '1,1s/0/'"$numpart"'/' dp3D_coord.tmp > tmp1
+      sed -e '1,1s/-import/-import'"$numcol"'/'  tmp1 > dp3D_coord.tmp
+      rm -f tmp1
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_xyz"      
+        exit
+      else     
+        $BINARY_std/dp3D_xyz
+      fi
+       ;;
+  import_nxyz )
+      numcol=$(head -1 $file | awk '{ print NF}')
+      numpart=$(grep . -c  $file)
+      sed -e '1,1s/0/'"$numpart"'/' dp3D_coord.tmp > tmp1
+      sed -e '1,1s/-import/-import'"$numcol"'/'  tmp1 > dp3D_coord.tmp
+      rm -f tmp1
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_xyz"
+        exit
+      else     
+        $BINARY_std/dp3D_xyz
+      fi
+       ;;
+  import_Geodict )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_xyz"      
+        exit
+      else     
+        numpart=$(head -1 $file | awk '{ print $2}')
+        sed -e '1,1s/0/'"$numpart"'/' dp3D_coord.tmp > tmp1
+        mv tmp1 dp3D_coord.tmp
+        $BINARY_std/dp3D_xyz
+      fi
+      ;;
+  export_nxyz | export_nxyzR | export_old_dp3D )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_xyz"
+        exit
+      else 
+        $BINARY_std/dp3D_xyz
+      fi
+       ;;
+  voronoi | surface )
+# need to export to a file format readable by voro++:
+      i="0"  
+      if [ -f "$file"_export ];then
+        let "i+=1"
+        minx=`sed -n 2p $file | awk '{ print $1 }'`
+        miny=`sed -n 2p $file | awk '{ print $2 }'`
+        minz=`sed -n 2p $file | awk '{ print $3 }'`
+        maxx=`sed -n 2p $file | awk '{ print $4 }'`
+        maxy=`sed -n 2p $file | awk '{ print $5 }'`
+        maxz=`sed -n 2p $file | awk '{ print $6 }'`
+        if [ -f input_dp3D ];then
+# looks for BC in cond-dp3D file if it exists
+          period=`sed -n '/# 1x1y1z 1x1y0z 1x0y0z 1x0y1z/{n;p;}' input_dp3D | head -1`
+        else
+          echo "Type Boundary conditions  "
+          echo "1x1y1z means periodic B.C. on all three axis"
+          echo "0x0y1z means periodic B.C. z axis only ..."
+          read period
+        fi
+        if [ "$period" = "0" ];then
+          period="0x0y0z"
+        fi
+        if [ "$period" = "1" ];then
+          period="1x1y1z"
+        fi
+        nperiod=$(echo $period | sed 's/1/ \-p/g')
+        period=$(echo $nperiod | sed 's/0x//g')
+        nperiod=$(echo $period | sed 's/0y//g')
+        period=$(echo $nperiod | sed 's/0z//g')
+        ncylin=$(grep -c cylin $file)
+        if [ "$ncylin" -gt "0" ];then
+          if [ "$ncylin" = "1" ];then
+            C_cyl=$(grep C_cyl $file | sed 's/C_cyl//')
+            axis_R=$(grep cylin $file | awk '{print $3," ", $4," ", $5," ", $6}' )
+            cylinder_voro=$(echo "-wc $C_cyl $axis_R")
+          else
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            echo "! Only one external cylinder is possible !"
+            echo "!     when using the voro ++ command     !"
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+          fi
+        fi
+        echo "voro++ running"
+        voro++ -g -r $period  $cylinder_voro $minx $maxx $miny $maxy $minz $maxz "$file"_export
+# performs a radical voronoi tesselation
+      else
+        let "i+=1"
+        if [ $i -lt 3 ];then
+          echo "I will start to export your file into voro++ format"
+          $BINARY_std/cdp3D -export_nxyzR$readorwritefile $file
+          if [ ! -f "$file"_export ];then
+            echo "periodic conditions are not compatible with those given in input_dp3D"
+            echo "mv or rm input_dp3D"
+            exit
+          fi
+          $BINARY_std/cdp3D -voronoi$readorwritefile $file          
+        else
+          exit
+        fi
+      fi
+      if [ $opttest = "surface" -a $i = "1" ];then
+        sed -i 's/-voronoi/-surface/g' dp3D_coord.tmp
+        if  [ $option_exit = "true" ];then
+          echo "next executable: dp3D_cut"
+          exit
+        else 
+          $BINARY_std/dp3D_cut
+          rm -f "$file"_export
+        fi
+      fi
+       ;;
+  cubic )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_cubic"
+        exit
+      else 
+        $BINARY_std/dp3D_cubic
+      fi
+       ;;
+
+esac
+ rm -f tagpart.tmp
+ rm -f tagpartnum.tmp
+ rm -f option_dp3D.tmp
+ rm -f script_rasmol*tmp 
+ rm -f tmp1 tmp2
+
+# to return to the proper prompt
+ exit

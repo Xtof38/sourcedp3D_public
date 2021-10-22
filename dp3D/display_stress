@@ -1,0 +1,254 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the stress files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@inpg.fr    November 2006
+BINARY_std=/usr/local/dp3D/
+theuser=`whoami`
+if [ -d $BINARY_std ];then
+# this the default 
+  BINARY=$BINARY_std
+else
+  BINARY=/home/$theuser/bin/
+fi
+
+file2display=stress
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
+
+
+echo "$1" > istimethere
+nistimethere=`grep -c "\-time"  istimethere`
+rm -f istimethere
+
+# need a $file2display file in the current directory
+if [ -f $file2display ];then     
+  numcol=`head -1 $file2display | awk '{print NF }'`
+  let "numcol = numcol + 1"
+else
+  if [ -f visco ];then   
+    display_visco  $1 $2 $3 $4 $5 $6 
+    exit
+  else
+    echo "I need to have a visco or a stress file in this directory !"
+    exit
+  fi  	 
+
+fi   
+
+case $1 in
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($1)'
+      ;;
+  -epsx )
+      Xlabel='"Strain (x)"'
+      Xcolumn='(-$2)'
+      echo "Strains are shown positive in compression !"
+      ;; 
+  -epsy )
+      Xlabel='"Strain (y)"'
+      Xcolumn='(-$3)'
+      echo "Strains are shown positive in compression !"
+      ;; 
+  -epsz )
+      Xlabel='"Strain (z)"'
+      Xcolumn='(-$4)'
+      echo "Strains are shown positive in compression !"
+      ;; 
+  -p )
+      Xlabel='"Pressure (MPa)"'
+      Xcolumn='($9)'
+      echo "Stresses are shown positive in compression !"
+      ;; 
+     * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are  -dens : density"
+       echo "                     -epsx -epsy -epsz : x y and z strain"
+       echo "                     -time_s -time_h -time_y : time in sec, hour or year"   
+       echo "                     -p                      : pressure"   
+       echo ""
+       echo " valid y labels are -p                       pressure"
+       echo "                    -pressure_n              pressure/sigy(1)"
+       echo "                    -q or -Mises             von Mises stress"
+       echo "                    -sigxx -sigyy -sigzz     Axial stresses"
+       echo "                    -sigxy -sigyx -sigxz ... other stresses"
+       exit       
+
+esac
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY"gnup_display plot_$file2display
+
+    echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+
+    for option in $Option_l
+    do
+    case $option in
+    -dens )
+      Title='"Relative_Density"'
+      Ylabel='"Relative Density"'
+      Ycolumn='($1)'
+       ;;
+    -epsx )
+      Title='"Strain_(x)"'
+      Ylabel='"Strain"'
+      Ycolumn='(-$2)'
+      echo "Strains are shown positive in compression !"
+      ;; 
+    -epsy )
+      Title='"Strain_(y)"'
+      Ylabel='"Strain"'
+      Ycolumn='(-$3)'
+      echo "Strains are shown positive in compression !"
+      ;; 
+    -epsz )
+      Title='"Strain_(z)"'
+      Ylabel='"Strain"'
+      Ycolumn='(-$4)'
+      echo "Strains are shown positive in compression !"
+      ;; 
+    -pressure | -p | -press | -P )
+      Title='"Macroscopic_Pressure"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='($5)'
+       ;;
+    -pressure_n )
+      Title='"Macroscopic_Pressure_normalized_by_sigy(1)"'
+      Ylabel='"P/sigy(1) "'
+      Ycolumn='($6)'
+       ;;       
+    -Mises | -q )
+      Title='"Deviatoric_stress"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='($7)'
+       ;;
+    -sigxx )
+      echo "Stresses are shown positive in compression !"
+      Title='"stress_(xx)"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$8)'
+       ;;       
+    -sigyy )
+      echo "Stresses are shown positive in compression !"
+      Title='"stress_(yy)"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$9)'
+       ;;       
+    -sigzz )
+      echo "Stresses are shown positive in compression !"
+      Title='"stress_(zz)"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$10)'
+       ;;       
+    -sigxy )
+      echo "Stresses are shown positive in compression !"
+      Title='"xy_stress_component"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$11)'      
+      ;; 
+    -sigxz )
+      echo "Stresses are shown positive in compression !"
+      Title='"xz_stress_component"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$12)'      
+      ;; 
+    -sigyx )
+      echo "Stresses are shown positive in compression !"
+      Title='"yx_stress_component"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$13)'      
+      ;; 
+    -sigyz )
+      echo "Stresses are shown positive in compression !"
+      Title='"yz_stress_component"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$14)'      
+      ;; 
+    -sigzx )
+      echo "Stresses are shown positive in compression !"
+      Title='"zx_stress_component"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$15)'      
+      ;; 
+    -sigxz )
+      echo "Stresses are shown positive in compression !"
+      Title='"xz_stress_component"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$16)'      
+      ;;
+    xrange* )
+      echo $option > tmp1 
+      sed 's/xrange/set xrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      xrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    yrange* )
+      echo $option > tmp1 
+      sed 's/yrange/set yrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      yrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+
+
+     * )
+      if [ "$option" = "$end_option" -a $i -gt 0 -o "$option" = "-keep" ];then
+# this is the end of the y label list, no more to plot
+        gnuplot -geometry 560x400 -persist plot_$file2display   
+        rm -f tmp1 tmp2 tmp3 
+        if [ $nistimethere != "0" -a $option != "-keep" ];then
+          rm  -f visco_$file2display*
+        fi
+	exit  
+      else
+       if [ "$option" = "$end_option" ];then
+         echo "need a y label"
+       else 
+         echo "$option is not a valid y label"
+       fi
+       echo " valid y labels are -p                       pressure"
+       echo "                    -pressure_n              pressure/sigy(1)"
+       echo "                    -Mises                   von Mises stress"
+       echo "                    -sigxx -sigyy -sigzz     Axial stresses"
+       echo "                    -sigxy -sigyx -sigxz ... other stresses"
+       exit       
+      fi      
+    esac
+    if [ "$plot" != "no" ];then
+#   a valid y label has been chosen    
+      let "i+=1"
+# the last y chosen gives the ylabel
+      echo "set ylabel $Ylabel" >> plot_$file2display
+# the title of the plot is pwd    
+      echo "set title  '"$(pwd)"'" >> plot_$file2display
+# with quotes (-Q) one item per line (-1)
+      ls -1 -Q $file2display > tmp1
+    
+      if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+        sed 's/^/plot /g' tmp1 > tmp2
+      else
+# replot everywhere except for the first line (1,1)
+        sed 's/^/replot /g' tmp1 > tmp2 
+      fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+      sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
+# Not the most elegant !:    
+      sed 's/_/ /g' tmp3 > tmp2
+
+      sed 's/$/ w l lw 2 /g' tmp2 > tmp3
+      cat tmp3 >> plot_$file2display
+    fi
+    done
+   
+rm -f tmp1 tmp2 tmp3

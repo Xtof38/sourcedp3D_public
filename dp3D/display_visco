@@ -1,0 +1,256 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the stress files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@inpg.fr    November 2006
+BINARY_std=/usr/local/dp3D/
+theuser=`whoami`
+if [ -d $BINARY_std ];then
+# this the default 
+  BINARY=$BINARY_std
+else
+  BINARY=/home/$theuser/bin/
+fi
+
+file2display=visco
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
+
+# need a $file2display file in the current directory
+if [ -f $file2display ];then     
+  echo "Stresses are shown positive in compression !"
+  echo "Strain rates are shown positive in compression !"
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file $file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi   
+
+case $1 in
+  -time_s )
+      Xlabel='"Time (sec) "'
+      Xcolumn='($1)'
+      ;;
+  -time_h )
+      Xlabel='"Time (hour) "'
+      Xcolumn='($2)'
+      ;;
+  -time_y )
+      Xlabel='"Time (year) "'
+      Xcolumn='($3)'
+      ;;
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($4)'
+      ;;
+  -epsxdot )
+      Xlabel='"Strain rate (x)"'
+      Xcolumn='($5)'
+      ;; 
+  -epsydot )
+      Xlabel='"Strain rate (y)"'
+      Xcolumn='($6)'
+      ;; 
+  -epszdot )
+      Xlabel='"Strain rate (z)"'
+      Xcolumn='($7)'
+      ;; 
+  -epsvdot )
+      Xlabel='"Volumic strain rate (s-1)"'
+      Xcolumn='($8)'
+      ;; 
+  -Ddot )
+      Xlabel='"dD/dt (s-1)"'
+      Xcolumn='($9)'
+      ;; 
+     * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are -time_s -time_h -time_y : time in sec, hour or year"
+       echo "                    -dens : density" 
+       echo "                    -epsxdot -epsydot -epszdot : strain rates"
+       echo "                    -epsvdot : bulk strain rate"
+       echo "                    -Ddot : dD/dt"
+       echo ""
+       echo " valid y labels are -dens : density"
+       echo "                    -epsxdot -epsydot -epszdot : strain rates"
+       echo "                    -epsvdot : bulk strain rate"
+       echo "                    -Ddot : dD/dt"
+       echo "                    -pressure or -p : pressure"
+       echo "                    -pressure_n : pressure/sigy(1)"
+       echo "                    -Mises or -q : Von Mises stress"
+       echo "                    -sigxx -sigyy -sigzz :Axial stresses"
+       
+       
+       exit 
+esac
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY"gnup_display plot_$file2display
+
+    echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+
+    for option in $Option_l
+    do
+    case $option in
+    -dens )
+      Title='"Relative_Density"'
+      Ylabel='"Relative Density "'
+      Ycolumn='($4)'
+      let "ylog=0"
+      ;;
+    -epsxdot )
+      Title='"Strain_rate_(x)"'
+      Ylabel='"Strain rate (s-1)"'
+      Ycolumn='($5)'
+      let "ylog=1"
+      ;; 
+    -epsydot )
+      Title='"Strain_rate_(y)"'
+      Ylabel='"Strain rate (s-1)"'
+      Ycolumn='($6)'
+      let "ylog=1"
+      ;; 
+    -epszdot )
+      Title='"Strain_rate_(z)"'
+      Ylabel='"Strain rate (s-1)"'
+      Ycolumn='($7)'
+      let "ylog=1"
+      ;; 
+    -epsvdot )
+      Title='"Volumic_strain_rate_(s-1)"'
+      Ylabel='"Volumic strain rate (s-1)"'
+      Ycolumn='($8)'
+      let "ylog=1"
+      ;; 
+    -Ddot )
+      Title='"dD\/dt_(s-1)"'
+      Ylabel='"dD/dt (s-1)"'
+      Ycolumn='($9)'
+      let "ylog=1"
+      ;; 
+    -pressure | -p | -press | -P )
+      Title='"Macroscopic_Pressure"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='($10)'
+      let "ylog=0"
+      ;;
+    -pressure_n )
+      Title='"Macroscopic_Pressure\/sigy(1)"'
+      Ylabel='"P/sigy(1) "'
+      Ycolumn='($11)'
+      let "ylog=0"
+      ;;       
+    -Mises | -q )
+      Title='"Deviatoric_stress"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='($12)'
+      let "ylog=0"
+       ;;
+    -sigxx )
+      Title='"stress_(xx)"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$13)'
+      let "ylog=0"
+       ;;       
+    -sigyy )
+      Title='"stress_(yy)"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$14)'
+      let "ylog=0"
+       ;;       
+    -sigzz )
+      Title='"stress_(zz)"'
+      Ylabel='"Stress (MPa)"'
+      Ycolumn='(-$15)'
+      let "ylog=0"
+       ;;       
+    -kin_n )
+      Title='"Kinetic_Energy\/(SUM(mass)*g*mean_part_radius)"'
+      Ylabel='"Normalized Energy"'
+      Ycolumn='($16)'
+      let "ylog=0"
+       ;;       
+    -kin )
+      Title='"Kinetic_Energy"'
+      Ylabel='"Energy (mJ)"'
+      Ycolumn='($17)'
+      let "ylog=0"
+       ;;       
+    xrange* )
+      echo $option > tmp1 
+      sed 's/xrange/set xrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      xrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    yrange* )
+      echo $option > tmp1 
+      sed 's/yrange/set yrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      yrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+
+     * )
+      if [ "$option" = "$end_option" -a $i -gt 0 -o "$option" = "-keep" ];then
+# this is the end of the y label list, no more to plot
+        gnuplot -geometry 560x400 -persist plot_$file2display   
+        rm -f tmp1 tmp2 tmp3 
+	exit  
+      else
+       if [ "$option" = "$end_option" ];then
+         echo "need a y label"
+       else 
+         echo "$option is not a valid y label"
+       fi
+       echo " valid y labels are -dens : density"
+       echo "                    -epsxdot -epsydot -epszdot : strain rates"
+       echo "                    -epsvdot : bulk strain rate"
+       echo "                    -Ddot : dD/dt"
+       echo "                    -pressure or -p : pressure"
+       echo "                    -pressure_n : pressure/sigy(1)"
+       echo "                    -Mises or -q : Von Mises stress"
+       echo "                    -sigxx -sigyy -sigzz :Axial stresses"
+       echo "                    -kin -kin_n :Axial stresses"
+       exit       
+      fi      
+    esac
+#   a valid y label has been chosen    
+    if [ "$plot" != "no" ];then
+      let "i+=1"
+# the last y chosen gives the ylabel
+      echo "set ylabel $Ylabel" >> plot_$file2display
+# the title of the plot is pwd    
+      echo "set title  '"$(pwd)"'" >> plot_$file2display
+# for sintering it is better to use log scale
+      if [ $ylog -eq 1 ];then
+       echo "set log y" >> plot_$file2display
+      fi
+# with quotes (-Q) one item per line (-1)
+      ls -1 -Q $file2display > tmp1
+    
+      if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+        sed 's/^/plot /g' tmp1 > tmp2
+      else
+# replot everywhere except for the first line (1,1)
+        sed 's/^/replot /g' tmp1 > tmp2 
+      fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+      sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
+# Not the most elegant !:    
+      sed 's/_/ /g' tmp3 > tmp2
+      sed 's/$/ w l lw 2/g' tmp2 > tmp3
+      cat tmp3 >> plot_$file2display
+    fi
+    done
+   

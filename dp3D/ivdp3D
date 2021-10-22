@@ -1,0 +1,241 @@
+reset
+wireframe off
+
+set picking ident
+select all
+spacefill temperature
+centre [0,0,0]
+
+translate x 0
+translate y 0
+select arsenic
+color white
+
+#there are 12 graded colors:
+select astatine # at
+color [0,0,150] #1 deep blue
+
+select bromine # br
+color [0,100,255] #2 blue
+
+select calcium # ca
+color [0,255,255] #3 pale blue
+
+select californium # cf
+color [180,255,255] #4 very pale blue
+
+select cerium # ce
+color [100,255,150] #5 green blue
+
+select caesium # cs
+color [0,255,0] #6 green 
+
+select chlorine # cl
+color [170,255,0]#7 deep yellow-green
+
+select chromium # cr
+color [255,255,0]# 8 yellow
+
+select curium # cm
+color [255,180,50]# 9 yellow-orange
+
+select einsteinium # es
+color [255,100,0]# 10 orange
+
+
+select europium # eu
+color [200,0,0]# 11 red
+
+select Gadolinium # gd
+color [120,0,0]# 12 deep red
+
+#there are 32 atoms used, the first 16 correspond to material 1
+#the last 16 correspond to material 2
+# in other words any atom before iron is material 1 
+
+#there are 16 colors used
+#color  ac
+select actinium
+color blue
+
+#color ag
+select silver
+color [190,255,190] #lightgreen
+
+#color  al
+select aluminum
+color green
+
+#color am
+select americium
+color white
+
+#color ar
+select argon
+color red
+
+#color au (for some reason rasmol does not want to select gold correctly)
+select gold
+color grey
+
+#color at
+select astatine
+color [0,0,150] #1 deep blue, to be consistent with graded colors
+
+#color ba
+select barium
+color greenblue
+
+#color be
+select beryllium
+color violet
+
+#color bi
+select bismuth
+color yellow
+
+#color bk
+select berkelium
+color [200,200,200]  #light grey
+
+#color br
+select bromine
+color [0,100,255] #2 blue, to be consistent with graded colors
+
+#color cd
+select cadmium
+color magenta
+
+#color cu
+select copper
+color orange
+
+#color fe
+select iron
+color [130,130,210] #paleblue
+
+#color fr
+select francium
+color brown
+
+#color ge
+select germanium
+color [69,4,69]  #deep violet
+
+
+
+
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+#color in
+select indium
+color blue
+
+#color li
+select lithium
+color [190,255,190] #lightgreen
+
+#color mg
+select magnesium
+color green
+
+#color ni
+select nickel
+color white
+
+
+#color nb
+select niobium
+color red
+
+#color os
+select osmium
+color [0,0,150] #1 deep blue
+
+#color pd
+select palladium
+color greenblue
+
+#color po
+select polonium
+color violet
+
+#color pt
+select platinum
+color yellow
+
+#color pu
+select plutonium
+color [200,200,200]  #light grey
+
+#color ra
+select radium
+color [0,100,255] #2 blue, to be consistent with graded colors
+
+#color sn
+select tin
+color magenta
+
+#color ti
+select titanium
+color orange
+
+#color xi (for some reason rasmol does not want to select gold correctly)
+select xenon
+color [130,130,210] #paleblue
+
+#color tm
+select thulium
+color [130,130,210] #paleblue
+
+#color zn
+select zinc
+color brown
+
+#color zr
+select zirconium
+color [69,4,69]  #deep violet
+
+
+#a color for objects
+select oxygen
+color red
+
+#a black color for special purposes
+select hafnium
+color black
+
+
+rotate x 90
+rotate y -90
+#set BoundingBox on
+set monitor off
+monitor 0 1
+monitor 2 3
+monitor 4 5
+monitor 6 7
+monitor 0 2
+monitor 2 6
+monitor 6 4
+monitor 4 0
+monitor 1 3
+monitor 3 7
+monitor 7 5
+monitor 5 1
+
+
+set axis on
+rotate z 180
+#to zoom decomment:
+#zoom 300
+#to translate use for exemple:
+#translate y -20
+#to rotate, use for exemple:
+#rotate x 40
+#to slab (section), use : slab
+#slab
+
+
+#end of ivdp3D file

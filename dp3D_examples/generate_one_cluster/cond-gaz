@@ -1,0 +1,12 @@
+#filename, expected density, number of classes
+file_init,.3,2
+#iperiod x,iperiod y,iperiod z
+0,0,0
+#tangent cyl ? radius (0. => no cyl), and cyl axis(x,y or z) _|_ to plane it replaces
+0.D0,y
+#box size ratio x, y, z
+1.,1.,1.
+#type (part/cluster),idum=negative integer (random initial seed)
+cluster,-3
+#number of part/cluster,material, diam. (mm),distribution eps,if cluster:motif,aoR,cristallite size(mm)
+1,cu,0.5,0.,'motifs/p4000p6387',.55,0.05

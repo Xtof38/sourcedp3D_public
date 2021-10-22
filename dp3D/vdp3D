@@ -1,0 +1,790 @@
+#!/bin/bash
+! $Id: vdp3D,v 2.6 2019/12/17 10:17:53 chris Exp $
+
+###########################################################################
+# This is a script to display dp3D generated coord files
+# and to process them. It uses RASMOL 2.7
+# RasMol is a program for molecular graphics visualisation originally
+# developed by Roger Sayle. See www.RasMol.org and www.OpenRasMol.org
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr   
+# first created september 2006
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+if [ "$1" = "" ];then
+  more $BINARY_std/help_vdp3D
+  exit
+fi
+# by default no range for values to plot:
+range="0.0D0 0.0D0"
+# f2visualize is the number of files to visualize, default value:
+let "f2visualize = 1"
+# the lastoption and the number of arguments given by the user::
+lastoption=`eval echo "\\\$$(($#))"`
+numberofarg="$#"
+
+# _exit1 _exit2 are options for developers, it will not go into the fortran 90 executables
+# instead it will only write the tmp files necessary for reading 
+# by these executables
+#removing the _exit after the main option
+option_wo_exit=`echo $1 | sed 's/_exit1//'`
+option_wo_exit=`echo $option_wo_exit | sed 's/_exit2//'`
+option_exit1=`echo  $1  | grep -c _exit1`
+option_exit2=`echo  $1  | grep -c _exit2`
+
+num_opt=` echo "$option_wo_exit" | egrep -o  "[0-9]{1,8}"`
+if [ "$num_opt" = "" ];then
+    let "num_opt = 0"
+fi
+
+# is it calling ovito or rasmol (by default rasmol)
+ovito=`echo  $1  | grep  -o _ovito`
+
+
+#is the lastoption a coordinate file or a script file ?
+# the first option without a number:
+opt=`echo "$option_wo_exit" | sed 's/[0-9]//g'`
+# old -f is replaced by -anim:
+opt=`echo "$opt" | sed 's/-f /-anim /g'`
+
+opt=`echo "$opt" | sed 's/_ovito//g'`
+
+# opt without -:
+optn=`echo "$opt" | sed 's/-//g'`
+
+#echo "$optn"
+echo "$option_wo_exit" > tmp1
+# this is safer if a tmp2 file has been created and not properly rm:
+rm -f tmp2
+
+if [ $optn != "Nnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
+  rm -f TAGFILE
+fi
+
+
+
+# echo "optn $opt"
+# echo "2num_opt $num_opt"
+
+# these are the options that necessitate a reference file
+# looking for the file which will serve as a ref for the calculation:
+ref_file_list="nobond disp dispx dispy dispz dispr epsx epsy epsz z_diff"
+ref_file=`echo "$ref_file_list" | grep -c -w $optn`
+
+if [ $ref_file = "1" ];then
+  if  [ -f  cond-dp3D ];then
+    file_ref=`sed -n '2p' cond-dp3D | cut -f 1,1 -d , |  sed "s|'||g" `  
+    if  [ -f  "$file_ref" ];then
+      echo "Using reference coordinate file $file_ref"
+    else
+      if  [ -f  _coord0000 ];then
+        file_ref="_coord0000"
+        echo "Using reference coordinate file $file_ref"
+      else
+        echo "For option $opt or $2, I need a reference coordinate file (typically _coord0000)"
+        echo "Enter the reference coordinate file:"
+        read file_ref
+      fi
+    fi
+  else
+    if  [ -f  _coord0000 ];then
+      file_ref=_coord0000
+      echo "Using reference coordinate file $file_ref"
+    else
+      echo "For option $opt or $2, I need a reference coordinate file (typically _coord0000)"
+      echo "Enter the reference coordinate file:"
+      read file_ref
+    fi
+  fi 
+fi 
+
+# these are the options that necessitate a TAGFILE to pick particles:
+TAGFILE_list="spy tag rm keep pick ref_rect ref_sphere crack notch probe Nnetwork disp_field c_axis sphere ellipsoid"
+TAG_file=`echo "$TAGFILE_list" | grep -c -w $optn`
+
+
+if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
+   if [ "$lastoption" != "$1" ];then
+     if  [ -f "$lastoption" ];then
+       fscript="$lastoption"
+       if [ "$numberofarg" = "2" ];then
+         opt2="$opt"
+         opt2n="$optn"
+       else
+         opt2="$2"
+         opt2n=`echo "$2" | sed 's/-//g'`
+      fi
+       echo "$3" > tmp1
+# is it a range for plotting graded values ? 
+       isitarange=$(grep -c "\range" tmp1)
+       if  [ "$isitarange" = "1" ];then
+         sed 's/range//g' tmp1 > tmp2
+         sed 's/:/ /g' tmp2 > tmp1
+         range=$(sed 's/\///g' tmp1)
+       fi
+     else  # not -f lastoption
+# opt without -:
+       opt2n=`echo "$2" | sed 's/-//g'`
+# these are the options that can be combined with -f and -fi 
+       anim_list=" contact z class force nobond deltats fract_bonds  \
+            fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
+            epsx epsy epsz sigxx sigyy sigzz sigxy sigxz sigyx sigyz \
+            sigzx sigzy press dens center_clumps Temp normal_axis \
+            misalign_x misalign_y misalign_z "
+       anim=`echo "$anim_list" | grep -c -w $opt2n`
+       if  [ "$anim" = "1" ];then
+         fscript=ivdp3D 
+         opt2="$2"
+         opt2n=`echo "$2" | sed 's/-//g'`
+         echo "$lastoption" > tmp1
+# is it a range for plotting graded values ? 
+         isitarange=$(grep -c "\range" tmp1)
+         if  [ "$isitarange" = "1" ];then
+           sed 's/range//g' tmp1 > tmp2
+           sed 's/:/ /g' tmp2 > tmp1
+           range=$(sed 's/\///g' tmp1)
+         fi
+       else
+         echo "script $lastoption for option $opt does not exist !"      
+         exit
+       fi
+     fi # -f lastoption
+   else # lastoption=1
+     fscript=ivdp3D
+     opt2="$opt"
+     opt2n="$optn"
+   fi
+else # not anim
+   if  [ -f "$lastoption" ];then
+     isitascript=$(grep -c "the first 16 correspond to material" "$lastoption")
+     if  [ "$isitascript" = "1" ];then
+       fscript="$lastoption"
+       let "f2visualize = $numberofarg - 2"
+     else
+       fscript=ivdp3D
+       let "f2visualize = $numberofarg - 1"
+     fi
+   else # not -anim lastoption
+     if  [ "$lastoption" = "$opt" ];then
+       if [ "$optn" != "help" ];then
+         echo "I need a file name to plot for option $opt !"
+         exit
+       fi
+     else
+       echo "$lastoption" > tmp1
+# is it a range for plotting graded values (see option -iz -iforce ...) ? 
+       isitarange=$(grep -c "\range" tmp1)
+       if  [ "$isitarange" = "1" ];then
+         let "newnum=$numberofarg - 1"
+         lastoption=`eval echo "\\\$$(($newnum))"`
+         sed 's/range//g' tmp1 > tmp2
+         sed 's/:/ /g' tmp2 > tmp1
+         range=$(sed 's/\///g' tmp1)
+         if  [ -f "$lastoption" ];then
+           isitascript=$(grep -c "the first 16 correspond to material" "$lastoption")
+           if  [ "$isitascript" = "1" ];then
+             fscript="$lastoption"
+             let "f2visualize = $numberofarg - 3"
+           else
+             fscript=ivdp3D
+            let "f2visualize = $numberofarg - 2"
+           fi
+         else
+           echo "I need a file name to plot for option $opt !"
+           exit
+         fi
+       else
+         if [ "$optn" != "damage" ];then
+           echo "file $lastoption for option $opt does not exist !"
+           exit
+         else
+           echo "Option $opt is only available with ovdp3D "
+           exit
+         fi
+       fi #isitarange 
+     fi #"$lastoption" = "$opt"
+   fi #  -f lastoption
+fi     # anim
+
+# ivdp3D will be kept in the local directory for further use if need be
+if [ "$ovito" = "" ];then
+  cp "$BINARY_std"ivdp3D .
+fi
+
+case $optn in
+    anim | animobject )
+#creating the file anim
+   echo "Preparing the animation ..."
+
+   ls -1 _coord[0-9][0-9][0-9][0-9] > tmp1
+   cp tmp1 tmp2
+# reducethisfile allows reducing by $num_opt the number of lines
+   reducethisfile tmp1 $num_opt
+   listcoord=$(cat tmp1)
+   if [ "$listcoord" = "" ];then
+     echo "no _coord file to plot !" 
+     exit
+   fi
+   let " ii = 0 "
+   rm -f anim
+   for fcoord in $listcoord;do 
+     let "ii = ii +1 "
+     echo " reset" >> anim
+     echo " zap" >> anim
+     echo "load xyz tmpfilevdp3D$ii.tmp" >> anim
+     echo "script ivdp3D" >> anim
+     echo "write $fcoord.gif" >> anim
+   done
+
+#the last image should be kept       
+   lastfile=$(tail -1 tmp2)
+   isthere=$(grep -c "$lastfile" tmp1)
+   if [ $isthere = "0" ];then
+     let "ii = ii +1 "
+     echo " reset" >> anim
+     echo " zap" >> anim
+     echo "load xyz tmpfilevdp3D$ii.tmp" >> anim
+     echo "script ivdp3D" >> anim
+     echo "write $lastfile.gif" >> anim
+   fi
+
+# if fract_bonds_fine looking for the number of line as a range to give to trs_obj:
+   if [ "$opt2n" = "fract_bonds_fine" ];then
+     if  [ ! -f  fract_bonds ];then
+       echo "need the fract_bonds file for this option !"
+       exit
+     fi
+     range=`grep -c . fract_bonds`
+     range="$range.D0 0.D0"
+     opt2="-fract_bonds"
+     opt2n="fract_bonds"
+   fi     
+
+# creating the list.tmp to be used by trs for resizing of the _coord       
+#    number of lines in the file:
+   numcoord=`grep -c load  < anim`
+   echo "$numcoord $opt2$ovito $range" > list.tmp
+   grep -o "_coord[0-9][0-9][0-9][0-9]"  anim > tmp1
+
+# adding the same file name as second argument for trs_obj
+   awk '{ print "'\''"$opt "'\',\''" $opt"'\''"}'  tmp1 > tmp2
+   cat list.tmp tmp2 > tmp1
+   mv -f tmp1  list.tmp        
+   rm -f tmp1 tmp2
+# only showing the first image of the anim
+   echo "load xyz tmpfilevdp3D1.tmp" > script_rasmol1.tmp
+   echo "script ivdp3D" >> script_rasmol1.tmp       
+   ;;       
+
+   i | iref | contact | z | force | class | object | nobond | bonds | \
+   deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
+   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | eps[x-z] \
+   | dens | voronoi | potential | center_clumps | Temp | normal_axis \
+   | misalign_x | misalign_y | misalign_z )
+   if  [ "$ref_file" = "1" ];then
+# using the reference file if necessary
+     let "ii = f2visualize + 1"
+     echo "$ii "$opt""_ref"$ovito $range" > list.tmp
+     echo "'$file_ref','$file_ref'"  >> list.tmp
+   else
+     echo "$f2visualize $opt$ovito $range" > list.tmp
+   fi
+   for ((  ii = 1 ;  ii <= $f2visualize;  ii++  )); do
+     let "iii = ii + 1"
+     file_coord=`eval echo "\\\$$(($iii))"`
+     echo "'$file_coord','$file_coord'"  >> list.tmp 
+     echo "load xyz tmpfilevdp3D$ii.tmp" > script_rasmol$ii.tmp
+     echo "script ivdp3D" >> script_rasmol$ii.tmp 
+     if [ "$optn" = "voronoi" ];then
+# need to export to a file format readable by voro++:
+        mv script_rasmol$ii.tmp script_rasmol$ii.save
+        cdp3D -export_nxyzR "$file_coord"
+        cdp3D -voronoi "$file_coord"
+        rm -f "$file_coord"_export
+        mv script_rasmol$ii.save script_rasmol$ii.tmp
+     fi
+     if [ "$optn" = "potential"  -a ! -f "$file_coord"_potential ];then
+# need to use cdp3D -conduct to generate a $file_coord_potential file
+        echo "type first the command cdp3D -conduct $file_coord"
+        echo "to create the file "$file_coord"_potential"
+        exit
+     fi
+   done      
+   ;;
+# There should be only one coord file for these options:
+   tag | rm | keep  | pick | ref_sphere | ref_rect | spy | crack | notch | probe | sphere | ellipsoid )
+   if  [ "$f2visualize" -gt "1" ];then
+     echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" 
+     echo "There should be only one coordinate file with option  $opt" 
+     echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" 
+     exit
+   fi
+   dirthere=$(echo "$opt" | tr "-" " ")
+   if  [ -d $dirthere ];then
+     echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" 
+     echo " It is not possible to have a directory named "$dirthere"  !"
+     echo " when running vdp3D with option "$opt"                !" 
+     echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" 
+     exit
+   fi
+   if [ $optn = "ref_rect" ];then
+     while [ "$axis" != "x" -a "$axis" != "y" -a "$axis" != "z" ];do
+       echo " Type the normal to the slicing planes (x,y,z) "
+       read axis
+       case $axis in
+        x )
+        num_opt="1"
+        ;;
+        y )
+        num_opt="2"
+        ;;
+        z )
+        num_opt="3"
+       esac
+     done
+   fi
+   echo "1 $opt$ovito $range" > list.tmp   
+   if [ "$2" != "" ];then
+     file1="$2"
+     echo "'$2','$2'" >> list.tmp
+   else
+     echo "file to visualize ?"
+     read file1
+     echo "'$file1','$file1'">> list.tmp  
+   fi
+# testing if there is a script file1 given explicitley by the user, this is in $2 
+   if [ "$3" != "" ];then
+     fscript=$3
+   else
+     fscript=ivdp3D
+   fi         
+   if [ "$ovito" = "" ];then
+      if [ -f $file1 -a -f $fscript ];then     
+        echo "load xyz tmpfilevdp3D1.tmp" > script_rasmol1.tmp
+        echo "script ivdp3D" >> script_rasmol1.tmp
+      else
+        echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+        echo "files $file1 or $fscript do not exist !"
+        echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+        exit
+      fi       
+      echo '------------------------------------------ '
+      echo " at rasmol prompt, type 'set write on'   "   
+      echo '------------------------------------------ '
+   fi
+   ;;
+   ref )
+     echo " -ref is an obsolete option "
+     echo " replaced by :  "
+     echo " -ref_sphere (reference sphere) or -ref_rect (reference rectangle) "
+     exit
+   ;;
+   * )
+   echo "-$optn is not a correct option"
+   more $BINARY_std/help_vdp3D
+   exit
+esac
+
+# some specific actions now for each case
+echo '----------------------------------------------------------'
+case $optn in
+   spy | tag | rm | keep | pick )
+     echo " Select the particles you want to $optn                    "
+# this is the standard rasmol 
+     if [ "$ovito" = "" ];then
+       echo " type 'script $optn' when you are done with mouse selection"
+       echo " and 'exit'                                              "
+# these files are rasmol script to tag 
+# they will be removed when exiting rasmol
+       cp "$BINARY_std"picktag $optn
+# to enable picking labels in rasmol
+       cp -f $fscript ivdp3D_pick
+       fscript='ivdp3D_pick'
+       echo "set pick label" >> $fscript
+       echo "colour labels white" >> $fscript
+     else
+# this is the ovito 
+       echo " in the 'Add modification menu' (Manual selection + Pick particles)"
+       echo " Assign color to those particles in the 'Add modification menu'"
+       echo " export as $2.xyz in the same directory'       "                                       
+       echo " and 'exit'                                              "
+     fi
+       ;;  
+   ref_sphere | ref_rect | sphere | ellipsoid )  
+     if [ $optn = "ref_rect" ];then
+       echo " Pick two particles to select rectangle extrema "
+     else     
+       echo " Pick the first particle for the center of $optn "
+       echo " and then the second particle for the radius (or the principal axis) of the $optn"
+       echo " If you pick twice the same particle, 0.,0.,0. will be the center."
+     fi
+# this is the standard rasmol 
+     if [ "$ovito" = "" ];then
+       echo " type 'script $optn' when you are done with mouse selection"
+       echo " and 'exit'                                              "
+# these files are rasmol script to tag 
+# they will be removed when exiting rasmol
+       cp "$BINARY_std"picktag $optn
+# to enable picking labels in rasmol
+       cp -f $fscript ivdp3D_pick
+       fscript='ivdp3D_pick'
+# we will use the distance tool to tag the two particles in order to keep
+# the order of picking (first and second)
+       echo "set pick distance" >> $fscript
+       echo "colour labels white" >> $fscript
+     else
+# this is the ovito 
+       echo " in the 'Add modification menu' (Manual selection + Pick particles)"
+       echo " Assign color to those particles in the 'Add modification menu'"
+       echo " export as $2.xyz in the same directory'       "                                       
+       echo " and 'exit'                                              "
+    fi
+     ;;         
+   crack  | notch | c_axis )
+     if [ $opt = "-crack" ];then
+       if [ -f "$file_coord"_crack_histc ];then
+         echo '----------------------------------------------------------'
+         echo " rm or mv  "$file_coord"_crack_histc first for this option   "
+         echo '----------------------------------------------------------'
+         exit
+       fi
+     fi
+     echo " Pick two particles on the surface to define the $optn     "
+# this is the standard rasmol 
+     if [ "$ovito" = "" ];then
+       echo " type 'script $optn' when you are done with mouse selection"
+       echo " and 'exit'                                              "
+# these files are rasmol script to tag
+# they will be removed when exiting rasmol
+       cp "$BINARY_std"picktag $optn
+# to enable picjking labels in rasmol
+       cp -f $fscript ivdp3D_pick
+       fscript='ivdp3D_pick'
+# we will use the distance tool to tag the two particles in order to keep
+# the order of picking (first and second)
+       echo "set pick distance" >> $fscript
+       echo "colour labels white" >> $fscript
+     else
+# this is the ovito 
+       echo " in the 'Add modification menu' (Manual selection + Pick particles)"
+       echo " Assign color to those particles in the 'Add modification menu'"
+       echo " export as $2.xyz in the same directory'       "                                       
+       echo " and 'exit'                                              "
+     fi
+     ;;         
+   probe | Nnetwork | disp_field )      
+# need the _xxxx_histc file that comes with the _coordxxxx coordinate file for Nnetwork:
+     case $optn in
+       Nnetwork  )
+         tocheck="_"`echo "$file_coord" | sed 's/_coord//g'`"_histc"
+       ;;         
+       disp_field )
+         tocheck="_coord0000"
+       ;;         
+       probe )
+         tocheck="$file_coord"
+       ;;
+     esac
+     if [ ! -f $tocheck ];then
+         echo '------------------------------------------ '
+         echo " you need a  $tocheck file for this option  "   
+         echo '------------------------------------------ '         
+        exit
+     fi    
+     echo " Pick two particles on the surface to define the section  "
+# this is the standard rasmol 
+     if [ "$ovito" = "" ];then
+       echo " type 'script $optn' when you are done with mouse selection"
+       echo " and 'exit'                                              "
+       rm -f plot_$optn
+# these files are rasmol script to tag
+# they will be removed when exiting rasmol
+       cp "$BINARY_std"picktag $optn
+# to enable picjking labels in rasmol
+       cp -f $fscript ivdp3D_pick
+       fscript='ivdp3D_pick'
+       echo "set pick distance" >> $fscript
+       echo "colour labels white" >> $fscript
+     else
+# this is the ovito 
+       echo " in the 'Add modification menu' (Manual selection + Pick particles)"
+       echo " Assign color to those particles in the 'Add modification menu'"
+       echo " export as $2.xyz in the same directory'       "                                       
+       echo " and 'exit'                                              "
+     fi
+   ;;
+esac      
+echo '----------------------------------------------------------'
+
+# trs_obj multiply the coordinates to get nice rendering with rasmol
+if [ "$option_exit1" != "0" ];then
+  echo "exiting; next executable : trs_obj"
+  exit
+else
+  trs_obj
+fi
+
+# now going to ovito or to rasmol :
+case $ovito in
+   _ovito )
+      echo " generating file: "
+      echo " $file_coord.xyz"
+      echo " to be used for ovito rendering ..."
+      exit
+   ;;         
+   "" )
+      echo " rasmol rendering ..."
+   ;;         
+   * )
+      echo "need to choose between rasmol (vdp3D) and ovito (ovdp3D) rendering"
+      exit
+esac
+
+
+# once more to ensure that it is read:
+# this is the standard rasmol 
+if [ "$opt" = '-anim' -a "$ovito" = "" ];then
+   echo '------------------------------------------ '
+   echo " Processing done, you need to work now: "
+   echo " In rasmol prompt, type 'set write on'"
+   echo " followed by 'script anim' "
+   echo '------------------------------------------ '
+fi
+
+if [ "$ovito" = "" ];then
+  diff $fscript ivdp3D > dif.tmp
+  numdiff=`grep -c '.*'  < dif.tmp`
+# only copying the file if the user defined script and ivdp3D are different
+  if [ $numdiff != 0 ];then
+    cp ivdp3D ivdp3D.tmp
+    cp  -f  $fscript ivdp3D
+  fi
+# if a give_label.tmp has been constructed (via -z option for exemple)
+# constructs labels:
+  if [ -f give_label.tmp ];then
+    cat give_label.tmp >> ivdp3D
+  fi
+# if a show_object.tmp has been constructed 
+# constructs the object:
+  if [ -f show_object.tmp ];then
+    cat show_object.tmp >> ivdp3D
+  fi
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!     
+# number of files to visualize limited to f2visualize
+# for the first ones, use &
+  let "f2visualizem1 = f2visualize - 1"
+  for ((  ii = 1 ;  ii <= $f2visualizem1;  ii++  ))
+  do
+# checking that the files are there before launching rasmol:
+    file2check=`grep  "load xyz " script_rasmol$ii.tmp |  awk '{ print $3 }'`
+    if [ -f $file2check ];then
+      $BINARY_std/rasmol -script script_rasmol$ii.tmp &
+    else
+      echo "Error, no $file2check file to visualize !"
+    fi
+  done
+# checking that the files are there before launching rasmol:
+  file2check=`grep  "load xyz " script_rasmol$f2visualize.tmp |  awk '{ print $3 }'`
+# the last one without &
+  if [ -f $file2check ];then
+    if [ "$TAG_file" = "0" -a "$option_exit2" != "0" ];then
+      echo "Exiting, next executable: rasmol"
+      exit
+    else
+      $BINARY_std/rasmol -script script_rasmol$f2visualize.tmp
+    fi
+  else
+    echo "Error, no $file2check file to visualize !"
+  fi 
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# only getting back ivdp3D if the user defined script and ivdp3D were different
+  if [ $numdiff != 0 -a -f ivdp3D.tmp ];then
+    cp -f ivdp3D.tmp ivdp3D
+    rm -f ivdp3D.tmp
+  fi
+
+# looking for particles that have been tagged in the script TAGFILE    
+  if [ "$TAG_file" = "1" ];then
+# no need of these files once rasmol has run     
+    rm -f spy; rm -f tag ; rm -f rm ; rm -f keep; rm -f pick 
+    rm -f ref ;rm -f crack ;rm -f probe ; rm -f notch; rm -f sphere; rm -f ellipsoid
+    if [ -f TAGFILE ];then     
+# !!! numpart is the number of lines in tmp2 not the number of tagged particles       
+      if [ $optn = "ref_rect" -o $optn = "ref_sphere" -o  $optn = "crack" -o \
+            $optn = "notch" -o  $optn = "Nnetwork" -o $optn = "c_axis" -o \
+            $optn = "disp_field" -o  $optn = "sphere" -o  $optn = "ellipsoid" -o \
+            $optn = "probe" ];then
+# only two particles selected for ref and crack
+        numpart=2
+      else
+        grep --line-number "label \"%e%i%A\"" TAGFILE > tmp1
+# deleting every character that follows ":"
+        sed -e 's/:.*//' tmp1 > tmp2
+        numpart=`grep -c '.*'  < tmp2`
+        cp -f tmp2 tmp3
+        i=0
+        until [ "$i" = "$numpart" ];do
+# reads the first line of tmp2
+          numline=`grep --max-count=1 -o ".*" tmp2`
+# the particle numbers that are of interest to us are
+#  one line before in TAGFILE
+          let "numline = numline - 1"
+#print the numline of TAGFILE
+          sed -n ''"$numline"'p' TAGFILE >> tmp4
+# once done go to the next line by deleting first line of tmp2
+          rm -f tmp1
+          sed -e '1d' tmp2 > tmp1
+          mv -f tmp1 tmp2
+          let "i+=1"	   
+        done 
+      fi
+      if [ $numpart = 0 ];then
+        echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+	echo 'No particle selected in TAGFILE'
+        echo 'No file created'
+        echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+	rm -f *.tmp
+        exit
+      fi
+      if [ $optn = "Nnetwork" -o $optn = "disp_field" -o $optn = "c_axis" ];then
+        file1="$2"
+      fi
+      echo "'$file1'" > tagpartnum.tmp
+      echo $numpart >> tagpartnum.tmp
+      echo "$opt $num_opt" >> tagpartnum.tmp
+
+      if [ $optn = "ref_rect"  -o $optn = "ref_sphere" -o $optn = "crack" -o \
+            $optn = "notch" -o $optn = "Nnetwork" -o $optn = "probe" -o  \
+            $optn = "sphere" -o $optn = "ellipsoid" -o $optn = "c_axis" -o \
+            $optn = "disp_field" ];then
+        firstpart=`awk '/monitor /{ print $2}' TAGFILE`
+        secondpart=`awk '/monitor /{ print $3}' TAGFILE`
+        echo "0 $firstpart" > tagpart.tmp
+        echo "0 $secondpart" >> tagpart.tmp
+      else
+# these are the individually selected particles:       
+        sed -e 's/select atomno=/0 /' tmp4 > tmp3
+# these are the grouped selected particles:              
+        sed -e 's/select (atomno>=//' tmp3 > tmp4
+        sed -e 's/)//' tmp4 > tmp3
+        sed -e 's/and (atomno<=//' tmp3 > tmp4       
+        sed -e 's/)//' tmp4 > tmp3
+# this happens when all particles have been selected:
+#    "# Atoms"  by two zeros to tell trs_tag        
+	sed -e 's/\# Atoms/0  0/' tmp3 > tagpart.tmp 
+      fi 
+	 
+      rm -f tmp1 tmp2 tmp3 tmp4 
+# the f90 prg that writes the new _coordxxx_tag or _rm file:
+
+#!!!!!!!!!!!!!!!!!!!!!!!!!
+      if [ "$option_exit2" != "0" ];then
+        echo "exiting; next executable : trs_tag_rm"
+        exit
+      else
+        trs_tag_rm
+      fi
+# do not remove TAGFILE yet it may be used for visualization by 
+      if [ $optn != "Nnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
+        rm -f TAGFILE
+      fi
+    else
+      echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+      echo 'TAGFILE has not been created'
+      echo ' Did you forget to type "set write on" in rasmol ?'
+      echo ' Or to type "script ..." in rasmol ?'
+      echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+      noiref="true"
+    fi   
+  fi #"$TAG_file" = "1"
+
+
+# Another plot to see the  particles removed from the notch in -notch option
+  if [ "$optn" = "notch" ];then
+    rm -f TAGFILE
+    vdp3D -i "$file1"_rm  
+    cleandone=1
+  fi
+# Another plot to see the  bonds removed from the crack in -crack option
+  if [ "$optn" = "crack" ];then
+    rm -f TAGFILE
+    if [ -f _coord0001 ];then
+      mv -f _coord0001 tmpcoord0001
+      mv -f _0001_histc tmp_0001_histc
+    fi
+    cp -f "$file1"_crack _coord0001
+    vdp3D -fract_bonds _coord0001 
+    rm -f _coord0001 
+    if [ -f tmpcoord0001 ];then
+      mv -f tmpcoord0001 _coord0001
+      mv -f tmp_0001_histc _0001_histc
+    fi
+    cleandone=1
+  fi
+fi # the following is used also by ovito
+
+# A gnuplot for the -probe option to get the gradient of density
+if [ "$optn" = "probe" ];then
+#to know which axis has been used for the probe:
+   grep -o '.1(mic)' $file1"_probe" > tmp1
+   axis=$(sed 's/1(mic)//' tmp1)
+   echo "set size square" > plot_probe
+   echo "set grid" >> plot_probe
+   echo "set xlabel '"Relative Density "'" >> plot_probe
+   echo "set title  '""$file1"_probe "$axis" axis"""' " >> plot_probe
+   echo "set ylabel 'axis ""$axis"" (micron)'"  >> plot_probe
+   echo "plot '""$file1"_probe"""' u ("'$3'"):("'$14'")    notitle  w l lw 2 "  >> plot_probe
+   gnuplot -geometry 560x400 -persist plot_probe
+   rm -f TAGFILE
+fi
+# A gnuplot for the -Nnetwork and -disp_field options
+if [  "$optn" = "Nnetwork" -o "$optn" = "disp_field" -o $optn = "c_axis" ];then
+  if [ -f plot_$optn ];then
+     head -1 plot_$optn > tmp1
+     xxf=`awk '//{ print $2}' tmp1`
+     yyf=`awk '//{ print $3}' tmp1`
+     rm -f tmp1
+     gnuplot -geometry "$xxf"'x'"$yyf" -persist plot_$optn
+# TAGFILE is not rm by this option, may be used by cdp3D
+  fi
+fi
+
+
+if [ "$ovito" = "" ];then
+     
+  if [ "$cleandone" != "1" -a -f list.tmp ];then
+# using list.tmp to clean the directory were the coord files are
+     echo "#!/bin/sh" > tmp1
+         
+# delete the first line of list.tmp
+     sed '1,1d' list.tmp >> tmp1
+# substitute "foo" with "bar" EXCEPT for lines which contain "baz"
+     sed '/'"#\!\/bin\/sh"'/!s/'\''//g' tmp1 > tmp2
+     sed '/'"#\!\/bin\/sh"'/!s/^/rm -f /g' tmp2 > tmp1
+     sed '/'"#\!\/bin\/sh"'/!s/,.*//g' tmp1 > tmp2
+     sed '/'"#\!\/bin\/sh"'/!s/$/.tmp/g' tmp2 > rmvdp3D.sh
+     rm -f tmp1 tmp2
+     chmod +x rmvdp3D.sh
+     ./rmvdp3D.sh
+     rm -f rmvdp3D.sh
+     rm -f *.tmp 
+     rm -f show_object.tmp
+  fi   
+
+# this is because monitor commands may be written at the end of the ivdp3D file
+# they are not useful anymore and may be a pain if the user reuse ivdp3D
+  sed '/#end of ivdp3D file/,$d' ivdp3D > tmp
+  sed '$ a #end of ivdp3D file' tmp > ivdp3D
+  rm -f tmp
+  rm -f tmpfilevdp3D*
+  rm -f *.tmp 
+  rm -f show_object.tmp 
+  rm -f ivdp3D_pick
+  rm -f anim
+fi
+
+# to return to the proper prompt
+ exit

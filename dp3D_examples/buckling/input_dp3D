@@ -1,0 +1,383 @@
+######################################################################
+#                   simulation conditions                            #
+######################################################################
+# coordinate file:
+bar
+______________________________________________________________________
+# mode key word:
+# jamming elasto_plasticity viscoplasticity sintering
+elasto_plasticity
+______________________________________________________________________
+# general key words:
+# none stress_ref large_dens no_rotation rot_elast_only
+# constant_velocity gravity thermal
+none
+______________________________________________________________________
+######################################################################
+#                           models                                   #
+######################################################################
+# elasto_plasticiy and jamming key words:
+# none bonds no_elasticity linear_elasticity
+bonds
+______________________________________________________________________
+# bond key words:
+# large_bonds_full large_bonds geom toughness impinge only_bonds
+# clump_cluster beam stiffness  Rankine iso_bonds= psi_bar=
+# unload_stiff_ratio= plast_stiff_ratio= strength_deviation=
+stiffness
+______________________________________________________________________
+# friction model:
+# Hertz_Mindlin Coulomb shear
+Hertz_Mindlin
+______________________________________________________________________
+# adhesion model:
+# DMT JKR
+DMT
+______________________________________________________________________
+######################################################################
+#                         outputs                                    #
+######################################################################
+# simulation termination:
+# density>= epsilon>= pressure>= pressure<= epsvdot<= aoR>= time>= 
+# timestep>= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>= sigzz<= fracture=
+epsilon>=.03
+______________________________________________________________________
+# writing coordinate files:
+# density= epsilon= pressure= sigxx= sigyy= sigzz=
+# aoR= time= timestep= none end
+epsilon=0.001
+______________________________________________________________________
+# writing output files:
+# density= epsilon= pressure= sigxx= sigyy= sigzz=
+# aoR= time= timestep= none end
+epsilon=0.0001
+______________________________________________________________________
+# writing contact history files:
+# density= epsilon= pressure= sigxx= sigyy= sigzz=
+# aoR= time= timestep= none end
+end
+______________________________________________________________________
+######################################################################
+#                         loadings                                   #
+######################################################################
+# periodic conditions:
+# 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z
+0x0y0z
+______________________________________________________________________
+# loading conditions (Pa for stress):
+# epsxdot= epsydot= epszdot= sigxx= sigyy= sigzz= equal_stress= pressure=
+epsxdot=0.0000E+00
+epsydot=0.0000E+00
+epszdot=-0.5000E-07
+______________________________________________________________________
+# imposed disp. (i,m/s), rotation (i,0.), force (i,N/s) on part i:
+# deltax= deltay= deltaz= deltar= deltaFx= deltaFy= deltaFz=
+deltax=544,0.
+deltax=608,0.
+deltax=684,0.
+deltax=1032,0.
+deltax=1192,0.
+deltax=1334,0.
+deltax=1402,0.
+deltax=1639,0.
+deltax=2242,0.
+deltax=3594,0.
+deltax=3739,0.
+deltax=3815,0.
+deltax=3850,0.
+deltax=4120,0.
+deltax=4131,0.
+deltax=4685,0.
+deltax=4783,0.
+deltax=5081,0.
+deltax=5338,0.
+deltax=5464,0.
+deltax=5730,0.
+deltax=5769,0.
+deltax=6328,0.
+deltax=6509,0.
+deltax=6833,0.
+deltax=7172,0.
+deltax=7215,0.
+deltax=7290,0.
+deltax=7690,0.
+deltax=8149,0.
+deltax=8507,0.
+deltax=8688,0.
+deltax=8958,0.
+deltax=9228,0.
+deltax=9499,0.
+deltax=9537,0.
+deltax=9549,0.
+deltax=9934,0.
+deltax=10445,0.
+deltax=11114,0.
+deltax=11247,0.
+deltax=11390,0.
+deltax=11492,0.
+deltax=11649,0.
+deltax=11736,0.
+deltax=11755,0.
+deltax=11896,0.
+deltax=12266,0.
+deltax=12430,0.
+deltax=12684,0.
+deltax=12874,0.
+deltax=13166,0.
+deltax=13511,0.
+deltax=13541,0.
+deltax=13673,0.
+deltax=13855,0.
+deltax=14589,0.
+deltax=14684,0.
+deltax=15453,0.
+deltax=15487,0.
+deltax=15532,0.
+deltax=16028,0.
+deltax=16099,0.
+deltax=86,0.
+deltax=110,0.
+deltax=168,0.
+deltax=1154,0.
+deltax=1250,0.
+deltax=1288,0.
+deltax=1308,0.
+deltax=1577,0.
+deltax=2868,0.
+deltax=2956,0.
+deltax=3020,0.
+deltax=3266,0.
+deltax=3421,0.
+deltax=3712,0.
+deltax=3996,0.
+deltax=4708,0.
+deltax=5100,0.
+deltax=5334,0.
+deltax=5714,0.
+deltax=6213,0.
+deltax=6664,0.
+deltax=6768,0.
+deltax=7083,0.
+deltax=7303,0.
+deltax=8742,0.
+deltax=9088,0.
+deltax=9333,0.
+deltax=9824,0.
+deltax=9930,0.
+deltax=9952,0.
+deltax=9983,0.
+deltax=10203,0.
+deltax=10317,0.
+deltax=11158,0.
+deltax=11464,0.
+deltax=11723,0.
+deltax=11848,0.
+deltax=11877,0.
+deltax=12359,0.
+deltax=12417,0.
+deltax=12546,0.
+deltax=12794,0.
+deltax=13128,0.
+deltax=13377,0.
+deltax=13547,0.
+deltax=13567,0.
+deltax=13648,0.
+deltax=13662,0.
+deltax=13892,0.
+deltax=14365,0.
+deltax=14490,0.
+deltax=14612,0.
+deltax=14710,0.
+deltax=15034,0.
+deltax=15291,0.
+deltax=15706,0.
+deltax=15805,0.
+deltax=15855,0.
+deltax=16122,0.
+deltax=16178,0.
+deltax=16361,0.
+deltax=16443,0.
+deltay=544,0.
+deltay=608,0.
+deltay=684,0.
+deltay=1032,0.
+deltay=1192,0.
+deltay=1334,0.
+deltay=1402,0.
+deltay=1639,0.
+deltay=2242,0.
+deltay=3594,0.
+deltay=3739,0.
+deltay=3815,0.
+deltay=3850,0.
+deltay=4120,0.
+deltay=4131,0.
+deltay=4685,0.
+deltay=4783,0.
+deltay=5081,0.
+deltay=5338,0.
+deltay=5464,0.
+deltay=5730,0.
+deltay=5769,0.
+deltay=6328,0.
+deltay=6509,0.
+deltay=6833,0.
+deltay=7172,0.
+deltay=7215,0.
+deltay=7290,0.
+deltay=7690,0.
+deltay=8149,0.
+deltay=8507,0.
+deltay=8688,0.
+deltay=8958,0.
+deltay=9228,0.
+deltay=9499,0.
+deltay=9537,0.
+deltay=9549,0.
+deltay=9934,0.
+deltay=10445,0.
+deltay=11114,0.
+deltay=11247,0.
+deltay=11390,0.
+deltay=11492,0.
+deltay=11649,0.
+deltay=11736,0.
+deltay=11755,0.
+deltay=11896,0.
+deltay=12266,0.
+deltay=12430,0.
+deltay=12684,0.
+deltay=12874,0.
+deltay=13166,0.
+deltay=13511,0.
+deltay=13541,0.
+deltay=13673,0.
+deltay=13855,0.
+deltay=14589,0.
+deltay=14684,0.
+deltay=15453,0.
+deltay=15487,0.
+deltay=15532,0.
+deltay=16028,0.
+deltay=16099,0.
+deltay=86,0.
+deltay=110,0.
+deltay=168,0.
+deltay=1154,0.
+deltay=1250,0.
+deltay=1288,0.
+deltay=1308,0.
+deltay=1577,0.
+deltay=2868,0.
+deltay=2956,0.
+deltay=3020,0.
+deltay=3266,0.
+deltay=3421,0.
+deltay=3712,0.
+deltay=3996,0.
+deltay=4708,0.
+deltay=5100,0.
+deltay=5334,0.
+deltay=5714,0.
+deltay=6213,0.
+deltay=6664,0.
+deltay=6768,0.
+deltay=7083,0.
+deltay=7303,0.
+deltay=8742,0.
+deltay=9088,0.
+deltay=9333,0.
+deltay=9824,0.
+deltay=9930,0.
+deltay=9952,0.
+deltay=9983,0.
+deltay=10203,0.
+deltay=10317,0.
+deltay=11158,0.
+deltay=11464,0.
+deltay=11723,0.
+deltay=11848,0.
+deltay=11877,0.
+deltay=12359,0.
+deltay=12417,0.
+deltay=12546,0.
+deltay=12794,0.
+deltay=13128,0.
+deltay=13377,0.
+deltay=13547,0.
+deltay=13567,0.
+deltay=13648,0.
+deltay=13662,0.
+deltay=13892,0.
+deltay=14365,0.
+deltay=14490,0.
+deltay=14612,0.
+deltay=14710,0.
+deltay=15034,0.
+deltay=15291,0.
+deltay=15706,0.
+deltay=15805,0.
+deltay=15855,0.
+deltay=16122,0.
+deltay=16178,0.
+deltay=16361,0.
+deltay=16443,0.
+______________________________________________________________________
+######################################################################
+#                         materials (from 0,1,2, ... to 9)           #
+######################################################################
+# bond stiffnesses (tension and shear) (Pa):
+# K_N(1)= K_N(2)= K_T(1)= K_T(2)=
+K_N(1)=0.25E+11
+K_T(1)=0.2E+11
+K_N(0)=0.25E+12
+K_T(0)=0.2E+12
+______________________________________________________________________
+# plastic parameters (Pa for stress):
+# sigy(0)= sigy(1)= sigy(2)= Mstrain= Nvisco=
+sigy(0)=0.8000E+33
+sigy(1)=0.8000E+33
+Mstrain=0.0000E+00
+Nvisco=0.0000E+00
+______________________________________________________________________
+# friction parameters:
+# frict(0,0)= frict(0,1)= frict(1,1)= frict(1,2)= frict(2,2)= 
+frict(1,1)=0.5000E+00
+______________________________________________________________________
+# work of adhesion parameters (J.m-2):
+# adhes(0,0)= adhes(0,1)= adhes(1,1)= adhes(1,2)= adhes(2,2)= 
+adhes(1,1)=0.
+______________________________________________________________________
+# bond strength in tension (Pa):
+# sig_N(0,0)= sig_N(0,1)= sig_N(1,1)= sig_N(1,2)= sig_N(2,2)= 
+sig_N(1,1)=0.4000E+33
+sig_N(0,1)=0.4000E+33
+______________________________________________________________________
+# bond strength in shear (Pa):
+# sig_T(0,0)= sig_T(0,1)= sig_T(1,1)= sig_T(1,2)= sig_T(2,2)= 
+sig_T(1,1)=0.4000E+33
+sig_T(0,1)=0.4000E+33
+______________________________________________________________________
+# density (g.mm-3):
+# ro(0)= ro(1)= ro(2)=
+ro(1)=0.8706E-02
+______________________________________________________________________
+######################################################################
+#                           numerics                                 #
+######################################################################
+# affine motion conditions:
+# 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z
+1x1y1z
+______________________________________________________________________
+# control of strain-rates for quasi-static conditions:
+# none aoamean= break= epsilon= ferror= kin_energy= vmax= ctrl_fact=
+kin_energy=1.E-08
+ctrl_fact=100.
+______________________________________________________________________
+# numerical parameters:
+# safe_dt= upscale(1)= upscale(2)= damping= fixed_dt= random_seed=
+# potential_contact=
+safe_dt=0.100E+00
+upscale(1)=0.1000E+01
+damping=0.5000E-01
+______________________________________________________________________

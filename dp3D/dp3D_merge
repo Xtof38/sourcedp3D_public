@@ -1,0 +1,137 @@
+#!/bin/bash
+! $Id: dp3D_merge,v 2.0 2018/06/19 12:31:51 chris Exp $
+
+###########################################################################
+# This is a script to merge two samples into one using dp3D_translate
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr   
+# first created September 2008
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+
+script_write=`echo -e "$3" | grep "_write"`
+script_read=`echo -e "$3" | grep "_read"`
+
+# asking for the normal axis of the common plane
+axis="none"
+question="Normal axis of the common plane between the two packings (x,y,z)"
+if [ "$script_read" != "" ];then
+  axis=`awk 'NR==6{print $0}' script_dp3D`
+  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D > script_dp3D.tmp1
+  awk 'BEGIN{i=0} /===/{i++} i>=2{print $0}' script_dp3D > script_dp3D.tmp2
+  mv script_dp3D.tmp2 script_dp3D
+else
+  while [ "$axis" != "x" -a "$axis" != "y" -a "$axis" != "z" ];do
+    echo "Type the normal of the common plane between the two packings (x,y,z)"
+    read axis
+    if [ "$script_write" != "" ];then
+      echo "$question" >> script_dp3D
+      echo "$axis" >> script_dp3D
+      echo "" >> script_dp3D
+    fi
+  done
+fi
+case $axis in
+x )
+ let "naxis = 1"
+ ;;
+y )
+ let "naxis = 2"
+ ;;
+z )
+ let "naxis = 3"
+ ;;
+esac
+
+# this is to avoid rm of a potentially existing $1_trans
+cp $1 tmp_$1
+cp $2 tmp_$2
+
+# packing 1 is translate toward minus
+# packing 2 is translate toward plus
+echo "Using  cdp3D -trans_m$naxis"
+
+if [ "$script_write" != "" ]; then
+  cdp3D -trans_m_write tmp_$1 $naxis
+elif [ "$script_read" != "" ]; then
+  cdp3D -trans_m_read tmp_$1 $naxis
+  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D >> script_dp3D.tmp1
+  awk 'BEGIN{i=0} /===/{i++} i>=2{print $0}' script_dp3D > script_dp3D.tmp2
+  mv script_dp3D.tmp2 script_dp3D
+else
+  cdp3D -trans_m tmp_$1 $naxis
+fi
+# if the two files to merge have the same name, need to mv the translated files:
+mv tmp_$1_trans tmp_$1_trans_m 
+
+echo "Using  cdp3D -trans_p$naxis"
+if [ "$script_write" != "" ]; then
+  cdp3D -trans_p_write tmp_$2 $naxis
+elif [ "$script_read" != "" ]; then
+  cdp3D -trans_p_read tmp_$2 $naxis
+  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D >> script_dp3D.tmp1
+  awk 'BEGIN{i=0} /===/{i++} i>=2{print $0}' script_dp3D > script_dp3D.tmp2
+  mv script_dp3D.tmp2 script_dp3D
+else
+  cdp3D -trans_p tmp_$2 $naxis
+fi
+mv tmp_$2_trans tmp_$2_trans_p 
+rm -f tmp_$1 tmp_$2
+
+# now the merging using trs_obj
+# writing the list.tmp file
+echo "2 -merge 0.0D0  0.0D0" > list.tmp
+echo "'tmp_$1_trans_m','tmp_$1_trans_m'" >> list.tmp
+echo "'tmp_$2_trans_p','tmp_$2_trans_p'" >> list.tmp
+
+echo "going for trs_oj"
+trs_obj
+
+# info on merged packing:
+
+mpow1=`sed -n '1p' tmp_$1_trans_m | awk '{ print $2 }'`  
+mpow2=`sed -n '1p' tmp_$2_trans_p | awk '{ print $2 }'`  
+bonds_total=`sed '4q;d' list.tmp | awk '{ print $6 }'`
+bond_type=`grep "(i,j):" tmp_$1_trans_m | awk '{ print $5 }'`
+
+# starting to build the $1_$2 file:
+sed '4,6!d'  list.tmp > $1_$2
+
+
+let "line1 = $mpow1 + 3"
+let "line2 = $mpow2 + 3"
+#list.tmp contains now the information needed for the merging
+    
+sed '4,'$line1'!d'  tmp_$1_trans_m >> $1_$2
+sed '4,'$line2'!d'  tmp_$2_trans_p >> $1_$2
+echo "  list of objects:"  >>  $1_$2
+echo "  bonded contacts (i,j):           $bonds_total $bond_type"  >>  $1_$2
+# writing bonds if any:
+if [ "$bonds_total" != "0" ]; then
+  sed '1,6d' list.tmp >> $1_$2
+fi
+# now asking for the boundary conditions to set up when objects are used:
+
+echo "going for cdp3D -bc"
+
+if [ "$script_write" != "" ]; then
+  cdp3D -bc_write $1_$2 "none"
+elif [ "$script_read" != "" ]; then
+  cdp3D -bc_read $1_$2
+  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D >> script_dp3D.tmp1
+  mv script_dp3D.tmp1 script_dp3D
+else
+  cdp3D -bc $1_$2
+fi
+rm -f $1_$2 tmp_$1_trans_m tmp_$2_trans_p list.tmp
+# to return to the proper prompt
+
+ exit
+ 
+
+ 
+
+

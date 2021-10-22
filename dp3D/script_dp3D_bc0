@@ -1,0 +1,16 @@
+=======================================================
+script_dp3D created on 05/31/16 with option: -bc
+-------------------------------------------------------
+ 
+ Boundary conditions
+ 0         
+ 
+ distance d between the particles and the plane on x direction
+  0.000000000000000E+000
+ 
+ distance d between the particles and the plane on y direction
+  0.000000000000000E+000
+ 
+ distance d between the particles and the plane on z direction
+  0.000000000000000E+000
+ 

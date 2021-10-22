@@ -1,0 +1,64 @@
+######################################################################
+#                    general conditions                              #
+######################################################################
+# coordinate file:
+file_init
+______________________________________________________________________
+# packing density to reach:
+# packing_density= relative_overlap=
+packing_density=0.28
+______________________________________________________________________
+# boundary conditions:
+# 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z cyl_x cyl_y
+# cyl_z
+0x0y0z
+______________________________________________________________________
+# simulation box size ratios:
+# x= y= z=
+x=1.00
+y=1.00
+z=3.00
+______________________________________________________________________
+######################################################################
+#                    entities to pack                                #
+######################################################################
+# type:
+# particle bonded_aggregate adhesive_aggregate initial_file=
+bonded_aggregate
+______________________________________________________________________
+# size distribution:
+# plus_minus normal lognormal
+plus_minus
+______________________________________________________________________
+######################################################################
+#                    classes                                         #
+######################################################################
+# prop. of class (particle and aggregate sizes in µm) 1:
+# number= mat= name= particle_size= deviation= motif=
+# aggregate_size= bond_size=
+# spherical rectangular whole_motif
+# size_x= size_y= size_z= max_angle=
+number=10
+particle_size=1.0
+name=bi
+whole_motif
+motif=U
+______________________________________________________________________
+# prop. of class (particle and aggregate sizes in µm) 2:
+# number= mat= name= particle_size= deviation= motif=
+# aggregate_size= bond_size=
+# spherical rectangular whole_motif
+# size_x= size_y= size_z= max_angle=
+number=10
+particle_size=1.0
+name=al
+whole_motif
+motif=bar
+______________________________________________________________________
+######################################################################
+#                            numerics                                #
+######################################################################
+# random seed:
+# random_seed=
+random_seed=10
+______________________________________________________________________

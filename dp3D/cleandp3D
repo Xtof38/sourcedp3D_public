@@ -1,0 +1,99 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to clean dp3D generated files
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr   April 2008
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+
+checkdp3D()
+{
+ samedir=$($BINARY_std/mydp3D | grep -w "$where" | grep -x -c "$where")
+ if [ "$samedir" != "0"  ];then
+   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   echo "!   A dp3D program is already running in directory        !"
+   echo "!   $where"
+   echo "!   It is not wise to run cleandp3D in this directory     !"
+   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   $BINARY_std/mydp3D  
+   exit
+ fi
+}
+where=$(pwd)
+
+checkdp3D
+
+listfile="log object zave contact rupt cstatus ivdp3D warnings film _coord[0-9][0-9][0-9][0-9] \
+ plot_tstress plot_zave plot_spy plot_tag plot_object plot_probe \
+ plot_rupt plot_histots[0-9][0-9][0-9][0-9] tstress fract_bonds \
+_histoclust[0-9][0-9][0-9][0-9] \
+_tag[0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9][0-9] \
+visco_tag[0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9][0-9] \
+_spy[0-9][0-9][0-9][0-9][0-9][0-9][0-9] \
+visco_spy[0-9][0-9][0-9][0-9][0-9][0-9][0-9] \
+_histo[0-9][0-9][0-9][0-9] _PDF_Nm[0-9][0-9][0-9][0-9]  \
+_[0-9][0-9][0-9][0-9]_histc unl_rel fract_bonds_crack \
+_[0-9][0-9][0-9][0-9]_clumps
+_coord[0-9][0-9][0-9][0-9].xyz
+_coord[0-9][0-9][0-9][0-9].gif 
+cyl_ld_[0-9][0-9][0-9][0-9]"
+
+
+case $1 in
+-f )
+  rm -f $listfile
+;;
+-df | -d )
+  loc_dirs=$(find $(pwd) -type d)
+
+  for where in $loc_dirs;do
+    checkdp3D
+  done
+  answer='n'
+  echo "Will remove all dp3D result files in the following directories:"
+  echo "$loc_dirs"
+  if [ "$1" = "-df" ];then
+    answer="y"
+  else
+    echo " remove these files ?"
+    read answer
+  fi
+  if [ "$answer" = "y" ];then
+    for file in $listfile;do
+      listfich=$(find . -name $file)
+      for fich in $listfich;do
+        rm -f $fich
+      done
+    done
+  fi
+;;
+* ) 
+  for file in $listfile;do
+    if [ -f "$file" ];then     
+      echo "=$file" >> tmp1
+    fi
+  done
+
+  until [ "$answer" = "y" -o "$answer" = "n" ];do
+    echo ""
+    echo "***************************************************************"
+    if [ -f tmp1 ];then     
+      sed -e :a -e '$!N;s/\n=/   /;ta' -e 'P;D' tmp1 > tmp2
+      sed 's/=//' tmp2 > tmp1        # replaces only 1st instance in a line
+      cat tmp1
+      echo "***************************************************************"
+      echo " Remove these files: ?"
+      read answer
+    else
+      echo "No file to delete from dp3D prior simulation"
+      echo "***************************************************************"
+      answer="n"
+    fi
+  done
+  rm -f tmp1 tmp2
+  if [ "$answer" = "y" ];then
+    rm -f $listfile
+  fi
+esac

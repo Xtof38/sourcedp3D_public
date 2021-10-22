@@ -1,0 +1,53 @@
+#decomment  lines to print into a  file:
+#and rerun gnuplot, inserting these lines in between
+#plot and replot for multiple curves graph
+
+#set terminal postscript eps  color  
+# or for larger fonts:
+#set terminal postscript eps  color "Arial" 24 
+#set output "your_file.eps"  
+
+# for the option anim, decomment:
+#set terminal gif animate
+#set output "animate.gif"
+
+# ready to handle colors yourself:
+set style line 1 lt rgb "red" lw 2
+set style line 2 lt rgb "blue" lw 2
+set style line 3 lt rgb "orange" lw 2
+set style line 4 lt rgb "violet" lw 2
+set style line 5 lt rgb "green" lw 2
+set style line 6 lt rgb "black" lw 2
+set style line 7 lt rgb "cyan" lw 2
+
+# to have _ wriiten correctly in late versions of gnuplot:
+set key noenhanced
+set title noenhanced
+pi=3.1416
+mic2m=1.E-06
+mm2m=1.E-03
+KN=3.1416E+09
+R=10.*mic2m
+npart20=20
+LmR20=2*(npart20-1)*R
+
+E=2.*KN/pi
+I=pi/4.*(R**4)
+### to be modified accordingly with input_dp3D value
+deltaFz=1.25E-09
+
+dt=0.1
+Large_def(x)=5.23620E-04*x**4 - 1.09553E-02*x**3 + 9.16196E-02*x**2 - 3.94080E-01*x + 1.51955E-02
+#set size square
+set grid
+set xrange [0:7.]
+#set yrange 
+set grid
+set title 
+set xlabel "F(L-r)^2/(EI)"
+set ylabel "z/(L-r)"
+plot "_spy0000020" u ((deltaFz*$5*dt*LmR20**2)/(E*I)):(-$8*mic2m/LmR20) title "dp3D fiber 20 particles" w l lw 2 
+replot "_spy0000020"  u (((deltaFz*$5*dt)*LmR20**2)/(E*I)):(((-deltaFz*$5*dt)*(LmR20)**2/(3*E*I))) title "small deformation beam theory" w l lw 2 
+replot Large_def(x) title "large deformation beam theory" w l lw 2 
+
+ 

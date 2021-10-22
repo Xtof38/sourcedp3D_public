@@ -1,0 +1,79 @@
+#!/bin/bash
+! $Id: mydp3D,v 2.5 2020/02/11 13:14:25 chris Exp $
+
+###########################################################################
+# This is a script to get info on a dp3D proc 
+###########################################################################
+
+# Christophe.martin@inpg.fr    April 2007
+#    if [ "$1" = "" ];then
+      theuser=`whoami`
+      system=`hostname`
+      echo "For user $theuser :"
+      if [ "$system" = "master0.alineos.net" ];then
+        echo "Looking only for qsub jobs"
+	list_jobs=`qstat | grep $theuser | awk '{print $1}'`
+	numjobs=`echo $list_jobs | awk '{print NF}'`
+	for job in $list_jobs
+	do
+	  prop=`pbsnodes -a | grep --color -B 5 $job | grep properties | awk '{print $3}'`
+	  node=`pbsnodes -a | grep  -B 5 $job | grep -v status | grep node[0-9].* | awk '{print $1}'`
+	  status=`qstat  $job | grep $job | awk '{print $5}'`
+	  dir=`qstat -x $job | grep init_work_dir | grep -oP '(?<=init_work_dir>).*(?=</init_work_dir)'`
+	  echo ""
+	  case $status in
+	    R )
+	    echo "job $job is running on node $node of type: $prop"
+	    ;;
+	    Q )
+	    echo "job $job is on queue on node $node of type: $prop"
+	    ;;
+	    * )
+	    echo "job $job has status $status on node $node of type: $prop"	    
+	  esac
+	  echo "in directory:"
+	  echo "$dir"
+	  echo ""
+	done
+        if  [ $numjobs = "0" ];then
+          echo "no dp3D process found with qsub"
+        fi
+	
+      else
+        ps -ef | grep "$theuser" > tmp2
+        grep "dp3D" tmp2   > tmp1
+# mydp3D is not interesting
+        sed '/mydp3D/d' tmp1 > tmp2
+        sed '/00:00:00/d' tmp2 > tmp1
+        sed '/\/bin\/sh/d' tmp1 > tmp2
+# we rm zombie processes
+        sed '/defunct/d' tmp2 > tmp1
+#the second field 
+        awk '{ print $2 }' tmp1 > tmp2
+        numlines=`grep -c .  < tmp2`
+        numproc="0"
+        until [ "$numlines" = "0" ]
+        do
+         let "numlines-=1"
+# get the first line of tmp2         
+         pidn=`sed -n ''1'p' tmp2`
+         sed '1,1d' tmp2 > tmp1
+         mv -f tmp1 tmp2
+         ls -ald  /proc/$pidn/exe* > tmp1
+
+         whatdp3D=`grep  dp3D tmp1 | awk '{ print $NF }' | sed '/rasmol/d'`
+# print section of file from regular expression to end of file
+#         whatdp3D=`echo "$whatdp3D"  | sed -n '/\/dp3D/,$p'`
+         if [ "$whatdp3D" != "" ];then
+           echo ""
+           echo "$whatdp3D  with PID $pidn  is running in directory :"
+           ls -al  /proc/$pidn/cwd* | awk '{ print $NF }' 
+           echo ""
+           numproc="1"
+         fi
+        done
+        if  [ $numproc -ne 1 ];then
+          echo "no dp3D process found"
+        fi
+      fi
+rm -f tmp1 tmp2

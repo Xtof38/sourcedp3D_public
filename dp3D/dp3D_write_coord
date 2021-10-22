@@ -1,0 +1,52 @@
+#!/bin/bash
+# this is a shell that sends a signal to a dp3D running program
+# kill -s 30, 10 or 16 can be used
+
+mydp3D > tmp_mydp3D
+# if (deleted) is written in tmp_mydp3D, erase it:
+sed -i 's/(deleted)//' tmp_mydp3D
+where=$(pwd)
+grep -wx "$where" tmp_mydp3D > tmp1
+samedir=$(grep -x -c "$where"  tmp1)
+list_of_dp3D_prg_not_to_signal="dp3D/dp3Dgas"
+echo $list_of_dp3D_prg_not_to_signal > tmp1
+
+
+if [ "$samedir" != "0"  ];then
+# grep -x : matches only the whole line
+# grep -B n print the matching line and the n lines before
+  prog=$(grep -x -B 1 "$where" tmp_mydp3D | head -1 | awk '//{ print $1}')
+  not_to_signal=$(grep -c $prog tmp1) 
+  PID=$(grep -x -B 1 "$where" tmp_mydp3D | head -1 | awk '//{ print $4}')
+  if [ $not_to_signal = "0" ];then
+   case $1 in
+   -write_coord )
+      echo " I will signal dp3D program $prog with PID $PID to write a coord file"
+      kill -s 30  $PID
+   ;;
+   -write_log )
+      echo " I will signal dp3D program $prog with PID $PID to write a log file"
+      kill -s 10  $PID
+   ;;
+   -clean_stop )
+      echo " I will signal dp3D program $prog with PID $PID to stop cleanly (log, coord, ... written)"
+      kill -s 10  $PID
+      sleep 10
+      kill -s 2  $PID
+   ;;
+   * )
+      echo "$1 is not a valid option. Valid options are: "
+      echo "dp3D -write_coord"
+      echo "dp3D -write_log"
+      echo "dp3D -clean_stop"
+      echo "I will ignore your request"
+   esac
+  else
+    echo " I cannot signal program $prog with PID $PID to write a coord file"
+  fi
+else
+    echo " No dp3D program running in the directory:"
+    echo  " $where"
+fi
+
+rm -f tmp_mydp3D tmp1

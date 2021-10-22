@@ -1,0 +1,13 @@
+#!/bin/sh
+# a small shell to obtain the crack size between two particles named ac
+
+
+if [ "$1" = "" ];then
+  echo "$0 usage:"
+  echo "$0 filename"
+  exit
+fi
+grep ac $1 > temp
+cracksize=$(awk 'NR==1{y1=$3};NR==2{y2=$3};END {crack=1000*(y1-y2);print crack}' temp)
+echo "$cracksize microns"
+rm -f temp

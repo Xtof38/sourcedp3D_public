@@ -1,0 +1,52 @@
+#!/bin/sh
+
+###########################################################################
+# This is a script to display colums of the log files in the current 
+# directory with strain rates
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    November 2006
+
+file2display=log
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
+
+# need a $file2display file in the current directory
+if [ -f $file2display ];then     
+  echo "Strain rates are shown positive in compression !"
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file $file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi   
+
+
+#grep 'dens= ' log > tmp1
+awk '/dens= / {print $2} /nrev,strnx/  {print $4}' log > tmp1
+# only works with negative strain rate
+# If a line begins with an - sign, append it to the
+# previous line (and replace the "-" with a single space).
+
+sed -e :a -e '$!N;s/\n-/ /;ta' -e 'P;D' tmp1 > dens_strnx 
+#reducing the number of points
+
+sed -n '3,100p' dens_strnx > dens_strnx_short
+
+sed -n '101,${p;n;n;n;n;n;n;n;n;n;}' dens_strnx >> dens_strnx_short
+grep "0\....... ." dens_strnx_short > dens_strnx_short0
+mv -f dens_strnx_short0  dens_strnx_short
+
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f /usr/local/dp3D/gnup_display plot_$file2display
+    echo "set log y" >> plot_$file2display
+    echo "set format y '"%.2E"'" >> plot_$file2display
+    echo "set xlabel \"Packing fraction\"" >> plot_$file2display
+    echo "set ylabel \"1/strnx\"" >> plot_$file2display
+    echo "plot \"dens_strnx_short\" u (\$1):(\$2) title \"strnx\" w l" >> plot_$file2display
+
+# this is the end of the y label list, no more to plot
+        rm -f tmp1 
+
+#rm -f tmp1 tmp2 tmp3
+gnuplot -geometry 500x500 -persist plot_$file2display   

@@ -1,0 +1,10 @@
+HCP8000 : HCP struture (12 contacts)
+
+random_mn_6contacts : random structure, 6 contacts on average monomodal (onesize)
+
+random_bm_6contacts : random structure, 6 contacts on average, slightly bimodal
+
+p40000p625aoRp67: random structure, monomodal, already 'sintered' a/R=0.67, use aoR very small to
+keep the same contact size
+
+p4000p6387: random structure (RCP), monomodal, a/R=0.01  

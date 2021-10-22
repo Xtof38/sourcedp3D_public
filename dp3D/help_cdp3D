@@ -1,0 +1,135 @@
+       *********************************************************** 
+       *   cdp3D usage: cdp3D -option  file                      *
+       *   where file is a dp3D coordinate file to be modified   *
+       ***********************************************************
+
+	
+cdp3D -bc file
+Modifies boundary conditions
+
+cdp3D -bonds file 
+Creates bonds between particles and/or between bonds and objetcs
+
+cdp3D -class file
+Creates a file with distribution size of clusters
+   
+cdp3D -clumps file 
+Creates a _clumps file for further use of clumps
+
+cdp3D -conduct file
+Computes particle potentials and effective conductivity
+
+cdp3D -contact file 
+Translates individual objects to tangent or contact nearest particle
+
+cdp3D -cubic file 
+Creates a file with a cubic arrangement of particles
+
+cdp3D -cut_rect file 
+Modifies the simulation box coordinates.
+Particles that are outside the new rectangular box limits are removed	
+
+cdp3D -cut_cylxxx file 
+Modifies the simulation box coordinates.
+Particles that are outside the z axis cylinder limits are removed	
+radius cylinder is xxx times mean particle diameter where xxx is a real	
+
+cdp3D -disp_field file  nnn mmm 
+Displays displacement field on a 2D section from particles nnn mmm	
+
+cdp3D -export(_nxyz or _nxyzR) file 
+Exports a dp3D coordinate file into a file with n x y z or n x y z R format
+
+cdp3D -free_surface file
+Draw the average top free surface (normal z) of file
+
+cdp3D -gas 
+Generates a gas of particles or clusters or aggregates. Needs an input_gas file.
+
+cdp3D -import(_xyz or  _Geodict) file 
+Imports a file from various formats to generate a dp3D format output file
+
+cdp3D -image file 
+Imports a raw image to generate a dp3D packing cut from file
+
+cdp3D -(full_)info file 
+Gives geometric information on the packing
+
+cdp3D -library  
+Sorts coordinate packings of the current dir (+recursive) into dp3D_library
+
+cdp3D -long_axis  
+Computes the orientations of long axis of clusters
+
+cdp3D -merge file1 file2 
+Merging two packings into one 	
+
+cdp3D -mixture file 
+Generating a mixture of particles, sub options include clusters, gradient and stripes
+
+cdp3D -Nnetwork file  nnn mmm 
+Displays the normal force network on a 2D section from particles nnn mmm	
+
+cdp3D -noisolated file 
+Enlarges isolated particles to form one contact	
+
+cdp3D -normal_axis  
+Computes the orientations of normal axis of clusters
+
+cdp3D -object file 
+Convert particles into spherical objects	
+
+cdp3D -part file nnn mmm 
+Gives geometric information on particles nnn mmm ...
+ 
+cdp3D -pick file
+Pick particles according to their number, coordinates, or inside a sphere or rectangular box
+
+cdp3D -probe_(x,y or z) file
+Information on packing density gradient along x,y or z axis
+
+cdp3D -probecyl_(x,y or z) file
+Information on packing density gradient along cylinder of axis x,y or z
+
+cdp3D -rdf file
+Computes the Radial Distribution Function of the packing  	
+
+cdp3D -renum file
+Reorder particles number to savec on cache calls for parallelization  	
+
+cdp3D -resize file 
+Resizes particles  	
+
+cdp3D -rm (or -keep) file 
+Removes (or keep) particles according to their name or number
+
+cdp3D -rmobj file 
+Removes all objects 
+
+cdp3D -rotate file 
+Rotates the packing 
+
+cdp3D -sinter file
+Artificially sinters a packing by simply enlarging the size of the particles
+
+cdp3D -size_cluster  
+Computes the sizes of clusters along the long axis
+
+cdp3D -surface file
+Pick particles that are surfacing a cluster
+
+cdp3D -spy file nnn mmm
+spy particles nnn mmm ... in file  
+
+cdp3D -tag file nnn mmm
+tag particles nnn mmm ... in file  
+
+cdp3D -trans file
+Translates the whole packing in x, y or z directions (with the objects, if any)  
+
+cdp3D -voronoi file
+Performs a radical Voronoi tesselation (voro++)
+
+cdp3D -voxel file
+Voxelizes the packing to create a raw file  
+

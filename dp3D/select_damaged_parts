@@ -1,0 +1,42 @@
+#!/bin/bash
+# a utility to select only particles that have some damage at bonds
+# works after ovdp3D -anim -fract_bonds
+
+if [ "$1" = "_coord0000" ];then
+  list_file=$(ls -1 _coord[0-9][0-9][0-9][0-9])
+else
+ list_file=$1
+fi
+
+echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
+
+for file in $list_file
+do
+  if [ ! -f "$file.xyz" ];then
+    echo "You need to run ovdp3D (-anim) -fract_bonds or ovdp3D (-anim) -fract_bonds_fine"
+    echo "before option -damage"
+    echo "No ovito rendering possible"
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    exit
+  fi
+#  max='0' 
+#  amax=$(awk '{if(max<$9){max=$9;line=$9}}END{print line}' $file)
+# the first 10 lines to keep the same box all along:
+  sed -n '1,10p' "$file.xyz" > 'damage_'"$file.xyz"
+# looking for non 0.000000000000E+00 at the last column and in the lines after 10:
+  sed '1,10d' "$file.xyz" | awk '{ if ($NF != 0.000000000000E+00) { print $0} }' >> 'damage_'"$file.xyz"
+  
+  nline0=$(wc -l "$file.xyz" | awk '{print $1}')
+  let "nline0 = nline0 - 2 "
+ 
+  nline1=$(wc -l  'damage_'"$file.xyz" | awk '{print $1}') 
+  let "nline1 = nline1 - 2 "
+  sed -i '1,1s/'"$nline0"'/'"$nline1"'/' 'damage_'"$file.xyz" 
+  let "nline1 = nline1 -8 "
+  echo "For file  "$file.xyz":"
+  echo "Total number of particles:       $nline0" 
+  echo "Number of particles with damage: $nline1"
+  echo "Generating file damage_"$file.xyz""
+  echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+done

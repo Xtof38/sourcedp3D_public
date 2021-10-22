@@ -1,0 +1,131 @@
+#!/bin/bash
+! $Id: ovdp3D,v 2.3 2021/02/11 16:06:13 chris Exp $
+
+###########################################################################
+# This is a script to display dp3D generated coord files
+# and to process them. It uses ovito
+# Ovito is a scientific visualization and analysis software for atomistic
+# simulation data developed by Alexander Stukowski
+# at Darmstadt University of Technology
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr   
+# first created January 2014
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+if [ "$1" = "" ];then
+  more $BINARY_std/help_ovdp3D
+  exit
+fi
+# opt without -:
+# _skip allows skipping altogether the trs_obj treatment when the xyz files already exists
+skip=`echo  $1  | grep -c _skip`
+optn=`echo $1 | sed 's/_skip//'`
+option_exit1=`echo  $1  | grep -c _exit1`
+option_exit2=`echo  $1  | grep -c _exit2`
+optn=`echo "$optn" | sed 's/-//g'`
+xyz=`echo  $1  | grep -c _xyz`
+damage="0"
+# to know if the user is on the physical console
+user=`whoami`
+physical_console=$(who | grep $user | head -1 | grep -c '(:0)')
+
+local=`echo $DISPLAY | grep -c localhost`
+
+if [ "$local" = "1" ];then
+  xyz="1"
+fi
+
+
+# these are the options that necessitate a TAGFILE to pick particles:
+TAGFILE_list="spy tag untag rm keep pick ref_sphere ref_rect crack notch probe Nnetwork disp_field c_axis sphere ellipsoid"
+TAG_file=`echo "$TAGFILE_list" | grep -wc "$optn"`
+
+num_opt=` echo "$optn" | egrep -o  "[0-9]{1,8}"`
+if [ "$num_opt" = "" ];then
+    let "num_opt = 0"
+fi
+
+anim=`echo  $1  | grep -c anim`
+
+# file to visualize:
+if [ "$anim" = "1" ];then
+  file2ovito="_coord0000"
+else
+  file2ovito=$2
+fi
+
+if [  "$file2ovito" = "" ];then
+  echo "Need a file name to process with option $1"
+  exit
+fi
+
+if [ "$skip" = "1" ];then
+  echo "Not launching ovito"
+else
+# calling the standard vdp3D with _ovito option
+  if [ "$optn" = "damage" -o $2 = "-damage" ];then
+    $BINARY_std/select_damaged_parts $file2ovito
+    damage="1"
+  else
+    $BINARY_std/vdp3D -"$optn"_ovito $2
+  fi
+fi
+
+if [ "$skip" = "1" ];then
+  echo "Skipping altogether the xyz file generation"
+fi
+if [  "$xyz" = "1" -a "$option_exit1" = "0" ];then
+  echo "Only generating $file2ovito.xyz file to use with ovito"
+  if [  "$option_exit1" = "0" -a "$option_exit2" = "0" ];then
+    rm -f *.tmp
+  fi
+  rm -f anim
+  rm -f tmp1
+  exit
+fi
+
+
+if [ ! -f $file2ovito.xyz -a "$option_exit1" = "0" -a "$damage" = "0" ];then
+  echo "An error has occured in the treatment of $file2ovito"
+  echo "No ovito rendering possible"
+  exit
+fi
+
+
+
+# rm the comment after the number of particles to make the file readable by 
+# ovito
+if [  "$physical_console" = "0" ];then
+  echo " $user uses remote console"
+else
+  if [  "$xyz" = "0" -a "$option_exit1" = "0" ];then
+  ovito $file2ovito.xyz
+  fi
+fi
+
+# these option need to write a tagpartnum.tmp and a tagpart.tmp file to beho "$ read by trs_tag_rm
+if [ "$TAG_file" != "0" ];then
+  grep " 0.3000000119 0.3000000119 1.*[0-9]" $file2ovito.xyz | awk '{ print "0 " $NF +7 }' > tagpart.tmp
+   
+  echo "'$file2ovito'" > tagpartnum.tmp
+  grep -c .  tagpart.tmp >> tagpartnum.tmp
+  echo "$1 $num_opt" >> tagpartnum.tmp
+#!!!!!!!!!!!!!!!!!!!!!!!!!
+  if [ "$option_exit2" != "0" ];then
+     echo "exiting; next executable : trs_tag_rm"
+     exit
+  else
+     trs_tag_rm
+     rm -f tagpartnum.tmp
+     rm -f tagpart.tmp
+  fi
+fi
+if [  "$option_exit1" = "0" -a "$option_exit2" = "0" ];then
+  rm -f *.tmp
+fi
+
+rm -f anim
+rm -f tmp1
+
+exit

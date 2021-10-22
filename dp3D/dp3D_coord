@@ -1,0 +1,11 @@
+#!/bin/bash
+! $Id: dp3D_coord,v 2.0 2018/06/19 12:31:51 chris Exp $
+
+###########################################################################
+# This is the old script to help transform _coord files
+
+# Christophe.martin@inpg.fr   
+# first created september 2006
+# last modified february 2009
+
+cdp3D $1 $2 $3 $4 $5 $6 $7 $8 $9

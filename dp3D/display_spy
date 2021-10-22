@@ -1,0 +1,395 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the _spy* files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    October 2006
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+file2display=spy
+
+Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16 $17 $18 $19"
+
+# need a $file2display file in the current directory
+
+numspyfile=`ls _$file2display* | grep -c "_$file2display"`
+
+if [ $numspyfile != "0" ];then 
+  name=`ls _$file2display* | head -1` 
+#It is better to look at the second line to avoid pb with blanks in the
+# first line
+  numcol=`sed '2q;d' $name | awk '{print NF }'`
+  let "numcol = numcol + 1"  
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file _$file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi   
+# the old format:
+echo "$1" > istimethere
+nistimethere=`grep -c 'time\_h\|time\_y'  istimethere`
+rm -f istimethere
+if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
+# if mixing  columns of $file2display and visco:
+# old format:
+  if [ -f visco  ];then 
+    case $1 in
+    -time_h )
+        Xcol="2"
+        ;;
+    -time_y )
+        Xcol="3"
+        ;;       
+    esac
+    file2look="visco"
+  else
+    file2look="tstress"
+    case $1 in
+    -dgeom )
+        Xcol="23"
+	file2look="zave"
+      ;;
+    -time_h )
+        Xcol="7"
+        ;;
+    -time_y )
+        Xcol="8"
+        ;;       
+    esac
+  fi
+  awk '{print $'$Xcol'}' $file2look > tmp1
+  fichlist=`ls _$file2display*`
+  
+  for fich in $fichlist
+  do
+#tmp1 is put at the end (the last column) of visco$fich
+    paste $fich tmp1 > visco$fich
+  done
+fi
+case $1 in
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($1)'
+      ;;
+  -dgeom )
+      Xlabel='"Geometric Relative Density "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -epsx )
+      Xlabel='"Strain (x)"'
+      Xcolumn='(-$2)'
+      ;; 
+  -epsy )
+      Xlabel='"Strain (y)"'
+      Xcolumn='(-$3)'
+      ;; 
+  -epsz )
+      Xlabel='"Strain (z)"'
+      Xcolumn='(-$4)'
+      ;; 
+  -timestep )
+      Xlabel='"Timestep "'
+      Xcolumn='($5)'
+      ;;
+  -time_s )
+      Xlabel='"Time (sec) "'
+      Xcolumn='($32)'
+      ;;
+  -time_h )
+      Xlabel='"Time (hour) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_y )
+      Xlabel='"Time (year) "'
+      Xcolumn='($'$numcol')'
+      ;;        * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are " 
+       echo " -dens -dgeom             density / geometric density" 
+       echo " -time_s -time_h -time_y  time in sec, hour or year"       
+       echo " -epsx -epsy or -epsz     x y and z strain"
+       exit 
+esac
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY_std"gnup_display plot_$file2display
+echo "set grid" >> plot_$file2display
+echo "set title $Title" >> plot_$file2display
+echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+# default value:    
+    let "xlog=0"
+    let "ylog=0"
+
+    for option in $Option_l
+    do
+
+      case $option in
+      -x )
+        Title='"x coordinate (µm)"'
+        Ylabel='"coordinate (µm)"'
+        Ycolumn='($6)'
+       ;;
+      -y )
+        Title='"y coordinate (µm)"'
+        Ylabel='"coordinate (µm)"'
+        Ycolumn='($7)'
+       ;;
+      -z )
+        Title='"z coordinate (µm)"'
+        Ylabel='"coordinate (µm)"'
+        Ycolumn='($8)'
+       ;;
+      -ux )
+        Title='"x velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($9)'
+       ;;
+      -uy )
+        Title='"y velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($10)'
+       ;;
+      -uz )
+        Title='"z velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($11)'
+       ;;
+      -epsxdot )
+        Title='"Strain rate x (s-1)"'
+        Ylabel='"Strain rate (s-1)"'
+        Ycolumn='(-$9\/$6)'
+       ;;
+      -epsydot )
+        Title='"Strain rate y (s-1)"'
+        Ylabel='"Strain rate (s-1)"'
+        Ycolumn='(-$10\/$7)'
+       ;;
+      -epszdot )
+        Title='"Strain rate z (s-1)"'
+        Ylabel='"Strain rate (s-1)"'
+        Ycolumn='(-$11\/$8)'
+       ;;
+      -epsvdot )
+        Title='"Volumic Strain rate z (s-1)"'
+        Ylabel='"Strain rate (s-1)"'
+        Ycolumn='(-($9\/$6+$10\/$7+$11\/$8))'
+       ;;
+      -u )
+        Title='"velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($12)'
+       ;;
+      -uinterx )
+        Title='"x rearrangement velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($13)'
+       ;;
+      -uintery )
+        Title='"y rearrangement velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($14)'
+       ;;
+      -uinterz )
+        Title='"z rearrangement velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($15)'
+       ;;
+      -uinter )
+        Title='"rearrangement velocity (µm.s-1)"'
+        Ylabel='"velocity (µm.s-1)"'
+        Ycolumn='($16)'
+       ;;
+      -accx )
+        Title='"x acceleration (µm.s-2)"'
+        Ylabel='"acceleration (µm.s-2)"'
+        Ycolumn='($17)'
+       ;;
+      -accy )
+        Title='"y acceleration (µm.s-2)"'
+        Ylabel='"acceleration (µm.s-2)"'
+        Ycolumn='($18)'
+       ;;
+      -accz )
+        Title='"z acceleration (µm.s-2)"'
+        Ylabel='"acceleration (µm.s-2)"'
+        Ycolumn='($19)'
+       ;;
+      -acc )
+        Title='"acceleration (µm.s-2)"'
+        Ylabel='"acceleration (µm.s-2)"'
+        Ycolumn='($20)'
+       ;;
+      -forcex )
+        Title='"x force (N)"'
+        Ylabel='"force (N)"'
+        Ycolumn='($21)'
+       ;;
+      -forcey )
+        Title='"y force (N)"'
+        Ylabel='"force (N)"'
+        Ycolumn='($22)'
+       ;;
+      -forcez )
+        Title='"z force (N)"'
+        Ylabel='"force (N)"'
+        Ycolumn='($23)'
+       ;;
+      -force )
+        Title='"force (N)"'
+        Ylabel='"force (N)"'
+        Ycolumn='($24)'
+       ;;
+      -n_force )
+        Title='"force normalized by the maximum contact force"'
+        Ylabel='"f/N_contact"'
+        Ycolumn='($25)'
+       ;;
+      -Mc_force )
+        Title='"Maximum contact force"'
+        Ylabel='"force (N)"'
+        Ycolumn='($26)'
+       ;;
+      -nco )
+        Title='"Coordination number"'
+        Ylabel='"Coordination number"'
+        Ycolumn='($27)'
+       ;;
+      -rp )
+        Title='"Particle radius (micron)"'
+        Ylabel='"Particle radius (micron)"'
+        Ycolumn='($28)'
+       ;;
+      -theta )
+        Title='"Particle rotation (rad)"'
+        Ylabel='"Particle rotation (rad)"'
+        Ycolumn='($29)'
+       ;;
+      -Temp )
+        Title='"Particle tempearature (°C)"'
+        Ylabel='"Particle tempearature (°C)"'
+        Ycolumn='($30)'
+       ;;
+      -dens_Voronoi )
+        Title='"Particle Voronoi packing density"'
+        Ylabel='"Particle Voronoi packing density"'
+        Ycolumn='($31)'
+       ;;
+    xrange* )
+      echo $option > tmp1 
+      sed 's/xrange/set xrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      xrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    yrange* )
+      echo $option > tmp1 
+      sed 's/yrange/set yrange /' tmp1 > tmp2
+      sed 's/\//\[/' tmp2 > tmp1
+      yrange=`sed 's/\//\]/' tmp1`
+      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
+      mv tmp1 plot_$file2display
+      plot="no"
+      ;;
+    anim )
+      export file2display Xcolumn Ycolumn
+      $BINARY_std/animate_my_gif 
+      plot="no"
+      ;;
+     * )
+      if [ "$option" = "$end_option" -a "$i" -gt 0 ] || [ "$#" -gt 2 -a "$option" = "-keep" ];then
+# this is the end of the y label list, no more to plot
+        gnuplot -geometry 560x400 -persist plot_$file2display   
+        rm -f tmp1 tmp2 tmp3 
+        if [ $nistimethere != "0" -a $option != "-keep" ];then
+          rm  -f visco_$file2display*
+        fi
+	exit  
+      else
+       if [ "$option" = "$end_option" ];then
+         echo "need a y label"
+       else 
+         if [ "$#" -gt 2 ];then
+           echo "$option is not a valid y label"
+         fi
+       fi     
+         echo "valid y labels are:"  
+         echo "-x       -y       -z    -rp           coordinates, radius "
+         echo "-ux      -uy      -uz        -u       velocity "
+         echo "-uinterx -uintery -uinterz   -uinter  rearrangement velocity "
+         echo "-accx    -accy    -accz      -acc     acceleration"
+         echo "-forcex  -forcey  -forcez    -force   total force" 
+         echo "-Mc_force                             Maximum contact force " 
+         echo "-n_force                              total force normalized by contact force" 
+         echo "-nco                                  coordination number"
+         echo "-theta                                rotation"
+         echo "-Temp                                 temperature"
+         echo "-dens_Voronoi                         Packing density (Voronoi) if available"
+         exit 
+      fi
+     esac
+#   a valid y label has been chosen  
+    if [ "$plot" != "no" ];then 
+      let "i+=1"
+# the last y chosen gives the ylabel
+      echo "set ylabel $Ylabel" >> plot_$file2display
+    
+      echo "set title $Title" >> plot_$file2display
+# for strain rates it is better to use log scale
+      if [ $ylog -eq 1 ];then
+       echo "set log y" >> plot_$file2display
+       echo "set format y '"%.2E"'" >> plot_$file2display
+      fi
+      echo "Displaying $Title" 
+
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+      if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
+        ls -1 -Q visco_$file2display* > tmp1
+      else
+       ls -1 -Q _$file2display* > tmp1
+      fi
+      if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+        sed '1,1 s/^/plot /g' tmp1 > tmp3
+      else
+# replot everywhere except for the first line (1,1)
+        sed 's/^/replot /g' tmp1 > tmp3       
+      fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+      sed 's/$/ u '$Xcolumn':'$Ycolumn' title /g' tmp3 > tmp2
+# number of lines in tmp1
+      numlines=`grep -c "_$file2display"  < tmp1`
+     let "ii=0"
+     until [ "$numlines" = "0" ]
+     do
+       let "numlines-=1"
+       let "ii+=1"
+# get the first line of tmp1       
+       tocopy=`sed -n ''1'p' tmp1`
+# and copy it on th ith line of tmp2
+       if  [ "$numlines" = "0" ];then
+         sed ''$ii','$ii' s/$/'$tocopy'specialtagtoreplace123456789/g' tmp2 > tmp3
+       else
+         sed ''$ii','$ii' s/$/'$tocopy'/g' tmp2 > tmp3
+       fi
+# decreasing the number of lines in tmp1            
+       sed '1,1d' tmp1 > tmp4
+       mv -f tmp3 tmp2   
+       mv -f tmp4 tmp1    
+     done 
+sed 's/$/ w l lw 2 ,\\/g' tmp2 > tmp3
+sed '/specialtagtoreplace123456789/s/,\\//g' tmp3 > tmp2
+sed 's/specialtagtoreplace123456789//' tmp2 > tmp3
+cat tmp3 >> plot_$file2display
+    fi
+
+    done
+
+rm -f tmp1 tmp2 tmp3 tmp4

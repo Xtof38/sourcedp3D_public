@@ -1,0 +1,2145 @@
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/sinter_ramp_temperature/log
+400 396974 9 44108
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/cylinder/log
+400 3457754 246 14055
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/closedie_compact/log
+400 2672157 65 41110
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/toughness/log
+10000 76957 9 8550
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/closedie_viscoplast/log
+400 333464 355 939
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/crush_cluster/log
+556 2042686 58 35218
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/sinter_velocity/log
+400 718927 15 47928
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/unl_rel/log
+400 137245 20 6862
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/crushing/log
+400 291688 9 32409
+
+/home0/chris/compact01/test_closep/dp3D_examples_closep_std/composite/log
+400 1171342 13 90103
+
+/home0/chris/compact01/K1/bimodal/w1u5/dens85/log
+
+
+/home0/chris/compact01/K1/normal_distribution/log
+2 1 2
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_500micpart_w20/log
+365634 679121 1040 653
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/2Mpart/log
+1996638 172742 718 240
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/2Mpart_epszdotm7/log
+1996638 1339457 2004 668
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/2Mpart_epszdotm6/log
+1996638 227480 1205 188
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_doaffine/log
+364887 328207 377 870
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_doaffine_epzdotcst/log
+364887 236742 536 441
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_epszdot_cst/log
+364887 137288 297 462
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_large_cyl/log
+364887 239025 570 419
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack/log
+364887 96810 297 325
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_rot90/log
+364991 107681 507 212
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_rot90_epsxdotm8/log
+364991 325123 423 768
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_break_nokin/log
+364887 1111065 70 15872
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_break100/log
+364887 1190308 116 10261
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/large_crack_break100_kin_m9/log
+364887 847108 530 1598
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_100micpart_w4/small_crack/log
+365634 220208 657 335
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/4_point_bending/K1c_Coronel_500micpart_w4/log
+365634 223208 429 520
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/sinter_ref/brick_period_3x20x4/log
+250000 727680 3099 234
+
+/home0/chris/compact01/K1/four_point_bending/15x20x100_sample/sinter_ref/brick_non_period_4x20x3/log
+366000 1115880 3313 336
+
+/home0/chris/compact01/K1/four_point_bending/10x96x8mm/sinter/log
+1100000 908135 7483 121
+
+/home0/chris/compact01/K1/four_point_bending/10x96x8mm/4_point_bending/log
+1098489 1560030 439 3553
+
+/home0/chris/compact01/K1/four_point_bending/10x96x8mm/3_point_bending/log
+1098489 1670004 292 5719
+
+/home0/chris/compact01/K1/four_point_bending/10x96x8mm/flat_surfaces/log
+1097100 1323009 279 4741
+
+/home0/chris/compact01/K1/diametrical/log
+82000 3373430 6574 513
+
+/home0/chris/compact01/K1/diametrical/sinter/log
+82000 731282 1164 628
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/soft_planes/log
+81427 112686 259 435
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/rigid_plates/log
+81427 185197 362 511
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/log
+
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/cyl_plates/log
+81427 236322 554 426
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/soft_planes_high_shear_strength/log
+81427 110194 215 512
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/soft_planes_high_normal_strength/log
+81427 114802 187 613
+
+/home0/chris/compact01/K1/diametrical/sinter/brazil_test/soft_planes_small_part/log
+81427 78510 267 294
+
+/home0/chris/compact01/K1/diametrical/200micron_part/sinter/log
+648000 825552 2326 354
+
+/home0/chris/compact01/K1/diametrical/200micron_part/brasil_100micronpart/log
+645440 106462 1999 53
+
+/home0/chris/compact01/K1/diametrical/200micron_part/brasil_100micronpart_noTbreak/log
+645440 77028 1582 48
+
+/home0/chris/compact01/K1/diametrical/200micron_part/gas/log
+648000 247857 4182 59
+
+/home0/chris/compact01/K1/size_effect/part_10micron/log
+240000 76083 114 667
+
+/home0/chris/compact01/K1/size_effect/part_1micron/log
+240000 100819 305 330
+
+/home0/chris/compact01/crush_sphere/sphere_alumina_150micron_200GPa_500MPa/test_26mars2013_toughness/log
+10002 7 1428
+
+/home0/chris/compact01/crush_sphere/sphere_alumina_150micron_200GPa_500MPa/test_26mars2013_toughness/test_openMP_sept_2013/log
+12663 10002 11 909
+
+/home0/chris/compact01/crush_sphere/test_bimodal_astar/generate_gaz_clusters/sinter/log
+153575 19743 36 548
+
+/home0/chris/compact01/crush_sphere/test_bimodal_astar/generate_gaz_clusters/crush/log
+83442 1219361 2955 412
+
+/home0/chris/compact01/crush_sphere/test_bimodal_astar/generate_gaz_clusters/compact/log
+153575 541061 18626 29
+
+/home0/chris/compact01/test_dilate_bonds/log
+9 303 293 1
+
+/home0/chris/compact01/microsphere/crush/crush_kin_ctrl/stress_ref_100/log
+30248627 254163 119
+
+/home0/chris/compact01/microsphere/crush/crush_kin_ctrl/log
+3389714 29960 113
+
+/home0/chris/compact01/microsphere/crush/log
+2113928 2587 817
+
+/home0/chris/compact01/microsphere/crush_1700part/log
+25371349 25698 987
+
+/home0/chris/compact01/microsphere/crush_1700part_noadhes/log
+24357739 38638 630
+
+/home0/chris/compact01/microsphere/crush_1700part_noadhes_crack/log
+24754677 47641 519
+
+/home0/chris/compact01/microsphere/crush_1700part_noadhes_hole/log
+59027212 35459 1664
+
+/home0/chris/compact01/microsphere/crush_1700part_noadhes_hole_fast/log
+7419282 22388 331
+
+/home0/chris/compact01/microsphere/crush_1700part_noadhes_hole_ufast/log
+425400 5806 73
+
+/home0/chris/compact01/microsphere/crush_1700part_noadhes_hole_ufast_sigc/log
+443281 2275 194
+
+/home0/chris/compact01/microsphere/crush_17kpart/log
+66472228 80752 823
+
+/home0/chris/compact01/microsphere/crush_40kpart/log
+51310015 212503 241
+
+/home0/chris/compact01/microsphere/crush_5kpart/log
+27734872 51510 538
+
+/home0/chris/compact01/microsphere/crush_cube_3600part/log
+8494510 17059 497
+
+/home0/chris/compact01/microsphere/crush_cube_3600part_noadhes/log
+92464093 477 193845
+
+/home0/chris/compact01/microsphere/motif/log
+
+
+/home0/chris/compact01/microsphere/test_small_sphere/log
+66311860 4424 14989
+
+/home0/chris/compact01/microsphere/test_small_sphere/test_fast_new/log
+155217 153 1014
+
+/home0/chris/compact01/microsphere/test_small_sphere/test_new/log
+777352 12 64779
+
+/home0/chris/compact01/microsphere/test_small_sphere/test_old/log
+1315773 18 73098
+
+/home0/chris/compact01/microsphere/test_small_sphere/test_fast_delata_not0/log
+155217 36 4311
+
+/home0/chris/compact01/sinter/bilayer/gen_gaz/log
+
+
+/home0/chris/compact01/sinter/defects_march2013_sinter_wall/log
+2130117 3862 551
+
+/home0/chris/compact01/sinter/lognormal/lognormal_narrow/log
+
+
+/home0/chris/compact01/sinter/lognormal/lognormal_wide/log
+
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_ratio7_4000part_oct_2014/log
+3170 776150 432 1796
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_2p5mic/sinter/sinter_tot/log
+4000 3536 12 294
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_2p5mic/sinter/log
+438419 544 805
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_1mic/log
+667964 621 1075
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_0pctporo_4000part_oct_2014/log
+4000 675854 213 3173
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_ratio1_4000part_oct_2014/log
+3196 765472 420 1822
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_0p5mic_5000part/log
+685004 636 1077
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_10mic/sinter/log
+757564 1227 617
+
+/home0/chris/compact01/sinter/these_t_Reynier/20pctporo/D0p55_20pctporo_0p5mic_4000part_ratio1/log
+653534 581 1124
+
+/home0/chris/compact01/sinter/defect_central_constrained/log
+37500 1598973 1074 1488
+
+/home0/chris/compact01/sinter/defect_central_constrained/frict1/log
+37500 2171611 3237 670
+
+/home0/chris/compact01/sinter/defect_central_constrained/frictp01_planexy/log
+37500 14567 9 1618
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/1kpmin/frict12_p01/log
+25250 18934002 9696 1952
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/1kpmin/log
+27180002 15721 1728
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/30kpmin/log
+1354002 2000 677
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/30kpmin/test/log
+5002 1 5002
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/15kpmin/log
+2318002 3039 762
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/15kpmin/sinter_alumina/log
+1909002 8423 226
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/15kpmin/sinter_alumina/ramp/ramp700_1150/log
+12618002 8107 1556
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/15kpmin/sinter_alumina/new/log
+1385002 34631 39
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/15kpmin/defect_sinter/log
+1854002 2857 648
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/15kpmin/free_sinter/log
+200735928 7535 26640
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/50kpmin/continue_2_p6197/log
+25250 8698002 11895 731
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/50kpmin/log
+934002 1474 633
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/10kmin/log
+3241002 3876 836
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/log
+5939002 5993 990
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/log
+5938002 6002 989
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/optimized/log
+5939002 6001 989
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/optimize2/log
+5353002 8793 608
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/optimize2/miu11/log
+5946002 5451 1090
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/optimize2/700/log
+5949002 6205 958
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/optimize2/alumina/log
+2 1 2
+
+/home0/chris/compact01/sinter/Zilin_MLCC/sinter_with_ramp/5kpmin/tag/optimize2/isoth/log
+5323002 8756 607
+
+/home0/chris/compact01/sinter/Petzow_Exner/pack/log
+120 938007 848 1106
+
+/home0/chris/compact01/sinter/Petzow_Exner/pack/sinter/log
+81 151399369 32104 4715
+
+/home0/chris/compact01/sinter/test_mass_scaling_size_sample/part400/log
+400 659697 141 4678
+
+/home0/chris/compact01/sinter/test_mass_scaling_size_sample/part40000/log
+40000 575725 610 943
+
+/home0/chris/compact01/sinter/test_mass_scaling_size_sample/part4000/log
+4000 575618 276 2085
+
+/home0/chris/compact01/sinter/test_mass_scaling_size_sample/part4kx8/log
+32000 576303 553 1042
+
+/home0/chris/compact01/uo2/comp500_drini_p35/log
+20405 739381 647 1142
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/p58_2_p584/log
+20000 17817 61 292
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/log
+20000 712463 611 1166
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/hom_frictp3_adhes2/sinter/log
+20000 1172139 1096 1069
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/hom_frictp3_adhes2/sinter/coarsen_100/log
+20000 1771426 523921 3
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/hom_frictp3_adhes2/sinter/coarsen_100_test_same/log
+20000 1809029 544860 3
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/hom_frictp3_adhes2/sinter/coarsen_100_test_same_10max/log
+20000 1813416 524378 3
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/hom_frictp3_adhes2/sinter/coarsen_100_rmax3_rou_gt_p7/log
+20000 1029336 115003 8
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/rien/log
+20000 2 1 2
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c10_ab10/log
+20000 725496 133973 5
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c5/log
+20000 714729 814 878
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c5/rien/log
+20000 54992 52 1057
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c1/rien/log
+20000 54992 52 1057
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c1/log
+20000 712211 636 1119
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c10/rien/log
+2
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c10/log
+20000 725259 133326 5
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c10_chi90/log
+20000 735430 155401 4
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c10_chi90/rien/log
+2
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/coarsening_c100/log
+20000 784331 401211 1
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init/sinter_D0p50_c0/log
+30000 980556 1335 734
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init/sinter_D0p50_c100/log
+30000 1390804 473926 2
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init/sinter_c0/log
+30000 699580 891 785
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init/sinter_c100/log
+30000 799100 338607 2
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init_large/sinter_D0p50_c100/log
+30000 1309896 428665 3
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init_large/log
+30000 158775 3936 40
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init_large/sinter_c100/log
+30000 799100 338607 2
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init_large/sinter_D0p50_c0/log
+30000 981346 2946 333
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/distrib_size_init_large/sinter_c0/log
+30000 699580 891 785
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/heating_rate/log
+20000 722649 607 1190
+
+/home0/chris/compact01/uo2/comp500_drini_p35/compare_homogeneous/heating_rate_no_dilate/log
+20000 722649 607 1190
+
+/home0/chris/compact01/uo2/comp500_drini_p35/coarsen_c100/log
+20405 1081508 741202 1
+
+/home0/chris/compact01/uo2/comp500_drini_p35/heating_rate/log
+20405 933864 653 1430
+
+/home0/chris/compact01/uo2/comp500_drini_p35/heating_rate_no_dilate/log
+20405 933864 653 1430
+
+/home0/chris/compact01/compact_agg_tomo/large_sample/log
+1122178 24834 45
+
+/home0/chris/compact01/compact_agg_tomo/small_sample/log
+154107 9407 16
+
+/home0/chris/compact01/compact_agg_tomo/small_sample/crush/log
+2841494 519 5474
+
+/home0/chris/compact01/compact_agg_tomo/verylargesample/sinter/crush/log
+391560 21728 18
+
+/home0/chris/compact01/compact_agg_tomo/verylargesample/sinter/crush/sigN_sigT/log
+787320 8020 98
+
+/home0/chris/compact01/compact_agg_tomo/verylargesample/sinter/crush/sigN_sigT_gradient/log
+1119126 5072 220
+
+/home0/chris/compact01/compact_agg_tomo/verylargesample/sinter/crush/sigN_sigT_gradient_large/log
+
+
+/home0/chris/compact01/compact_agg_tomo/verylargesample/log
+1276544 31044 41
+
+/home0/chris/compact01/compact_agg_tomo/hugesample_Aaron_Denis/suite/log
+2710310 45281 5873 7
+
+/home0/chris/compact01/compact_agg_tomo/hugesample_Aaron_Denis/suite/suite/log
+2710310 169383 18538 9
+
+/home0/chris/compact01/compact_agg_tomo/hugesample_Aaron_Denis/log
+2710310 527776 28760 18
+
+/home0/chris/compact01/brick_and_mortar/compact/log
+351954 3296 3295 1
+
+/home0/chris/compact01/brick_and_mortar/compact/equil/log
+321002 62 13 4
+
+/home0/chris/compact01/brick_and_mortar/compact/equil/flat_surface/log
+321002 932 435 2
+
+/home0/chris/compact01/brick_and_mortar/compact/3point_bending_test/E1E2_200GPa_sigTlarge/log
+321002 7546 2500 3
+
+/home0/chris/compact01/brick_and_mortar/compact/3point_bending_test/E1E2_200GPa_sigTlarge_sigN22smaller/log
+321002 7937 3509 2
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/log
+1176818 6567 6566 1
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_test/log
+
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_test/sigTlarge/log
+1118126 34960 7443 4
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/equil/log
+1176818 3002 2995 1
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/cut/log
+1119706 4048 4047 1
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/cut/equil/log
+1119706 3002 2994 1
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/cut/equil/cut/log
+880684 2975 2554 1
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/cut/equil/cut/equil/log
+880684 3002 2994 1
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/cut/test/log
+1119706
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigTlarge_22weak/log
+877124 1307609 6541 199
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/log
+
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigTlarge/log
+
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigT10N_22weak/log
+877124 598235 4287 139
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigT10N_22weak_defects/slave/log
+824368 451040 4808 93
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigT10N_22weak_defects/slave/fast/log
+824368 2929 1212 2
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigT10N_22weak_defects/slave/weak_interface_no_bc_ni/log
+806647 1008931 4887 206
+
+/home0/chris/compact01/brick_and_mortar/larger_sample/compact/3point_bending_27plaquettes/sigT10N_22weak_defects/test_speed/log
+824368 794856 4225 188
+
+/home0/chris/compact01/these_Kai_Wu/log
+4600 12980537 11738 1105
+
+/home0/chris/compact01/these_Kai_Wu/densify_noaffine/log
+4600 11360056 14243 797
+
+/home0/chris/compact01/these_Kai_Wu/shear_test/log
+4600 41415 5 8283
+
+/home0/chris/compact01/these_Kai_Wu/continue33_noaffine/log
+4600 6400002 3760 1702
+
+/home0/chris/compact01/these_Kai_Wu/prep_pressure_200kPa/log
+4600 10261602 10835 947
+
+/home0/chris/compact01/these_Kai_Wu/frequency/log
+4600 26213782 53850 486
+
+/home0/chris/compact01/these_Kai_Wu/frequency/gravity/log
+4600 5050002 33953 148
+
+/home0/chris/compact01/buckling/5m8E1m8_noresist_moment/log
+16550 5650002 4058 1392
+
+/home0/chris/compact01/buckling/petites_rotules/log
+40002 3033953 889 3412
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor70_td0p65_jd0p60_ok/log
+69745 7338270 1535 4780
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor20_td0p65_jd0p60_ok/log
+19744 12117405 1557 7782
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor10_td0p65_jd0p60_ok/log
+9740 16266347 5794 2807
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor90_td0p65_jd0p60_ok/log
+89738 5998029 2347 2555
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor90_td0p65_jd0p60_ok/lor90_td0p65_jd0p60/log
+89744 6073264 211 28783
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor50_td0p65_jd0p60_ok/log
+49743 9325436 891 10466
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor60_td0p65_jd0p60_ok/log
+59742 8079602 889 9088
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor60_td0p65_jd0p60_ok/lor60_td0p65_jd0p60/log
+59744 9664652 862 11211
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor20_td0p65_jd0p60_2_ok/log
+19743 10268809 1368 7506
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor100_td0p65_jd0p60/log
+99735 4846227 99 48951
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor100_td0p65_jd0p60_3/log
+99739 6631907 266 24931
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor90_td0p65_jd0p60_2/log
+matches
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor100_td0p65_jd0p60_2/log
+99743 4772085 98 48694
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor80_td0p65_jd0p60_2/log
+79733 5932885 2050 2894
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor70_td0p65_jd0p60_2/log
+69739 3928264 68 57768
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor60_td0p65_jd0p60_2/log
+59745 3211350 56 57345
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor50_td0p65_jd0p60_2/log
+49742 3620866 66 54861
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor40_td0p65_jd0p60_2_ok/log
+39734 5877059 223 26354
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor30_td0p65_jd0p60_2_ok/log
+29743 6995989 391 17892
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor10_td0p65_jd0p60_2/log
+9741 18186308 7423 2449
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor40_td0p65_jd0p60_ok/log
+39732 6590945 493 13369
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor50_td0p65_jd0p50/log
+49750 18528766 1939 9555
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor30_td0p65_jd0p60_ok/log
+29736 9711652 939 10342
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor80_td0p65_jd0p60_ok/log
+79744 6478656 1650 3926
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_inter/lor80_td0p65_jd0p60_ok/lor80_td0p65_jd0p60/log
+79734 5662134 160 35388
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_5000/log
+249267 600002 3 200000
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_3000_ok/log
+149478 8833323 358 24674
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_2000_ok/log
+99617 10939639 801 13657
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_4000_ok/log
+199373 9887248 399 24780
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_500_ok/log
+24835 10594184 699 15156
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_1000_ok/log
+49749 10314827 512 20146
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_1000_s5/log
+49757 8461926 288 29381
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_mesh/lor50_td0p65_jd0p50_1000_stime/log
+49754 23644069 2077 11383
+
+/home0/chris/compact01/buckling/encastrement/lor20_td0p85_kinm9/log
+19742 3378237 487 6936
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p50_ok/log
+99747 5792037 193 30010
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p50_ok/log
+79753 7087513 211 33590
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p50_ok/log
+9752 16770002 2137 7847
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p60_ok/log
+49742 8043838 374 21507
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p50_ok/log
+29754 9416865 439 21450
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p60_ok/log
+39734 7382188 324 22784
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p60_ok/log
+69738 6930828 338 20505
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p30_ok/log
+79773 9191279 261 35215
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p50_s5/log
+9750 20236924 3542 5713
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p60_s5/log
+99743 5002747 135 37057
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p50_s5/log
+99754 6259736 175 35769
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p50_s19/log
+9752 15030002 1786 8415
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p50_s5/log
+89752 6766242 176 38444
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p30_s5/log
+89782 7711707 232 33240
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p30_s5/log
+99778 8612818 247 34869
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p50_s5/log
+49757 8461926 288 29381
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p60_s5/log
+49739 6964684 257 27099
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p30_s19/log
+19766 16440002 1145 14358
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p30_s5/log
+69768 8253594 226 36520
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p30_s19/log
+39775 11280002 413 27312
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p60_stime/log
+69745 6582784 239 27543
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p60_stime/log
+99735 6701682 736 9105
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p60_stime/log
+49743 10420271 862 12088
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p60_stime/log
+59742 9386338 802 11703
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p60_stime/lor60_td0p65_jd0p60/log
+59744 9664652 862 11211
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p60_stime/log
+29736 18571402 2276 8159
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p50_ok/log
+89752 6823500 226 30192
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p30_ok/log
+69770 8370631 254 32955
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p60_ok/log
+89742 5966403 187 31905
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p50_ok/log
+19750 10541380 645 16343
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p50_ok/log
+59747 10422700 516 20199
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p50_ok/log
+49749 10314827 512 20146
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p30_s5/log
+19774 17780002 1450 12262
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p30_ok/log
+19767 14410002 901 15993
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p30_ok/log
+9767 17090002 1652 10345
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p30_s5/log
+29768 12370002 615 20113
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p50_stime/log
+59760 15363614 1283 11974
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p30_s5/log
+39775 13620002 680 20029
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p60_not_ok/log
+79596 8600149 530 16226
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p60_s5/log
+29735 8643656 454 19038
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p50_s5/log
+79754 7513718 239 31438
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p60_s5/log
+39735 7236189 286 25301
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p30_stime/log
+59782 16746144 1239 13515
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p60_stime/log
+39732 13602930 1449 9387
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p50_stime/log
+79754 10651388 513 20762
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p30_s5/log
+59766 8731572 230 37963
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p60_s5/log
+9740 18326328 7161 2559
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p60_s5/lor10_td0p65_jd0p60/log
+9738 12168963 2574 4727
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p30_ok/log
+29767 10614388 427 24858
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p60_ok/log
+99739 6631907 266 24931
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p30_s19/log
+29772 10320002 330 31272
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p30_ok/log
+49773 13060002 584 22363
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p30_s5/log
+79780 8793405 235 37418
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p30_stime/log
+79776 10997627 626 17568
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p30_s5/log
+9769 21240002 2708 7843
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p60_s5/log
+69739 6055351 207 29252
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p30_stime/log
+89773 9977147 371 26892
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p30_ok/log
+39776 12720002 638 19937
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p30_s5/log
+49775 11330002 410 27634
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p30_ok/log
+59772 10199437 317 32174
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p50_s19/log
+39759 9526669 484 19683
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p30_ok/log
+89777 9064099 282 32142
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p50_stime/log
+89758 9585199 486 19722
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p50_s19/log
+29759 9831646 559 17587
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p50_s5/log
+19760 21078886 2513 8387
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p50_stime/log
+99747 17994669 1609 11183
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p60_ok/log
+19743 8361896 447 18706
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p60_s5_19/log
+19744 8075163 408 19792
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p60_s5_19/lor20_td0p65_jd0p60/log
+19737 8446419 414 20401
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p30_s19/log
+9780 15320002 1377 11125
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p50/log
+
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p50_ok/log
+39752 11084288 727 15246
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p60_ok/log
+79733 5789548 208 27834
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p30_ok/log
+99772 7643287 168 45495
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p60_stime/log
+79744 8443880 515 16395
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor80_td0p65_jd0p60_stime/lor80_td0p65_jd0p60/log
+79734 5662134 160 35388
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p50_ok/log
+69758 7447500 232 32101
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p60_stime/log
+89738 10000598 711 14065
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor90_td0p65_jd0p60_stime/lor90_td0p65_jd0p60/log
+89744 6073264 211 28783
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p60_ok/log
+29743 10241397 824 12428
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor100_td0p65_jd0p30_stime/log
+99769 8534460 259 32951
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor30_td0p65_jd0p50_s5/log
+29746 10643743 600 17739
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p30_stime/log
+49779 18320002 1163 15752
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p60_ok/log
+59745 6175107 207 29831
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor60_td0p65_jd0p50_s5/log
+59750 8181999 291 28116
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor20_td0p65_jd0p50_s19/log
+19750 9531973 423 22534
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor40_td0p65_jd0p50_s5/log
+39753 11828333 828 14285
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p30_stime/log
+69780 10556747 519 20340
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor10_td0p65_jd0p60_ok/log
+9741 18186308 7423 2449
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p50_stime/log
+69756 12989065 1135 11444
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor50_td0p65_jd0p50_stime/log
+49754 23644069 2077 11383
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement/lor70_td0p65_jd0p50_s5/log
+69749 7488640 405 18490
+
+/home0/chris/compact01/buckling/encastrement/lor100_td0p85_kinm8/log
+99739 1279252 688 1859
+
+/home0/chris/compact01/buckling/encastrement/lor100_td0p85_kinm8/rien/log
+100000 202 173 1
+
+/home0/chris/compact01/buckling/encastrement/lor80_td0p85_kinm10/log
+79745 4875574 209 23328
+
+/home0/chris/compact01/buckling/encastrement/lor50_td0p85_kinm10/log
+49740 5820206 265 21963
+
+/home0/chris/compact01/buckling/encastrement/lor60_td0p85_kinm10/log
+59739 5483993 207 26492
+
+/home0/chris/compact01/buckling/encastrement/lor30_td0p85_kinm9/log
+29747 3893363 677 5750
+
+/home0/chris/compact01/buckling/encastrement/lor20_td0p85_kinm8/log
+19742 1656113 568 2915
+
+/home0/chris/compact01/buckling/encastrement/lor30_td0p85_kinm8/log
+29747 2087379 932 2239
+
+/home0/chris/compact01/buckling/encastrement/lor40_td0p85_kinm9/log
+39741 2839148 306 9278
+
+/home0/chris/compact01/buckling/encastrement/lor40_td0p85_kinm8/log
+39741 1785286 702 2543
+
+/home0/chris/compact01/buckling/encastrement/lor50_td0p85_kinm9/log
+49740 2887962 323 8941
+
+/home0/chris/compact01/buckling/encastrement/lor50_td0p85_kinm8/log
+49740 2778334 1422 1953
+
+/home0/chris/compact01/buckling/encastrement/lor60_td0p85_kinm9/log
+59739 3479875 526 6615
+
+/home0/chris/compact01/buckling/encastrement/lor60_td0p85_kinm8/log
+59739 2720243 1358 2003
+
+/home0/chris/compact01/buckling/encastrement/lor70_td0p85_kinm9/log
+69747 3298552 466 7078
+
+/home0/chris/compact01/buckling/encastrement/lor70_td0p85_kinm8/log
+69747 1419703 387 3668
+
+/home0/chris/compact01/buckling/encastrement/lor80_td0p85_kinm9/log
+79745 2041555 136 15011
+
+/home0/chris/compact01/buckling/encastrement/lor80_td0p85_kinm8/log
+79745 1245326 611 2038
+
+/home0/chris/compact01/buckling/encastrement/lor100_td0p85_epsc/log
+99739 21962099 188 116819
+
+/home0/chris/compact01/buckling/encastrement/lor20_td0p85_epsc/log
+19742 16078085 1042 15430
+
+/home0/chris/compact01/buckling/encastrement/lor70_td0p85_kinm10/log
+69747 5763065 257 22424
+
+/home0/chris/compact01/buckling/encastrement/lor20_td0p85_kinm10/log
+19742 7578466 566 13389
+
+/home0/chris/compact01/buckling/encastrement/lor100_td0p85_kinm10/log
+99739 5044002 276 18275
+
+/home0/chris/compact01/buckling/encastrement/lor40_td0p85_kinm10/log
+39741 6666026 422 15796
+
+/home0/chris/compact01/buckling/encastrement/lor30_td0p85_kinm10/log
+29747 7623928 532 14330
+
+/home0/chris/compact01/buckling/encastrement/lor100_td0p85_kinm9/log
+99739 4075410 1436 2838
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_srate/lor50_td0p65_jd0p50_stime/log
+49754 23644069 2077 11383
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_srate/lor50_td0p65_jd0p50_kinm9/log
+49754 1870468 49 38172
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_srate/lor50_td0p65_jd0p50_kinm8/log
+49754 5102210 2080 2452
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_no_new_contact/lor40_td0p65_jd0p60_ok/log
+39734 8278050 502 16490
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_no_new_contact/lor20_td0p65_jd0p60_s5_19/log
+19744 10827989 1035 10461
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_no_new_contact/test/log
+19744 2 1 2
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_noaffine/lor50_td0p65_jd0p50_stime/log
+49754 23644069 2077 11383
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_noaffine/lor50_td0p65_jd0p50_kinm8/log
+49754 183915 3 61305
+
+/home0/chris/compact01/buckling/encastrement/p3_p5_p637_encastrement_noaffine/lor50_td0p65_jd0p50_kinm8_noaffine/log
+49754 5058620 2119 2387
+
+/home0/chris/compact01/buckling/rotules/lor20_td0p85_kinm8_save/log
+20002 198275 138 1436
+
+/home0/chris/compact01/buckling/rotules/lor20_td0p85_kinm8_save/test_affine_1x1y0z/log
+20002 241013 2859 84
+
+/home0/chris/compact01/buckling/rotules/lor20_td0p85_kinm8_save/test_input_projet2013/log
+20002 3765419 3511 1072
+
+/home0/chris/compact01/buckling/rotules/lor20_td0p85_kinm8_save/equil/log
+20002 100002 416 240
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8/log
+20002 94544 140 675
+
+/home0/chris/compact01/buckling/rotules/test_rotule_fritt0_projet2013/log
+10002 7046899 2991 2356
+
+/home0/chris/compact01/buckling/rotules/test_rotule_fritt0_projet2013/test_jan_2014/log
+10002 3312467 1615 2051
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/log
+20002 96453 126 765
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/equil/log
+20002 1426473 1839 775
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/jamming/log
+
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/jamming/equil/log
+20002 1669594 2299 726
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/jamming/test_buckling/log
+20002 1196485 2590 461
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/jamming/test_buckling_m9/log
+20002 1117273 850 1314
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/jamming/test_buckling_same_encastrement/log
+20002 429292 263 1632
+
+/home0/chris/compact01/buckling/rotules/lor40_td0p85_kinm8_test/jamming/test_buckling_p85/log
+20002 3049104 5090 599
+
+/home0/chris/compact01/buckling/dp3D_examples/kinm7/log
+16550 2758091 4769 578
+
+/home0/chris/compact01/buckling/dp3D_examples/kinm9/log
+16550 6790002 2348 2891
+
+/home0/chris/compact01/buckling/dp3D_examples/kinm7_l_stiff/log
+16550 2641314 4768 553
+
+/home0/chris/compact01/buckling/dp3D_examples/kinm8_l_stiff/log
+16550 6055986 4693 1290
+
+/home0/chris/compact01/buckling/dp3D_examples/kinm9_l_stiff/log
+16550 13190002 4583 2878
+
+/home0/chris/compact01/buckling/dp3D_examples/kinm8/log
+16550 5898897 4421 1334
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/sinter_velocity/log
+
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/one_end_free/log
+16550 6180002 6918 893
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/one_end_free_sphere/log
+16531 20537589 13136 1563
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/eff_prop_bonded_aggregate/log
+5000 7590 1 7590
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/generate_gaz_particles/log
+
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/gaz_to_pack/log
+20000 342571 10683 32
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/experiment/log
+2 1 2
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/buckling_fromcvs_26june/log
+16550 8070002 3174 2542
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Ddontdelete/dp3D_examples/buckling/log
+16550 4480002 1499 2988
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dforonce/dp3D_examples/eff_prop_bonded_aggregate/log
+2 1 2
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dforonce/dp3D_examples/gaz_to_pack/log
+10574196 10128 1044
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dforonce/dp3D_examples/experiment/log
+2 1 2
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/dp3D_gaz/gen_gaz_cluster/log
+302 1 302
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast0/isost_400part_lognorm/log
+7070 61 115
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast0/bilayer_walls/log
+33 5 6
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast0/lots_of_particles/log
+4 2 2
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/split_cylin/log
+6426 65 98
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/isost_aff_rot/log
+258 9 28
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/simple_stiffness/log
+5530 104 53
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/bending/log
+444 1 444
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/isost_aff_rot_mixture/log
+354 9 39
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/unloading_isos_nstrn0/log
+1026 9 114
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/cd_elast/log
+394 19 20
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/clust_crush/log
+1894 7 270
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/cd_iper3_wz/log
+1326 56 23
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/unl_rel_cd_fail/log
+2216 137 16
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/large_strain/log
+7002 359 19
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/hollow_sphere/log
+763 2 381
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/shear/log
+7 1 7
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/cd_clust_iperiod1_break/log
+9524 270 35
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/cd_aff_rot/log
+1122 19 59
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast1/vdW_interaction/log
+7 1 7
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast3/noaff_sinter_composite/log
+3818 4 954
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast3/noaff_sinter_coarsen/log
+2496
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast3/sinter_anisotropic/log
+3425 1 3425
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast3/noaff_sinter/log
+8462 9 940
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/test_before_commit/reference/nplast3/sinter_substrate/log
+50 1 50
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/closedie_compact/log
+254374 305 834
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/sintering/log
+201149506 2104 95603
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/gaz_to_pack_cluster/log
+7244 113 64
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/cylinder/log
+1837788 885 2076
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/crushing/log
+483599 1032 468
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/generate_gaz_particles/log
+
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/gaz_to_pack/log
+454963 1899 239
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3Dcopy/dp3D_examples/generate_gaz_clusters/log
+
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/dp3D_gaz/gen_gaz_cluster/log
+302 1 302
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast0/isost_400part_lognorm/log
+7070 61 115
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast0/bilayer_walls/log
+33 5 6
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast0/lots_of_particles/log
+4 2 2
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/split_cylin/log
+6426 65 98
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/isost_aff_rot/log
+258 9 28
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/simple_stiffness/log
+5530 104 53
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/bending/log
+444 1 444
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/isost_aff_rot_mixture/log
+354 9 39
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/unloading_isos_nstrn0/log
+1026 9 114
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/cd_elast/log
+394 19 20
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/clust_crush/log
+1894 7 270
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/cd_iper3_wz/log
+1326 56 23
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/unl_rel_cd_fail/log
+2216 137 16
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/large_strain/log
+7002 359 19
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/hollow_sphere/log
+763 2 381
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/shear/log
+7 1 7
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/cd_clust_iperiod1_break/log
+9524 270 35
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/cd_aff_rot/log
+1122 19 59
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast1/vdW_interaction/log
+7 1 7
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast3/noaff_sinter_composite/log
+3818 4 954
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast3/noaff_sinter_coarsen/log
+2496
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast3/sinter_anisotropic/log
+3425 1 3425
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast3/noaff_sinter/log
+8462 9 940
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/test_before_commit/reference/nplast3/sinter_substrate/log
+50 1 50
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/closedie_compact/log
+254374 305 834
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/sintering/log
+201149506 2104 95603
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/gaz_to_pack_cluster/log
+7244 113 64
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/cylinder/log
+1837788 885 2076
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/crushing/log
+483599 1032 468
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/generate_gaz_particles/log
+
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/gaz_to_pack/log
+454963 1899 239
+
+/home0/chris/compact01/buckling/sarshad/sourcedp3D/dp3D_examples/generate_gaz_clusters/log
+
+
+/home0/chris/compact01/buckling/sarshad/eff_prop_bonded_aggregate/log
+5000 2 1 2
+
+/home0/chris/compact01/buckling/sarshad/intern/mytest1/mytest1/log
+
+
+/home0/chris/compact01/buckling/sarshad/intern/mytest1/log
+5000 1435 1 1435
+
+/home0/chris/compact01/buckling/sarshad/intern/demobuck5/log
+389307 317 1228
+
+/home0/chris/compact01/buckling/sarshad/intern/dens75/log
+5000 691576 666 1038
+
+/home0/chris/compact01/buckling/sarshad/intern/demobuck1/log
+377317 320 1179
+
+/home0/chris/compact01/buckling/sarshad/intern/dens8/log
+5000 800781 779 1027
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/log
+
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p3/test_long_p3_p70/log
+5000 24586 1 24586
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p3/test_long_p3_p75/log
+5000 24183 1 24183
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p3/test_long_p3_p80/log
+5000 23478 1 23478
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p3/test_long_p3_p65/log
+5000 25757 1 25757
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p5/test_long_p5_p65/log
+5000 25350 1 25350
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p5/test_long_p5_p65/alphap25/log
+5000 28739 3 9579
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p5/test_long_p5_p65/alphap25/wRM/log
+5000 27543 1 27543
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p5/test_long_p5_p70/log
+5000 24335 1 24335
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p5/test_long_p5_p75/log
+5000 24237 1 24237
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p5/test_long_p5_p80/log
+5000 23764 1 23764
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p637/test_long_p637_p70/log
+5000 23735 1 23735
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p637/test_long_p637_p75/log
+5000 23092 1 23092
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p637/test_long_p637_p65/log
+5000 24493 1 24493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_rot/5tests_p637/test_long_p637_p80/log
+5000 22398 1 22398
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p3/test_long_p3_p70/log
+5000 24586 1 24586
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p3/test_long_p3_p75/log
+5000 24183 1 24183
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p3/test_long_p3_p80/log
+5000 23478 1 23478
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p3/test_long_p3_p65/log
+5000 25757 1 25757
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p65/log
+5000 42418 2 21209
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p65/alphap25/log
+5000 28739 3 9579
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p65/alphap25/wRM/log
+5000 27543 1 27543
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p65/alphap25/woRM/log
+5000 28739 3 9579
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p70/log
+5000 24614 1 24614
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p75/log
+5000 24215 1 24215
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p5/test_long_p5_p80/log
+5000 23793 1 23793
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p637/test_long_p637_p70/log
+5000 23735 1 23735
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p637/test_long_p637_p75/log
+5000 23092 1 23092
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p637/test_long_p637_p65/log
+5000 24493 1 24493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_wo_RM/5tests_p637/test_long_p637_p80/log
+5000 22398 1 22398
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/test_affine/test_affine_p65/log
+5000 524 1 524
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/test_affine/test_affine_p70/log
+5000 493 1 493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/test_affine/test_affine_p75/log
+5000 473 1 473
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/test_affine/test_affine_p80/log
+5000 458 1 458
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p3/test_long_p3_p70/log
+5000 24586 1 24586
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p3/test_long_p3_p75/log
+5000 24183 1 24183
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p3/test_long_p3_p80/log
+5000 23478 1 23478
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p3/test_long_p3_p65/log
+5000 25757 1 25757
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p5/test_long_p5_p65/log
+5000 25468 1 25468
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p5/test_long_p5_p70/log
+5000 24062 1 24062
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p5/test_long_p5_p75/log
+5000 24347 1 24347
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p5/test_long_p5_p80/log
+5000 23710 1 23710
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p637/test_long_p637_p70/log
+5000 23735 1 23735
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p637/test_long_p637_p75/log
+5000 23092 1 23092
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p637/test_long_p637_p65/log
+5000 24493 1 24493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y4z/5test_w_RM/5tests_p637/test_long_p637_p80/log
+5000 22398 1 22398
+
+/home0/chris/compact01/buckling/hollow_cylinder/log
+259896 61255 2330 26
+
+/home0/chris/compact01/buckling/hollow_cylinder/test_bonds/log
+14 10 1 10
+
+/home0/chris/compact01/buckling/bending/log
+39734 14496315 1233 11756
+
+/home0/chris/compact01/buckling/bending/test/log
+39734 20002 1 20002
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/log
+
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p3/test_long_p3_p70/log
+5000 24586 1 24586
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p3/test_long_p3_p75/log
+5000 24183 1 24183
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p3/test_long_p3_p80/log
+5000 23478 1 23478
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p3/test_long_p3_p65/log
+5000 25757 1 25757
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p65/log
+5000 13844 1 13844
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p70/log
+5000 13352 1 13352
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p75/log
+5000 12952 1 12952
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p80/log
+5000 12822 1 12822
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p80/bonded_p65_seed1/log
+5000 15778 1 15778
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p80/bonded_p80_seed1/log
+5000 15363 1 15363
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p5/test_long_p5_p80/bonded_p80_seed1/do_it_closep_1.2/log
+5000 15363 1 15363
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p637/test_long_p637_p70/log
+5000 23735 1 23735
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p637/test_long_p637_p75/log
+5000 23092 1 23092
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p637/test_long_p637_p65/log
+5000 24493 1 24493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z/5test_w_RM/5tests_p637/test_long_p637_p80/log
+5000 22398 1 22398
+
+/home0/chris/compact01/buckling/5m7E1m8/log
+16550 2740605 4768 574
+
+/home0/chris/compact01/buckling/5m9E1m10/log
+16550 65120002 4688 13890
+
+/home0/chris/compact01/buckling/5m8E1m8/log
+16550 6308831 4693 1344
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/log
+
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.050/log
+5000 24573 1 24573
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.050_auxetic/log
+5000 77188 1 77188
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.075_auxetic/log
+5000 75216 1 75216
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.00_auxetic/log
+5000 89523 1 89523
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.025_auxetic/log
+5000 83200 1 83200
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.00/log
+5000 25757 1 25757
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.025/log
+5000 24815 1 24815
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p3/test_long_p3_1.075/log
+5000 24113 1 24113
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.025/log
+5000 13481 1 13481
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.050/log
+5000 13186 1 13186
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.075/log
+5000 13235 1 13235
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_D80/log
+
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_D80/p80_bonds/log
+5000 14875 1 14875
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_D80/p65_bonds/log
+5000 15280 1 15280
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.00_auxetic/log
+5000 45511 1 45511
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.075_auxetic/log
+5000 40357 1 40357
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/log
+
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.00/log
+5000 13844 1 13844
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.025_auxetic/log
+5000 42838 1 42838
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p5/test_long_p5_1.050_auxetic/log
+5000 41440 1 41440
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00/log
+5000 24493 1 24493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.025/log
+5000 23967 1 23967
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_alpha_1.2/log
+5000 60569 1 60569
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.025_Voigt/log
+5000 62 1 62
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.050_no_rotation/log
+5000 24141 1 24141
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.075_no_rotation/log
+5000 23808 1 23808
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.075/log
+5000 23004 1 23004
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_interaction/log
+5000 22029 1 22029
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_interaction/rien/log
+5000 2 1 2
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.025_auxetic/log
+5000 65869 1 65869
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_Voigt/log
+5000 64 1 64
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.050/log
+5000 23473 1 23473
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_auxetic_worm/log
+5000 73477 1 73477
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.075_auxetic/log
+5000 60569 1 60569
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.025_no_rotation/log
+5000 24391 1 24391
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/log
+
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.025_auxetic_worm/log
+5000 66274 1 66274
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.050_auxetic_worm/log
+5000 64284 1 64284
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.050_auxetic/log
+5000 63714 1 63714
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.075_Voigt/log
+5000 59 1 59
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_no_rotation/log
+5000 24501 1 24501
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.050_Voigt/log
+5000 60 1 60
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.075_auxetic_worm/log
+5000 59818 1 59818
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_norm/log
+5000 24493 1 24493
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_norm/test/log
+5000 24189 1 24189
+
+/home0/chris/compact01/buckling/fully_jammed_5000part_period_1x1y1z_p65_range/5test_w_RM/5tests_p637/test_long_p637_1.00_auxetic/log
+5000 69871 1 69871
+
+/home0/chris/compact01/buckling/5m8E1m9/log
+16550 14140002 4726 2991
+
+/home0/chris/compact01/gravity/log
+
+
+/home0/chris/compact01/test_decharge_bonds/log
+154196 294 71 4
+
+/home0/chris/compact01/test_decharge_bonds/sphere_pleine_E28_sigp1.3/new/log
+80515 251951 6828 36
+
+/home0/chris/compact01/test_decharge_bonds/sphere_pleine_E28_sigp1.3/log
+80515 236020 6867 34
+
+/home0/chris/compact01/test_decharge_bonds/sphere_pleine_E28_sigp1.3/new_openMP4/log
+80515 255396 7046 36
+
+/home0/chris/compact01/test_decharge_bonds/test3part/log
+3 135888 139 977
+
+/home0/chris/compact01/test_decharge_bonds/test25/fast_unload_on_sample_old_model/log
+154196 5604 623 8
+
+/home0/chris/compact01/test_decharge_bonds/test25/fast_unload_on_sample_old_model_w0/log
+154196 8818 717 12
+
+/home0/chris/compact01/test_decharge_bonds/test25/fast_unload_on_sample_old_model_w0_dtp05/log
+154196 14909 710 20
+
+/home0/chris/compact01/test_decharge_bonds/test25/fast_unload_on_sample_old_model_w0_frict0/log
+154196 6317 451 14
+
+/home0/chris/compact01/test_decharge_bonds/test25/fast_unload_on_sample_old_model_w2_frict0/log
+154196 2907 359 8
+
+/home0/chris/compact01/test_decharge_bonds/test25/slow_load_new_w0/log
+154196 4206062 338687 12
+
+/home0/chris/compact01/test_decharge_bonds/test25/slow_unload_on_sample_old_model/log
+154196 71247 2781 25
+
+/home0/chris/compact01/test_decharge_bonds/test25/slow_unload_on_sample_old_model_w0/log
+154196 93793 2625 35
+
+/home0/chris/compact01/test_decharge_bonds/test25/slow_unload_on_sample_old_model_w0_frict0/log
+154196 32656 1733 18
+
+/home0/chris/compact01/test_decharge_bonds/test25/new_model_load_w0_mu0p5/log
+154196 409241 30416 13
+
+/home0/chris/compact01/test_decharge_bonds/test3part_Hertz/log
+3 31302 47 666
+
+/home0/chris/compact01/test_decharge_bonds/crush_cluster/log
+556 679885 52 13074
+
+/home0/chris/compact01/test_decharge_bonds/crush_cluster/new/log
+556 1394585 224 6225
+
+/home0/chris/compact01/test_decharge_bonds/test3/new/log
+154196 386349 55538 6
+
+/home0/chris/compact01/test_decharge_bonds/test3/new/unload/log
+154196 31836 6631 4
+
+/home0/chris/compact01/test_decharge_bonds/test3/new/unload/new/log
+154196 147205 2030 72
+
+/home0/chris/compact01/test_decharge_bonds/test3/new/unload/new_adhes/log
+
+
+/home0/chris/compact01/test_decharge_bonds/test3/log
+154196 377923 51945 7
+
+/home0/chris/compact01/test_decharge_bonds/cd_clust_iperiod1_break/log
+379 4249939 2689 1580
+
+/home0/chris/compact01/test_decharge_bonds/cd_clust_iperiod1_break/new/log
+379 3655343 3124 1170
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/log
+7069 95176 6445 14
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new/log
+7069 29296 3159 9
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new/unload/log
+7069 6037 644 9
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new/unload/unload_new/log
+7069 100915 580 173
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new/unload/unload_new/unload_new_slow/log
+7069 63811 280 227
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new/unload/unload_new/unload_new_adhes/log
+7069 106341 613 173
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload/log
+7069 83579 3196 26
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload/unload/log
+7069 2647428 69179 38
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_T/log
+7069 66340 2223 29
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_T/unload/log
+7069 83459 2044 40
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/log
+7069 978170 16285 60
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/unload/log
+7069 70623 3893 18
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/unload_on_sample_compact_fast/log
+
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/slow_load_Tspecial/log
+7069 970964 11497 84
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/fast_load_Tspecial/log
+7069 67212 2254 29
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/unload_slow_Tspecial_w1/log
+7069 156569 23939 6
+
+/home0/chris/compact01/test_decharge_bonds/uo2_dc_300_da1_large_bonds_full/new_Hertz_unload_slow/fast_unload_Tspecial/log
+
+
+/home0/chris/compact01/test_clump_10clusters/debug/log
+3 1500 3 500
+
+/home0/chris/compact01/test_clump_10clusters/debug/c20/log
+60 309021 3510 88
+
+/home0/chris/compact01/test_clump_10clusters/debug/c20_bonds_no_clump/log
+60 493511 387 1275
+
+/home0/chris/compact01/test_clump_10clusters/jamming_old/log
+3000 710103 8565 82
+
+/home0/chris/compact01/test_clump_10clusters/dilate_100clust/log
+3000 303974 1 303974
+
+/home0/chris/compact01/test_clump_10clusters/dilate_10clust/log
+
+
+/home0/chris/compact01/test_clump_10clusters/dilate/log
+300 1312922 2 656461
+
+/home0/chris/compact01/test_clump_10clusters/dilate/larger_sample/log
+30000 58829 14093 4
+
+/home0/chris/compact01/test_clump_10clusters/dilate/test/old/log
+3000 10000 63 158
+
+/home0/chris/compact01/test_clump_10clusters/dilate/test/new/log
+3000 10000 63 158
+
+/home0/chris/compact01/test_clump_10clusters/dilate/test/log
+3000 1000000 3786 264
+
+/home0/chris/compact01/test_clump_10clusters/dilate/test/small_test/inside/log
+3000 10000 33 303
+
+/home0/chris/compact01/test_clump_10clusters/dilate/test/small_test/outside/log
+3000 10000 33 303
+
+/home0/chris/compact01/test_clump_10clusters/gross_part/log
+60 437878 4170 105
+
+/home0/chris/compact01/stiffness/test_Hertz_b2/log
+147641 4281 34
+
+/home0/chris/compact01/stiffness/small_K_N_no_Hertz/log
+2 1 2
+
+/home0/chris/compact01/stiffness/test_column/log
+109276 943 115
+
+/home0/chris/compact01/stiffness/small_K_N/log
+208320 8041 25
+
+/home0/chris/compact01/stiffness/small_K_N/rien/log
+5000 2 1 2
+
+/home0/chris/compact01/stiffness/large_K_N/log
+633 1 633
+
+/home0/chris/compact01/test_rot_drum/shear/log
+84073 2 1 2
+
+/home0/chris/compact01/test_rot_drum/log
+4 1835 10 183
+
+/home0/chris/compact01/test_clump_cluster/log
+400 900 1 900
+
+/home0/chris/compact01/test_clump_cluster/2cyl/log
+1200 46133 248 186
+
+/home0/chris/compact01/test_clump_cluster/2cyl/bonds/log
+1200 1716573 806 2129
+
+/home0/chris/compact01/test_clump_cluster/2cyl/clump/log
+1200 77437 966 80
+
+/home0/chris/compact01/test_clump_cluster/2cyl/clump/no_rot/log
+1200 157611 853 184
+
+/home0/chris/compact01/test_clump_cluster/3parts/log
+4 196002 9 21778
+
+/home0/chris/compact01/test_cubes/log
+
+
+/home0/chris/compact01/test_cubes/SIMAP/log
+21110
+
+/home0/chris/compact01/test_cubes/SIMAP/test_closep/log
+21110 150002 2093 71
+
+/home0/chris/compact01/test_cubes/Seb_Pinson/log
+78400 1802540 3574 504
+
+/home0/chris/compact01/test_cubes/Seb_Pinson/test/noperiod/log
+1568 29019 480 60
+
+/home0/chris/compact01/test_cubes/Seb_Pinson/test/noperiod/reference/log
+1568 12148 83 146
+
+/home0/chris/compact01/test_cubes/Seb_Pinson/test/bonds/log
+1568 464444 293 1585
+
+/home0/chris/compact01/test_cubes/Seb_Pinson/test/clump/log
+1568 464444 3 154814
+
+/home0/chris/compact01/test_cubes/test_clump_cluster_init/log
+16863 100 49 2
+
+/home0/chris/compact01/test_openMP_tokeep/test_openMP_sept_2013/log
+12663 10002 11 909
+
+/home0/chris/compact01/test_openMP_tokeep/test_openMP_jan_2014_numactl/log
+12663 10002 10 1000
+
+/home0/chris/compact01/test_openMP_tokeep/test_openMP_dec_2013_opti_intel/log
+12663 10002 11 909
+
+/home0/chris/compact01/mech_test_on_tomo_image_freeze_cast/simple_compression/log
+364977 1229677 68554 17
+
+/home0/chris/compact01/mech_test_on_tomo_image_freeze_cast/log
+364977 2319559 157190 14
+
+/home0/chris/compact01/mech_test_on_tomo_image_freeze_cast/MEB/SEM_1_Y/log
+198849 20023095 15198 1317
+
+/home0/chris/compact01/mech_test_on_tomo_image_freeze_cast/MEB/portion_SEM_1_Y/log
+16603 41683107 47829 871
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact_frictp5/log
+10002 1663882 4590 362
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/log
+10002 262181 1136 230
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/test_epszm9/log
+10002 1365120 1436 950
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/test_epszm10/log
+10002 1190002 2 595001
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/test_epszm10/test_epszm9/log
+10002 1365120 1436 950
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/test_epszm9_hard/log
+10002 467439 323 1447
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/test_epszm9_hard_stress_ref/log
+10002 456302 428 1066
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule_nonewcontact/test_epszm10_hard/log
+10002 6050960 1533 3947
+
+/home0/chris/compact01/test_rotule_frict0/test_rotule/log
+10002 1279290 3159 404
+
+/home0/chris/compact01/latex/distrib2/test_wm4/log
+10000 229980 70935 3
+
+/home0/chris/compact01/latex/distrib2/test_wm4/suite/log
+10000 5564044 152660 36
+
+/home0/chris/compact01/latex/distrib2/test_w0/log
+10000 5935927 16135 367
+
+/home0/chris/compact01/latex/distrib2/test_w0_seed1/log
+10000 5766909 15522 371
+
+/home0/chris/compact01/latex/distrib2/test_frictp2/log
+10000 4747223 10092 470
+
+/home0/chris/compact01/latex/distrib2/test_w0_seed1_high_modulus/log
+10000 13489916 23037 585
+
+/home0/chris/compact01/latex/test_w_0/log
+10000 6601678 24715 267
+
+/home0/chris/compact01/latex/test_w_1m4/log
+10000 521486 133985 3
+
+/home0/chris/compact01/latex/test_w_1m4/suite/log
+10000 4267109 99811 42
+
+/home0/chris/compact01/latex/test_frictp2/log
+10000 4256923 14954 284
+
+/home0/chris/compact01/latex/test_w_0_epsdotm4/log
+10000 32520 29614 1
+
+/home0/chris/sourcedp3D/test_before_commit/reference/dp3D_gaz/gen_gaz_cluster/log
+2480 300 1 300
+
+/home0/chris/sourcedp3D/test_before_commit/reference/dp3D_gaz/gen_gaz_part/log
+200 300 2 150
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast0/bilayer_walls/log
+58333 30 5 6
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast0/isost_400part_lognorm/log
+400 6965 60 116
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast0/lots_of_particles/log
+100000 4 2 2
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/3D_cubic_test_inter/log
+1000 1000 1 1000
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/bending/log
+400 340 339 1
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/cd_aff_rot/log
+400 1125 19 59
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/cd_clust_iperiod1_break/log
+379 16000 7 2285
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/cd_elast/log
+400 390 18 21
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/cd_iper3_wz/log
+400 1015 43 23
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/clust_crush/log
+400 1782 9 198
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/isost_aff_rot/log
+400 273 9 30
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/isost_aff_rot_mixture/log
+400 354 9 39
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/large_strain/log
+4 7000 2989 2
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/shear/log
+10000 7 1 7
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/split_cylin/log
+400 100 5 20
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/unl_rel_cd_fail/log
+400 6833 129 52
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast1/unloading_isos_nstrn0/log
+1026 9 114
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast2/control_sig/log
+400 278 3 92
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast3/mat1_mat2_Tschedule/log
+4951 1000 1 1000
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast3/noaff_sinter/log
+400 6959 9 773
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast3/noaff_sinter_composite/log
+400 15989 4 3997
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast3/sinter_anisotropic/log
+400 2332 1 2332
+
+/home0/chris/sourcedp3D/test_before_commit/reference/nplast3/sinter_substrate/log
+2592 50 1 50
+
+/home0/chris/sourcedp3D/test_before_commit/reference/vdp3D/give_bonds/log
+
+
+/home0/chris/sourcedp3D/test_before_commit/test/dp3D_gaz/gen_gaz_part/log
+200 300 2 150
+
+/home0/chris/DRoussel/Tomo1_X/_coord0012_Unload/log
+1792048 10236 144 71
+
+/home0/chris/DRoussel/Tomo1_X/_coord0006_Unload/log
+1792048 12546 36 348
+
+/home0/chris/DRoussel/Tomo1_X/_coord0033_Continue/log
+1792048 130200 6079 21
+

@@ -1,0 +1,106 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display  _tric* files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@inpg.fr    November 2006
+BINARY_std=/usr/local/dp3D/
+theuser=`whoami`
+if [ -d $BINARY_std ];then
+# this the default 
+  BINARY=$BINARY_std
+else
+  BINARY=/home/$theuser/bin/
+fi
+
+file2display=tric
+
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY"gnup_display plot_$file2display
+
+option=$1
+#The number of data columns is:
+let "numdata=5"
+#epsilon in on column:
+let "numeps=1"
+
+# to test if option is numeric or contains alpha characters
+numeric=`echo $option | grep [A-z]`
+echo "numeric = $numeric"
+# if it has some alpha characters treat the option
+if [ "$numeric" != "" -a "$numeric" != " " ];then
+  case $option in
+  -fit | -f)
+# looking for the best fit, this is the first set
+    let "option=1"
+       ;;
+  -hoR | -h | -hor )
+    let "option=0"
+       ;;
+     * )
+     echo "Not a valid option"
+     echo " valid options labels are: -numeric -fit -hoR"
+     exit       
+   esac
+fi
+
+#in any case num is calculated with the new option
+num=`expr $numdata + $numdata - $option \* $numdata `
+
+Ycolumn=\(\$"$num"\)
+
+echo "drawing epsilon $option"
+echo "num=  $num"
+echo "Ycolumn=  $Ycolumn"
+
+#looking for the value of epsilon associated with this column
+#using awk
+coleps=`expr $num - $numdata + $numeps`
+echo "coleps = $coleps"
+#looking for the first generated _tric (to avoid Raj !)
+ls -1 -r -t _$file2display[0-9]* > tmp1
+filetolook=`sed -n '1p' tmp1` 
+sed -n '2p' $filetolook > tmp1
+epsilon=`awk '{print $'$coleps'}' tmp1`
+echo "epsilon=  $epsilon"
+
+
+echo "set title \"Probability for eps=$epsilon \"" >> plot_$file2display
+echo "set xlabel \"Degrees of freedom\"" >> plot_$file2display
+echo "set ylabel \"Prob. of occurence\"" >> plot_$file2display
+echo "set grid" >> plot_$file2display
+# with quotes (-Q) one item per line (-1)
+ls -1 -Q "_$file2display"[0-9]* > tmp1
+# plot only for the first line (1,1)
+sed '1,1 s/^/plot /g' tmp1 > tmp2
+# replot everywhere except for the first line (1,1)
+sed '1,1 !s/^/replot /g' tmp2 > tmp3
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+sed 's/$/ u (4-$4):'$Ycolumn' title /g' tmp3 > tmp2
+
+
+# number of lines in tmp1
+numlines=`grep -c "_$file2display"  < tmp1`
+let "i=0"
+     until [ "$numlines" = "0" ]
+     do
+       let "numlines-=1"
+       let "i+=1"
+# get the first line of tmp1       
+       tocopy=`sed -n ''1'p' tmp1`
+# and copy it on th ith line of tmp2
+       sed ''$i','$i' s/$/'$tocopy'/g' tmp2 > tmp3
+# decreasing the number of lines in tmp1            
+       sed '1,1d' tmp1 > tmp4
+       mv -f tmp3 tmp2   
+       mv -f tmp4 tmp1    
+     done 
+sed 's/$/ w l /g' tmp2 > tmp3
+
+cat tmp3 >> plot_$file2display
+echo "replot \"_tricRaj\" u (4-\$2):(\$3) title \"_tricRaj\" w l lw 4" >> plot_$file2display
+
+gnuplot -geometry 560x400 -persist plot_$file2display
+rm -f tmp1 tmp2 tmp3 tmp4

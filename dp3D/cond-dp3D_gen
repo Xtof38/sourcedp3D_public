@@ -1,0 +1,24 @@
+#filename,nplast,icluster,iperiod
+'file_to_replace',1,2g,1x1y1z
+#irot,irotelasthard(0=rotall,1=rotelast,2=rothard),iaffine,nstrn,loadunload
+1,0,0,0,0
+#roufinal,pfinal(Pa),deltarou(_coord),deltadensini(outputs),n_of_classes(histo)
+1.,1000.E+16,.001,0.00100,0
+#fdt,fdamp,upscaleini(1),upscaleini(2),closep,ntangent
+0.1000E-01,0.050,0.1000E+01,0.1000E+01,1.100,1
+#pressureini(Pa),dpressure(Pa),epsp(!!!! std value is 1.E-03!!!)
+0.2000E+05,0.1000E+05,0.01
+#strnunl(1),strnunl(2),strnunl(3)
+0.0000E+00,0.0000E+00,0.0000E+00
+#strnrel(1),strnrel(2),strnrel(3),pstage2(Pa)
+-1.E-04,-1.E-04,-1.E-04,0.1000E+05
+#emod(1),emod(2),poisson(1),poisson(2),sigy(1),sigy(2),M,N
+0.2000E+12,0.2000E+12,0.22,0.22,300.E+06,300.E+06,0.0
+#sgrav(1),sgrav(2)
+0.7890E-02,0.7890E-02
+#frict(1,1),frict(1,2),frict(2,2),frictwall
+.20,.20,.20,.20
+#w(1,1),w(1,2),w(2,2) (J/m2)
+0.,0.,0.
+#sinter_fact,sigrclust,iclustrupt
+.10,0.2000E+10,0

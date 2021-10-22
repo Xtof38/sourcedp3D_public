@@ -1,0 +1,31 @@
+#decomment  lines to print into a  file:
+#and rerun gnuplot, inserting these lines in between
+#plot and replot for multiple curves graph
+
+#set terminal postscript eps  color  
+# or for larger fonts:
+#set terminal postscript eps  color "Arial" 24 
+#set output "your_file.eps"  
+
+# for the option anim, decomment:
+#set terminal gif animate
+#set output "animate.gif"
+
+# ready to handle colors yourself:
+set style line 1 lt rgb "red" lw 2
+set style line 2 lt rgb "blue" lw 2
+set style line 3 lt rgb "orange" lw 2
+set style line 4 lt rgb "violet" lw 2
+set style line 5 lt rgb "green" lw 2
+set style line 6 lt rgb "black" lw 2
+set style line 7 lt rgb "cyan" lw 2
+
+# to have _ wriiten correctly in late versions of gnuplot:
+set key noenhanced
+set title noenhanced
+
+ 
+#set size square
+set grid
+#set xrange 
+#set yrange 

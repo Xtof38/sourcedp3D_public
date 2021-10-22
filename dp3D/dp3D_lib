@@ -1,0 +1,156 @@
+#!/bin/bash
+! $Id: dp3D_lib,v 2.2 2020/11/10 16:33:42 chris Exp $
+
+###########################################################################
+# This is a script to class automatically packings and cp them into directory
+# sourcedp3D/biblio_pack/ (CVS run)
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr   
+# first created October 2008
+
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+if  [ "$theuser" = "Christophe" ];then
+  theuser="chris"
+fi
+dir_biblio="/home0/chris/sourcedp3D/dp3D_library/"
+
+if [ -d $dir_biblio ];then
+  echo "using packing library directory for dp3D: $dir_biblio"
+  if [ -f $dir_biblio ];then
+    echo "using packing library file: dp3D_library_log"
+  else
+    touch "$dir_biblio"/dp3D_library_log
+  fi
+else
+  echo "creating packing library directory for dp3D: $dir_biblio"
+  mkdir $dir_biblio
+  touch "$dir_biblio"/dp3D_library_log
+fi
+#those files that are not needed:
+filelist=` find . -name "*" | sed '/_coord*/d' | sed '/f90/d'  \
+                            | sed '/\.f/d' | sed '/\.o/d'  \
+                            | sed '/\.exe/d' | sed '/file_init/d'   \
+                            | sed '/dp3De/d' | sed '/dp3D_debug/d'   \
+                            | sed '/dp3D_prof/d' | sed '/dp3D_library/d' \
+                            | sed '/ /d'`
+
+for fich in $filelist ; do
+
+  if [ -f "$fich" ];then
+
+  dp3D_coord -info "$fich" > tmp_dp3D_lib
+  error_in_reading_coord=`grep -ic "error" tmp_dp3D_lib`
+  if  [ "$error_in_reading_coord" = "0" ];then
+# get some info on this packing
+    echo "treating $fich"
+# if the Coordination number is zero, do not consider the packing (comes from dp3D_gaz):
+# Coordination number:
+# if a reference sphere has been used the Average coordination number is given differently:
+    refsphere=`grep -c "Coordination number for these particles" tmp_dp3D_lib`
+    if [ "$refsphere" -eq "1" ];then
+      numcontacts=`grep -o "Coordination number for these particles .*[0-9]" tmp_dp3D_lib |  awk '{ print $6 }'`
+    else
+      numcontacts=`grep -o "Average coordination number: .*[0-9]" tmp_dp3D_lib |  awk '{ print $4 }'`
+    fi
+    numcontacts=`echo "pad=20; min=64; print int(($numcontacts)*1000)" | python3`
+# except for very small number of particles
+# number of particles:
+    numpart=`grep -o "Number of particles: .*[0-9]" tmp_dp3D_lib |  awk '{ print $4 }'`
+    if [ "$numcontacts" -gt "0" -o "$numpart" -lt 20 ];then
+# Relative density:
+      reldens=`grep -o "Relative density: .*[0-9]" tmp_dp3D_lib |  awk '{ print $3 }' | sed 's/0\.//'`
+      reldens=`echo " $reldens "| grep -o "[0-9][0-9][0-9][0-9]" | head -1`
+# size of particles:
+      nratio=`grep -c "Maximum particle radius" tmp_dp3D_lib`
+      if [ "$nratio" -eq "0" ];then
+        size_ratio="1p00"
+      else
+        large=`grep -o "Maximum particle radius .*: .*" tmp_dp3D_lib |  awk '{ print $6 }'`
+        small=`grep -o "Minimum particle radius .*: .*" tmp_dp3D_lib |  awk '{ print $6 }'`
+        size_ratio=`echo "pad=20; min=64; print ($large/$small)" | python3`
+        size_ratio_tmp=`echo $size_ratio | sed 's/\./p/' | grep -o ".*p.."`
+        if [ "$size_ratio_tmp" = "" ];then
+          size_ratio=`echo $size_ratio | sed 's/\./p/' | grep -o ".*p."`
+        else
+          size_ratio="$size_ratio_tmp"
+        fi
+      fi
+
+# number of objects:
+      numobj=`grep -o "Number of particles: .*[0-9]" tmp_dp3D_lib |  awk '{ print $8 }'`
+# number of bonds:
+      numbonds=`grep -o "Number of bonds: .*[0-9]" tmp_dp3D_lib |  awk '{ print $4 }'`
+# is it a composite ?
+      frac=`grep -o "volume fraction of hard particle .*[0-9]" tmp_dp3D_lib |  awk '{ print $6 }' | sed 's/0\.//'`
+      frac=`echo " $frac "| grep -o "[0-9][0-9]" | head -1`
+      if [ "$frac" = "" ];then
+        frac="00"
+      fi
+# sample size:
+# print the line immediately after a regexp, but not the line
+# containing the regexp
+      xminl=`sed -n '/MINVAL/{n;p;}' tmp_dp3D_lib |  awk '{ print $1 }'`
+      yminl=`sed -n '/MINVAL/{n;p;}' tmp_dp3D_lib |  awk '{ print $2 }'`
+      zminl=`sed -n '/MINVAL/{n;p;}' tmp_dp3D_lib |  awk '{ print $3 }'`
+      xmaxl=`sed -n '/MAXVAL/{n;p;}' tmp_dp3D_lib |  awk '{ print $1 }'`
+      ymaxl=`sed -n '/MAXVAL/{n;p;}' tmp_dp3D_lib |  awk '{ print $2 }'`
+      zmaxl=`sed -n '/MAXVAL/{n;p;}' tmp_dp3D_lib |  awk '{ print $3 }'`
+
+# is it likely to be a periodic sample ?
+      xperneg=`sed -n '/Min simulation box limits/{n;p;}' tmp_dp3D_lib |  awk '{ print $1 }'`
+      yperneg=`sed -n '/Min simulation box limits/{n;p;}' tmp_dp3D_lib |  awk '{ print $2 }'`
+      zperneg=`sed -n '/Min simulation box limits/{n;p;}' tmp_dp3D_lib |  awk '{ print $3 }'`
+      xperpos=`sed -n '/Max simulation box limits/{n;p;}' tmp_dp3D_lib |  awk '{ print $1 }'`
+      yperpos=`sed -n '/Max simulation box limits/{n;p;}' tmp_dp3D_lib |  awk '{ print $2 }'`
+      zperpos=`sed -n '/Max simulation box limits/{n;p;}' tmp_dp3D_lib |  awk '{ print $3 }'`
+# python3 handles scientific notation (not bc)
+      xper=`echo "pad=20; min=64; print int(($xperneg+$xperpos)*1000)" | python3`
+      yper=`echo "pad=20; min=64; print int(($yperneg+$yperpos)*1000)" | python3`
+      zper=`echo "pad=20; min=64; print int(($zperneg+$zperpos)*1000)" | python3`
+      if  [ "$xper" -eq "0" -a "$yper" -eq "0" -a "$zper" -eq "0" ];then
+        xratio=`echo "pad=20; min=64; print int(($xperpos-$xperneg)/($zperpos-$zperneg)*100)" | python3`
+        yratio=`echo "pad=20; min=64; print int(($yperpos-$yperneg)/($zperpos-$zperneg)*100)" | python3`
+      else
+        xratio=`echo "pad=20; min=64; print int(($xmaxl-$xminl)/($zmaxl-$zminl)*100)" | python3`
+        yratio=`echo "pad=20; min=64; print int(($ymaxl-$yminl)/($zmaxl-$zminl)*100)" | python3`
+      fi
+# the filename with pertinent info
+      filename="part"$numpart"_densp"$reldens"_size"$size_ratio"_obj$numobj"_bond"$numbonds"_pct\
+"$frac"_xr"$xratio"_yr"$yratio"_zr100
+      alreadythere=`grep -c "$filename"  "$dir_biblio"/dp3D_library_log`
+
+# only writing the file if an old one was not already there:
+      if  [ "$alreadythere" -eq "0" ];then
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "$filename"
+        echo "$fich"
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        chmod -x "$fich"
+        cp -f "$fich" "$dir_biblio/$filename"
+# now writing a log file to know from where this file came in the first place:
+        echo  ""
+        echo  "********* begining of info for $filename ******************************" >> "$dir_biblio"/dp3D_library_log
+        echo  " $filename comes from: " >> "$dir_biblio"/dp3D_library_log
+        fich_nodot=`echo $fich | sed 's/\.//' `
+        here=`pwd`
+        echo  " $here$fich_nodot" >> "$dir_biblio"/dp3D_library_log
+        cat tmp_dp3D_lib >> "$dir_biblio"/dp3D_library_log
+        echo  "********* end of info for $filename ***********************************" >> "$dir_biblio"/dp3D_library_log
+        echo  "" >> "$dir_biblio"/dp3D_library_log
+      else
+        echo "!!!! An identical or similar file exists in $dir_biblio !!!!!!!!!"
+      fi
+    fi
+  fi
+fi
+done
+rm -f tmp_dp3D_lib
+
+# to return to the proper prompt
+ exit
+ 
+
+

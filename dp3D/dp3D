@@ -1,0 +1,207 @@
+#!/bin/bash
+! $Id: dp3D,v 2.4 2020/06/15 15:34:09 chris Exp $
+#
+
+###########################################################################
+# This is a script for launching the dp3D executable without too much errors 
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr  
+
+
+# find in the path the directory of dp3D executables
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+
+if [  "$BINARY_std" = "" -o ! -d "$BINARY_std" ];then
+   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   echo "!   No correct dp3D executable directory found            !"
+   echo "!   in variable   PATH                                    !" 
+   echo "!   declare PATH in .bash_profile                         !"
+   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   echo  "PATH: $PATH"  
+   exit
+fi
+
+
+theuser=`whoami`
+BINARY=/$HOME/bin/
+system=`hostname`
+# this list should be the same as the list in the scpdp3D shell:
+list_exe_2update="dp3D_seq dp3D_openMP dp3D_openMP1 dp3D_openMP2 dp3D_openMP4 \
+                  dp3D_openMP6 dp3D_openMP8 dp3D_openMP10 dp3D_openMP12 \
+                  dp3D_openMP16 dp3D_openMP20 dp3D_openMP80"
+
+#### the following arguments for dp3D do not launch dp3D calculations
+#### but send a signal while executing
+
+case $1 in
+  -write_coord )
+       $BINARY_std/dp3D_write_coord $1
+       exit
+       ;;
+  -write_log )
+       $BINARY_std/dp3D_write_coord $1
+       exit
+       ;;
+  -clean_stop )
+       $BINARY_std/dp3D_write_coord $1
+       exit
+       ;;
+  -v )
+       if [ -f $BINARY_std/dp3D_version ];then
+         cat $BINARY_std/dp3D_version 
+       else
+         echo "no dp3D version number available"
+       fi
+       exit
+       ;;       
+esac
+
+
+
+if [ -f $BINARY_std/dp3D_version ];then
+  cat $BINARY_std/dp3D_version > logdp3D.tmp
+fi
+echo "dp3D $1 started on machine $(hostname) by $(whoami)" >> logdp3D.tmp
+echo "at time: $(date +"%T and date %d-%m-%Y") " >> logdp3D.tmp
+echo "directory: $(pwd)" >> logdp3D.tmp
+cat logdp3D.tmp
+newversion="no"
+# only useful on the linux machines:
+#this ensures that the latest version is used :
+if [ ! -d $BINARY ];then
+  echo "Creating directory $BINARY for running dp3D"
+  mkdir $BINARY
+fi
+
+if [ -d $BINARY_std ];then
+  for file in $list_exe_2update
+  do  
+     test=$(diff -q $BINARY_std/"$file"    $BINARY/"$file") 
+     if [ ! -z "$test" -o ! -f $BINARY/"$file" ];then 
+       rm -f $BINARY/"$file"
+       cp  $BINARY_std/"$file" $BINARY/"$file"
+       newversion="yes"
+     fi
+  done
+  if [  "$newversion" = "yes"  ];then
+    echo "Using new version of dp3D"
+  fi
+fi
+
+$BINARY_std/mydp3D > tmp_mydp3D
+where=$(pwd)
+grep -w "$where" tmp_mydp3D > tmp1
+samedir=$(grep -x -c "$where"  tmp1)
+if [ "$samedir" != "0"  ];then
+   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   echo "!   A dp3D program is already running in this directory   !"
+   echo "!   It is not wise to run another one                     !"
+   echo "!   in the same directory             !!                  !"
+   echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   cat tmp_mydp3D  
+   rm -f tmp_mydp3D
+   exit
+fi
+rm -f tmp1 
+rm -f tmp_mydp3D
+
+
+
+# rm files from a former dp3D calc only when sure that the option is correct
+
+launch=no
+case $1 in
+  -openMP )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP
+       launch=yes
+       ;;
+  -openMP1 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP1
+       launch=yes
+       ;;
+  -openMP2 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP2
+       launch=yes
+       ;;
+  -openMP4 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP4
+       launch=yes
+       ;;
+  -openMP6 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP6
+       launch=yes
+       ;;
+  -openMP8 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP8
+       launch=yes
+       ;;
+  -openMP10 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP10
+       launch=yes
+       ;;
+  -openMP12 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP12
+       launch=yes
+       ;;
+  -openMP16 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP16
+       launch=yes
+       ;;
+  -openMP20 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP20
+       launch=yes
+       ;;
+  -openMP80 )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_openMP80
+       launch=yes
+       ;;
+  -test )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       /$HOME/bin/dp3De $2
+       launch=yes
+       ;;
+   "" )
+       $BINARY_std/cleandp3D -f
+       mv logdp3D.tmp log
+       $BINARY/dp3D_seq
+       launch=yes
+       ;;
+     * )
+       echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+       echo "$1 is not a valid option for dp3D"
+       echo "valid options : -openMP[n] with n=2,4,6,...,16    "
+       echo "valid options : -write_log -write_coord "
+       echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+       rm -f tmp_mydp3D tmp1 logdp3D.tmp
+       exit
+esac
+
+
+
+
+rm -f tmp_mydp3D tmp1 logdp3D.tmp
+exit

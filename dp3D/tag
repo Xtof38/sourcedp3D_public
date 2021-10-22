@@ -1,0 +1,3 @@
+color [255,20,145]
+write script TAGFILE
+select none

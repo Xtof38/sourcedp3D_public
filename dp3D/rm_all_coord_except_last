@@ -1,0 +1,41 @@
+#!/bin/sh
+
+find . -name "cond-dp3D" > filelist
+find . -name "input_dp3D" >> filelist
+sed -i 's/input_dp3D//' filelist
+sed -i 's/cond-dp3D//' filelist
+
+list=$(cat filelist)
+echo "I will rm all coord files except the last one in the following directories:"
+echo $list
+echo "is it ok (y/n)?"
+read answer
+local=$(pwd)
+if [ "$answer" = "y" ];then
+  rm -f filelist
+  for rep in $list ; do
+
+   find . -name "_coord[0-9][0-9][0-9][0-9]" > tmp1
+   sed 's/_coord[0-9][0-9][0-9][0-9]//' tmp1 > tmp2
+   listdir=$(uniq tmp2)
+   rm -f tmp1 tmp2
+   here=$(pwd)
+   for dir in $listdir;do
+    cd $dir
+    listfile="_coord[0-9][0-9][0-9][0-9] _[0-9][0-9][0-9][0-9]_histc"
+    coord=$(getlastcoord)
+    number=$(echo $coord | grep -o "[0-9][0-9][0-9][0-9]")
+    histc_number="_"$number"_histc"
+    mv $coord tmpazerty
+    if [ -f $histc_number ];then
+      mv $histc_number tmpazerty_histc
+    fi
+    rm -f $listfile
+    mv tmpazerty $coord
+    if [ -f tmpazerty_histc ];then
+      mv tmpazerty_histc $histc_number
+    fi
+    cd $here
+  done
+ done
+fi

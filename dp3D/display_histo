@@ -1,0 +1,238 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display  _histo* files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    November 2006
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+if  [ -f "_histo$2" -o $1 = "help" ];then
+  file2display="_histo$2"
+  echo "History graph from $file2display"
+else
+# the std situation, looking for _histo[0-9]* files
+# since several histo files may be there ask the user:
+  ls -1 _histo[0-9][0-9][0-9][0-9] > tmp1
+  numhisto=`grep -c "_histo"  < tmp1`
+  if [ $numhisto = 1 ];then     
+    file2display=`cat tmp1`
+    echo "History graph from $file2display"
+  else
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+    echo ' several histo files have been generated: '
+    cat tmp1
+    echo '  Which file do you want ?'
+    read file2display
+    echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+    echo "History graph from $file2display"
+  fi
+fi 
+
+if [ -f $file2display -o $1 = "help" ];then     
+  echo ""
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file $file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi   
+# the standard Ylabel
+Ylabel='Number of occurence'
+
+case $1 in
+      -forceN )
+        Title='Normal force at the contact (N)'
+        Xlabel='force (N)'
+        tolookfor="N_contact(N)"
+       ;;       
+      -h )
+        Title='Indentation (normalized by mean part radius)'
+        Xlabel='h/R '
+        tolookfor="h/R"
+         ;;         
+      -uN )
+        Title='Normal velocity at the contact (µm.s-1)'
+        Xlabel='uN (µm.s-1)'
+        tolookfor="rn("
+         ;;         
+      -a )
+        Title='Contact radius (normalized by 2*equivalent radius)'
+        Xlabel='a/R '
+        tolookfor="acontact/2R"
+         ;;         
+      -A )
+        Title='Contact area (normalized by mean part radius**2)'
+        Xlabel='a/R**2 '
+        tolookfor="asquare/R"
+        ;;         
+      -deltaT )
+        Title='Accumulated tangential displacement (normalized by mean part radius)'
+        Xlabel='deltaT '
+        tolookfor="deltats/R"
+        ;; 
+#      -uT )
+#        Title='Tangential relative velocity at the contact (µm.s-1)'
+#        Xlabel='uT (µm.s-1)'
+#        tolookfor="rtabs("
+#        ;;  
+      -a0 )
+        Title='Plastic contact size (normalized by mean part radius)'
+        Xlabel='a0/R '
+        tolookfor="a0/R"
+         ;;           
+      -aa0 )
+        Title='Contact size / plastic contact size'
+        Xlabel='a/a0 '
+        tolookfor="asa0"
+         ;;           
+      -sigrbond )
+        Title='Bond strength (MPa)'
+        Xlabel='sig_b '
+        tolookfor="sigrbond("
+         ;;           
+      -z | -zave )
+        Title='Coordination number'
+        Xlabel='Z '
+        tolookfor="Z"
+        ;;           
+      -size )
+        Title='Particle size (µm)'
+        Xlabel='2R (µm) '
+        tolookfor="Diam("
+        ;;           
+      -rpeq )
+        Title='2* Contact equivalent radius 2*rp1*rp2/(rp1+rp2) (µm)'
+        Xlabel='2rpeq (µm) '
+        tolookfor="tworpeq("
+        ;;           
+      -long_axis_x )
+        Title='long axis angle with axis x'
+        Xlabel='angle with axis x (deg) '
+        Ylabel='Number of occurence per unit solid angle'
+        tolookfor="xtheta"
+        ;;           
+      -long_axis_y )
+        Title='long axis angle with axis y'
+        Xlabel='angle with axis y (deg) '
+        Ylabel='Number of occurence per unit solid angle'
+        tolookfor="ytheta"
+        ;;           
+      -long_axis_z )
+        Title='long axis angle with axis z'
+        Xlabel='angle with axis z (deg) '
+        Ylabel='Number of occurence per unit solid angle'
+        tolookfor="ztheta"
+        ;;           
+      -normal_axis_x )
+        Title='normal axis angle with axis x'
+        Xlabel='angle with axis x (deg) '
+        Ylabel='Number of occurence per unit solid angle'
+        tolookfor="xtheta"
+        ;;           
+      -normal_axis_y )
+        Title='normal axis angle with axis y'
+        Xlabel='angle with axis y (deg) '
+        Ylabel='Number of occurence per unit solid angle'
+        tolookfor="ytheta"
+        ;;           
+      -normal_axis_z )
+        Title='normal axis angle with axis z'
+        Xlabel='angle with axis z (deg) '
+        Ylabel='Number of occurence per unit solid angle'
+        tolookfor="ztheta"
+        ;;           
+      -size_cluster )
+        Title='cluster size along long axis (normalized by mean part radius)'
+        Xlabel='cluster size / R '
+        tolookfor="size_clust"
+        ;;           
+     * )
+       echo " $1 is not a valid histogram label"
+       echo " valid histogram labels are:"
+       echo "                   -a  -A              Contact radius and contact area"
+       echo "                   -a0 -aa0            Plastic contact radius "
+       echo "                   -class              Cluster size from equivalence class "
+       echo "                   -deltaT             Accumulated tangential displacement "
+       echo "                   -forceN             Normal force "
+       echo "                   -h                  Indentation "   
+       echo "                   -long_axis_(x,y,z)  Orientation of cluster long axis "   
+       echo "                   -normal_axis_(x,y,z)Orientation of cluster normal "   
+       echo "                   -size               Particle diameter "
+       echo "                   -size_cluster       cluster size along long axis"
+       echo "                   -sigrbond           Bond strength "   
+#       echo "                   -uN  -uT            Normal and Tangential velocity "
+       echo "                   -uN                 Normal velocity at contact"
+       echo "                   -z or -zave         Coordination number "
+       exit       
+
+esac
+# the column to look for in gnuplot
+col=`grep -o "[0-9]**"$tolookfor"" $file2display | sed "s|$tolookfor||1" `
+let " colp1 = $col + 1"
+Xcolumn='($'$col')'
+Ycolumn='($'$colp1')'
+
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY_std"gnup_display plot$file2display
+# often n_of_classes is too large for a nice histo of z
+if [ $1 = "-zave" -o  $1 = "-z" ];then
+# reverse order of $file2display
+  tac $file2display > tmp1
+# what is the column for zave ?
+  col_zave=$(grep -o "C[0-9]*Z" $file2display | grep -o "[0-9][0-9]")
+  let " col_zavep1 = $col_zave + 1"
+
+# the last column
+  awk '{print $'$col_zavep1'}' tmp1 > tmp2 
+# the first non zero value
+  grep --max-count=1 -v -n "0.0000E+00" tmp2 > tmp1
+# deleting every character that follows ":"
+  hist_l=$(sed -e 's/:.*//' tmp1)
+  let " okline = $(grep -c . $file2display) - $hist_l + 10"
+  awk '{print $'$col_zave'}' $file2display > tmp2
+  lastz=$(sed ''$okline'!d' tmp2)
+  echo  "set xrange [0:$lastz]" >> plot$file2display
+fi 
+
+
+echo "set title \"Histogram of $Title\"" >> plot$file2display
+echo "set xlabel \"$Xlabel\"" >> plot$file2display
+echo "set ylabel \"$Ylabel\"" >> plot$file2display
+echo "set grid" >> plot$file2display
+
+
+# with quotes (-Q) one item per line (-1)
+ls -1 -Q $file2display* > tmp1
+# plot only for the first line (1,1)
+sed '1,1 s/^/plot /g' tmp1 > tmp2
+# replot everywhere except for the first line (1,1)
+sed '1,1 !s/^/replot /g' tmp2 > tmp3
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+sed 's/$/ u '$Xcolumn':'$Ycolumn' title /g' tmp3 > tmp2
+
+
+# number of lines in tmp1
+numlines=`grep -c "$file2display"  < tmp1`
+let "i=0"
+     until [ "$numlines" = "0" ]
+     do
+       let "numlines-=1"
+       let "i+=1"
+# get the first line of tmp1       
+       tocopy=`sed -n ''1'p' tmp1`
+# and copy it on th ith line of tmp2
+       sed ''$i','$i' s/$/'$tocopy'/g' tmp2 > tmp3
+# decreasing the number of lines in tmp1            
+       sed '1,1d' tmp1 > tmp4
+       mv -f tmp3 tmp2   
+       mv -f tmp4 tmp1    
+     done 
+
+sed 's/$/ w l lw 2 /g' tmp2 > tmp3
+cat tmp3 >> plot$file2display
+
+gnuplot -geometry 560x400 -persist plot$file2display
+rm -f tmp1 tmp2 tmp3 tmp4

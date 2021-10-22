@@ -1,0 +1,3 @@
+color [180,180,180] #grey
+write script TAGFILE
+select none

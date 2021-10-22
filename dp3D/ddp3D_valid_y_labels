@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# y valid labels to be echo to the user after wrong y input in ddp3D:
+      echo "valid y labels for ddp3D are :"
+      tput bold ; echo "Macroscopic or object related stress variables:"; tput sgr0
+        
+      echo "-p -pressure_n  -Mises           pressure normalized pressure Mises stress"
+      echo "-sigxx  -sigxy  -sigyx  ...      stress tensor components" 
+      echo "-sigxx_mat_n  ...                diagonal stress components for material n"
+      echo "-sigxx_n  -sigyy_n      ...      diagonal stress components for bond status n=:"
+      echo "                                 0(non-bonded),1(bonded),2(broken bond) contacts " 
+      echo ""
+      tput bold ;echo "contact and particles related variables:"; tput sgr0
+         
+      echo "-z -z11 -z12 -z21 -z22 -zclumps  coordination numbers"
+      echo "-a -ageom                        contact radius / geometric contact radius "
+      echo "-ao2rpeq                         contact radius / 2*rpeq"
+      echo "-aHertzo2rpeq                    Hertzian contact radius / 2*rpeq"
+      echo "-h -ho2rpeq                      indentation   indentation / 2*rpeq"
+      echo "-horiprj                         indentation / (ri + rj) (local strain)"
+      echo "-asa0                            contact radius/ plastic contact radius"
+      echo "-kn1_obj                         number of contacts with objects"
+      echo "-Temp                            Temperature(°C)"  
+      echo "-rp                              mean radius (micron)"  
+      echo "-sigma_rp                        standard deviation of mean radius (micron)"  
+      echo "-unload                          % of unloading contacts"
+      echo "-tensile                         % of bonded contacts in tension"
+      echo "-stick                           % of sticking contacts"
+      echo "-snap                            cumulative number of snapped plastic contacts" 
+      echo "-ferror                          error on force equilibrium" 
+      echo ""
+      tput bold ; echo "particle related variables:"; tput sgr0
+        
+      echo "-size                            Mean particle size"
+      echo "-sigma_rp                        Standard_deviation_of_particle_radii"
+      echo "-Npart                           Number of particles"
+      echo "" 
+      tput bold ; echo "cluster related variables:" ; tput sgr0
+      echo "-bonds                           Number of bounded contacts to object"
+      echo "-forcex -forcey -forcez          Force on object"
+      echo "-lastbondx -lastbondy -lastbondz Coord of last failed bond"
+      echo "-kn1_obj                         Number of contacts with objects"
+      echo ""
+      tput bold ; echo "object related variables:" ; tput sgr0
+      echo "-bonds                           Number of bounded contacts to object"
+      echo "-forcex -forcey -forcez          Force on object"
+      echo "-lastbondx -lastbondy -lastbondz Coord of last failed bond"
+      echo "-kn1_obj                         Number of contacts with objects"
+      echo ""
+      tput bold ;echo "strain and time derivative related variables:"; tput sgr0
+      echo "-dens                            Density"
+      echo "-dgeom                           Geomtric density: the particle overlap vol. is substracted"
+      echo "-epsxdot -epsydot -epszdot       Strain rates"
+      echo "-epsvdot -Ddot                   Volumic strain rate and densification rate"
+      echo "-epsx  -epsy  -epsz              x y and z strain"
+      echo "-kin  -kin_n                     Kinetic energy and normalized kinetic energy"  
+      echo "-dt                              Timestep value"  
+      exit
