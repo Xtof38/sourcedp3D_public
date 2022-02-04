@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D,v 2.4 2020/06/15 15:34:09 chris Exp $
+! $Id: dp3D,v 2.5 2021/12/16 08:39:05 chris Exp $
 #
 
 ###########################################################################
@@ -178,10 +178,13 @@ case $1 in
        $BINARY/dp3D_openMP80
        launch=yes
        ;;
-  -test )
+  -test* )
+# ntest allows to launch several versions of a test version
+# needs to modify Make_dp3De
+       ntest=$(echo $1 | grep -o [0-9])
        $BINARY_std/cleandp3D -f
        mv logdp3D.tmp log
-       /$HOME/bin/dp3De $2
+       /$HOME/bin/dp3De$ntest $2
        launch=yes
        ;;
    "" )

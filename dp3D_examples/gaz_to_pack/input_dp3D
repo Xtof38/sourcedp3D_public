@@ -35,6 +35,7 @@ ______________________________________________________________________
 # density>= epsilon>= pressure>= pressure<= epsvdot<= aoR>= time>= 
 # timestep>= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>= sigzz<= fracture=
 epsvdot<=0.1000E-09
+timestep>=1000000
 ______________________________________________________________________
 # writing coordinate files:
 # density= epsilon= pressure= sigxx= sigyy= sigzz=

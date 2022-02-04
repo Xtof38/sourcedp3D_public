@@ -253,8 +253,10 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
       num=`expr $Ynum + $ii \* $numdata - $numdata`
       Ycolumn=\(\$"$num"\)
       Title=\"$Title_o$ii\"
-# the last y chosen gives the ylabel
-      echo "set ylabel $Ylabel" >> plot_$file2display
+# the last y chosen gives the ylabel      
+      if [ "$i" = "1" ];then
+        echo "set ylabel $Ylabel" >> plot_$file2display
+      fi
 # by default we do not plot objects for which all fields are zero (no contact)
 # it may be plotted by deleting the # in plot_object
       awk '{print $'$num'}' $file2display > tmp3
@@ -263,8 +265,10 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
       else
         numnonzero=`grep -c -v "0.0000E+00" tmp3`
       fi
-# the title of the plot is pwd    
-      echo "set title  '"$(pwd)"'" >> plot_$file2display
+# the title of the plot is pwd  
+      if [ "$i" = "1" ];then
+        echo "set title  '"$(pwd)"'" >> plot_$file2display
+      fi
 # with quotes (-Q) one item per line (-1)
       if [ $numnonzero -gt 1 ];then
         if [ $done -ne 1 ];then

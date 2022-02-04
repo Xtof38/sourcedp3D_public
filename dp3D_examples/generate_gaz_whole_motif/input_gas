@@ -6,7 +6,7 @@ file_init
 ______________________________________________________________________
 # packing density to reach:
 # packing_density= relative_overlap=
-packing_density=0.28
+packing_density=0.05
 ______________________________________________________________________
 # boundary conditions:
 # 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z cyl_x cyl_y
@@ -19,40 +19,31 @@ x=1.00
 y=1.00
 z=3.00
 ______________________________________________________________________
-######################################################################
-#                    entities to pack                                #
-######################################################################
-# type:
-# particle bonded_aggregate adhesive_aggregate initial_file=
-bonded_aggregate
-______________________________________________________________________
 # size distribution:
 # plus_minus normal lognormal
 plus_minus
 ______________________________________________________________________
+# options:
+# none initial_file= attach=(mat_n-mat_nn)
+none
+______________________________________________________________________
 ######################################################################
 #                    classes                                         #
 ######################################################################
-# prop. of class (particle and aggregate sizes in µm) 1:
-# number= mat= name= particle_size= deviation= motif=
-# aggregate_size= bond_size=
-# spherical rectangular whole_motif
-# size_x= size_y= size_z= max_angle=
+# prop. of class (particle sizes in µm)               1:
+# number= mat= name= particle_size= deviation= Temp= motif= max_angle=
 number=10
-particle_size=1.0
+mat=1
 name=bi
-whole_motif
+particle_size=1.0
 motif=U
 ______________________________________________________________________
-# prop. of class (particle and aggregate sizes in µm) 2:
-# number= mat= name= particle_size= deviation= motif=
-# aggregate_size= bond_size=
-# spherical rectangular whole_motif
-# size_x= size_y= size_z= max_angle=
+# prop. of class (particle sizes in µm)               2:
+# number= mat= name= particle_size= deviation= Temp= motif= max_angle=
 number=10
-particle_size=1.0
+mat=1
 name=al
-whole_motif
+particle_size=1.0
 motif=bar
 ______________________________________________________________________
 ######################################################################
@@ -60,5 +51,5 @@ ______________________________________________________________________
 ######################################################################
 # random seed:
 # random_seed=
-random_seed=10
+random_seed=-4
 ______________________________________________________________________

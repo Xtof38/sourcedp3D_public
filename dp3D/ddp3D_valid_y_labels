@@ -28,6 +28,7 @@
       echo "-stick                           % of sticking contacts"
       echo "-snap                            cumulative number of snapped plastic contacts" 
       echo "-ferror                          error on force equilibrium" 
+      echo "-status                          relative number of contacts for each status" 
       echo ""
       tput bold ; echo "particle related variables:"; tput sgr0
         

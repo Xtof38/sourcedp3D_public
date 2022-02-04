@@ -3,8 +3,6 @@
 # kill -s 30, 10 or 16 can be used
 
 mydp3D > tmp_mydp3D
-# if (deleted) is written in tmp_mydp3D, erase it:
-sed -i 's/(deleted)//' tmp_mydp3D
 where=$(pwd)
 grep -wx "$where" tmp_mydp3D > tmp1
 samedir=$(grep -x -c "$where"  tmp1)
@@ -16,8 +14,9 @@ if [ "$samedir" != "0"  ];then
 # grep -x : matches only the whole line
 # grep -B n print the matching line and the n lines before
   prog=$(grep -x -B 1 "$where" tmp_mydp3D | head -1 | awk '//{ print $1}')
-  not_to_signal=$(grep -c $prog tmp1) 
-  PID=$(grep -x -B 1 "$where" tmp_mydp3D | head -1 | awk '//{ print $4}')
+  not_to_signal=$(grep -c $prog tmp1)
+  PID=$(grep -o "PID [0-9]*" tmp_mydp3D | sed 's/PID //')
+#  PID=$(grep -x -B 1 "$where" tmp_mydp3D | head -1 | awk '//{ print $4}')
   if [ $not_to_signal = "0" ];then
    case $1 in
    -write_coord )

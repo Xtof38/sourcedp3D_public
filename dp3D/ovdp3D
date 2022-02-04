@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: ovdp3D,v 2.3 2021/02/11 16:06:13 chris Exp $
+! $Id: ovdp3D,v 2.4 2021/11/09 15:27:05 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -64,7 +64,7 @@ if [ "$skip" = "1" ];then
   echo "Not launching ovito"
 else
 # calling the standard vdp3D with _ovito option
-  if [ "$optn" = "damage" -o $2 = "-damage" ];then
+  if [ "$optn" = "damage" -o "$2" = "-damage" ];then
     $BINARY_std/select_damaged_parts $file2ovito
     damage="1"
   else

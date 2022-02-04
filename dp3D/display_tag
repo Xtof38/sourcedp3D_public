@@ -321,11 +321,13 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 #   a valid y label has been chosen    
     if [ "$plot" != "no" ];then 
       let "i+=1"
-# the last y chosen gives the ylabel
-      echo "set ylabel $Ylabel" >> plot_$file2display
-    
-      echo "set title $Title" >> plot_$file2display
+      if [ "$i" = "1" ];then
+# the first y chosen gives the ylabel
+        echo "set ylabel $Ylabel" >> plot_$file2display
+        echo "set title $Title" >> plot_$file2display
+      fi
       echo "Displaying $Title $Comment" 
+    
 
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display

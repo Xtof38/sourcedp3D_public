@@ -1,0 +1,9 @@
+src/*.mod
+src/objects/
+src/objects_openMP/
+src/modules
+src/makedp3D.log
+src_last_ok/
+src_last_ok_old/
+test_before_commit/reference/abstract
+test_before_commit/test/

@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: ddp3D,v 2.9 2021/03/01 16:32:52 chris Exp $
+! $Id: ddp3D,v 2.10 2021/12/01 12:30:05 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D results
@@ -136,6 +136,9 @@ theuser=`whoami`
         c5="$c3";c6="$c4";c2="-epsxdot";c3="-epsydot";c4="-epszdot"
       fi
       tocall=$BINARY_std"display_tstress"
+      ;;
+      -status )
+      tocall=$BINARY_std"display_cstatus"
       ;;
       * )
       if [ "$c2" = "" ];then

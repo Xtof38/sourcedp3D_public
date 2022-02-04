@@ -1,0 +1,181 @@
+#!/bin/bash
+
+###########################################################################
+# This is a script to display colums of the rupt files in the current 
+# directory
+###########################################################################
+
+# Christophe.martin@grenoble-inp.fr    November 2006
+BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+theuser=`whoami`
+
+file2display=cstatus
+
+# only one possibility for cstatus
+# looking for col 6 to colmax that have none zero columns 
+ncols=$(head -1 $file2display | awk '{ print NF}')
+ncoly="5"
+Option_l=""
+
+while [ "$ncoly" != "$ncols" ]; do
+  let "ncoly = ncoly +1"
+  nnonzero=$(awk '{print $'$ncoly'}' $file2display | sed 1d | grep -vc 0)
+  if [ "$nnonzero" != "0" ];then 
+    Option_l=$Option_l" $ncoly"
+  fi
+done
+
+
+# need a $file2display file in the current directory
+# need a file2display file in the current directory
+if [ -f $file2display ];then     
+  echo ""
+  numcol=`head -1 $file2display | awk '{print NF }'`
+  let "numcol = numcol + 1"
+else
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
+  echo "file $file2display does not exist !"
+  echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
+  exit
+fi     
+# the old format:
+echo "$1" > istimethere
+nistimethere=`grep -c "\-time"  istimethere`
+rm -f istimethere
+if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
+# if mixing  columns of $file2display and visco:
+# old format:
+  if [ -f visco  ];then 
+    case $1 in
+    -time_s )
+        Xcol="1"
+      ;;
+    -time_h )
+        Xcol="2"
+        ;;
+    -time_y )
+        Xcol="3"
+        ;;       
+    esac
+    file2look="visco"
+  else
+    file2look="tstress"
+    case $1 in
+    -dgeom )
+        Xcol="23"
+	file2look="zave"
+      ;;
+    -timestep )
+        Xcol="5"
+      ;;
+    -time_s )
+        Xcol="6"
+      ;;
+    -time_h )
+        Xcol="7"
+        ;;
+    -time_y )
+        Xcol="8"
+        ;;       
+    esac
+  fi
+  awk '{print $'$Xcol'}' $file2look > tmp1
+  paste $file2display tmp1 > visco$file2display
+fi
+
+case $1 in
+  -dens )
+      Xlabel='"Relative Density "'
+      Xcolumn='($1)'
+      ;;
+  -dgeom )
+      Xlabel='"Geometric Relative Density "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -epsx )
+      Xlabel='"Strain (x)"'
+      Xcolumn='(-$2)'
+      ;; 
+  -epsy )
+      Xlabel='"Strain (y)"'
+      Xcolumn='(-$3)'
+      ;; 
+  -epsz )
+      Xlabel='"Strain (z)"'
+      Xcolumn='(-$4)'
+      ;; 
+  -timestep )
+      Xlabel='"Timestep "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_s )
+      Xlabel='"Time (sec) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_h )
+      Xlabel='"Time (hour) "'
+      Xcolumn='($'$numcol')'
+      ;;
+  -time_y )
+      Xlabel='"Time (year) "'
+      Xcolumn='($'$numcol')'
+      ;;       
+     * )
+       echo " $1 is not a valid x label"
+       echo " valid x labels are  -dens -dgeom : density / geometric density"
+       echo "                     -epsx -epsy -epsz : x y and z strain"
+       echo ""
+       echo " valid y labels are  -status "
+       exit 
+esac
+# gnup_display  is the standard view for gnuplot and display_  
+cp -f "$BINARY_std"gnup_display plot_$file2display
+
+    echo "set xlabel $Xlabel" >> plot_$file2display
+    let "i=0"
+    end_option="$1"0
+
+    for Ycolumn in $Option_l 
+    do
+      Title=$(awk '{print $'$Ycolumn'}' $file2display | head -1)
+      Title=\""${Title:3}"\"
+      Ylabel='"Relative contact number"'
+      Ycolumn="(\$"$Ycolumn")"
+      if [ "$plot" != "no" ];then
+#   a valid y label has been chosen    
+        let "i+=1"
+# the first y chosen gives the ylabel      
+        if [ "$i" = "1" ];then
+          echo "set ylabel $Ylabel" >> plot_$file2display
+# the title of the plot is pwd    
+          echo "set title  '"$(pwd)"'" >> plot_$file2display
+        fi
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+        if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
+          ls -1 -Q visco$file2display > tmp1
+        else
+          ls -1 -Q $file2display > tmp1
+        fi
+    
+        if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+          sed 's/^/plot /g' tmp1 > tmp2
+        else
+# replot everywhere except for the first line (1,1)
+          sed 's/^/replot /g' tmp1 > tmp2 
+        fi
+# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
+        sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
+# Not the most elegant !:    
+        sed 's/_/ /g' tmp3 > tmp2
+        sed 's/) title/\/$5) title /g' tmp2 > tmp3
+
+       sed 's/$/ w l lw 2 /g' tmp3 > tmp2
+       cat tmp2 >> plot_$file2display
+
+      fi
+    done
+     gnuplot -geometry 560x400 -persist plot_$file2display   
+
+rm -f tmp1 tmp2 tmp3

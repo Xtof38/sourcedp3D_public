@@ -128,7 +128,7 @@ case $1 in
        echo "                     -snap : cumulative number of snapped plastic contacts"       
        echo "                     -Npart : number of particles"       
        echo "                     -rp : particle mean radius"       
-       echo "                     -sigma_rp : standard deviation of particle radii"       
+       echo "                     -sigma_rp : relative standard deviation of particle radii"       
        exit 
 esac
 
@@ -239,7 +239,7 @@ esac
       ;; 
     -sigma_rp )
       Title='"relative_standard_deviation_of_particle_radii_\/_(mean_part_radius)"'
-      Ylabel='"relative sigmacd ../"'
+      Ylabel='"relative sigma"'
       Ycolumn='($22)'      
       ;; 
     xrange* )
@@ -301,10 +301,12 @@ esac
 #   a valid y label has been chosen    
     if [ "$plot" != "no" ];then
       let "i+=1"
-# the last y chosen gives the ylabel
-      echo "set ylabel $Ylabel" >> plot_$file2display
+      if [ "$i" = "1" ];then
+# the first y chosen gives the ylabel
+        echo "set ylabel $Ylabel" >> plot_$file2display
 # the title of the plot is pwd    
-      echo "set title  '"$(pwd)"'" >> plot_$file2display
+        echo "set title  '"$(pwd)"'" >> plot_$file2display
+      fi
 
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display

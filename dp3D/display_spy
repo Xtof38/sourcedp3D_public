@@ -337,10 +337,13 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 #   a valid y label has been chosen  
     if [ "$plot" != "no" ];then 
       let "i+=1"
-# the last y chosen gives the ylabel
-      echo "set ylabel $Ylabel" >> plot_$file2display
+
+# the first y chosen gives the ylabel      
+      if [ "$i" = "1" ];then
+        echo "set ylabel $Ylabel" >> plot_$file2display
     
-      echo "set title $Title" >> plot_$file2display
+        echo "set title $Title" >> plot_$file2display
+      fi
 # for strain rates it is better to use log scale
       if [ $ylog -eq 1 ];then
        echo "set log y" >> plot_$file2display

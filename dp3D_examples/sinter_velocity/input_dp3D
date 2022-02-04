@@ -10,7 +10,7 @@ sintering
 ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_elast_only
-# constant_velocity gravity thermal
+# constant_velocity gravity thermal use_init_velocities
 no_rotation
 ______________________________________________________________________
 ######################################################################

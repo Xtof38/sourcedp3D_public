@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.16 2021/07/05 12:02:18 chris Exp $
+! $Id: cdp3D,v 2.17 2021/12/03 09:10:03 chris Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -649,6 +649,7 @@ esac
  rm -f option_dp3D.tmp
  rm -f script_rasmol*tmp 
  rm -f tmp1 tmp2
+ rm -f dp3D_coord.tmp
 
 # to return to the proper prompt
  exit

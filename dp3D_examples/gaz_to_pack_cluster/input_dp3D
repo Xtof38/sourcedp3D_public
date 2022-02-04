@@ -64,7 +64,7 @@ ______________________________________________________________________
 ######################################################################
 # periodic conditions:
 # 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z
-1x1y1z
+0x0y0z
 ______________________________________________________________________
 # loading conditions (Pa for stress):
 # epsxdot= epsydot= epszdot= sigxx= sigyy= sigzz= equal_stress= pressure=
