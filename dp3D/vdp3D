@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.6 2019/12/17 10:17:53 chris Exp $
+! $Id: vdp3D,v 2.7 2022/02/08 09:50:28 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -523,7 +523,7 @@ if [ "$option_exit1" != "0" ];then
   echo "exiting; next executable : trs_obj"
   exit
 else
-  trs_obj
+  $BINARY_std\trs_obj
 fi
 
 # now going to ovito or to rasmol :
@@ -685,7 +685,7 @@ if [ "$ovito" = "" ];then
         echo "exiting; next executable : trs_tag_rm"
         exit
       else
-        trs_tag_rm
+        $BINARY_std\trs_tag_rm
       fi
 # do not remove TAGFILE yet it may be used for visualization by 
       if [ $optn != "Nnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
