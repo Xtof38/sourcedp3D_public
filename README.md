@@ -5,7 +5,7 @@ To run dp3D (on linux distribution only), you need to:
 1. download the latest version of the dp3D user manual from https://www.overleaf.com/read/xvtqjkgrppvd;
 
 2. download the dp3D directory into the directory where you have your executables, typically /usr/local/
-make sure you have the neceesary rights and that the path is declared into your .bashrc or .bash_profile;
+make sure you have the necessary rights and that the path is declared into your .bashrc or .bash_profile;
 
 3. download the dp3D_examples  directory that contains examples that are good starting points for simulations;
 
