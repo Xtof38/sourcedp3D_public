@@ -85,6 +85,9 @@ Gives geometric information on particles nnn mmm ...
 cdp3D -pick file
 Pick particles according to their number, coordinates, or inside a sphere or rectangular box
 
+cdp3D -pixel file
+Pixelizes the packing to create a 2D (slice) raw file  
+
 cdp3D -probe_(x,y or z) file
 Information on packing density gradient along x,y or z axis
 
@@ -131,5 +134,5 @@ cdp3D -voronoi file
 Performs a radical Voronoi tesselation (voro++)
 
 cdp3D -voxel file
-Voxelizes the packing to create a raw file  
+Voxelizes the packing to create a 3D raw file  
 

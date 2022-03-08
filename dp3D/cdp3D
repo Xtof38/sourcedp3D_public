@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.17 2021/12/03 09:10:03 chris Exp $
+! $Id: cdp3D,v 2.18 2022/03/08 15:25:53 chris Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -190,6 +190,9 @@ case $opttest in
   pick )
 	echo 'pick particles according to their number or to their coordinates  '	
        ;;
+  pixel )
+        echo 'Pixelize (2D slice) a coordinate file '
+       ;;
   probe_x | probe_y | probe_z )
         echo 'Information on packing gradient along x,y or z axis'
        ;;
@@ -233,7 +236,7 @@ case $opttest in
         echo  'Performs a radical voronoi tesselation(voro++)'
        ;;
   voxel | voxel_file )
-        echo 'Voxelize a coordinate file '
+        echo 'Voxelize (3D image) a coordinate file '
        ;;
 
 
@@ -498,6 +501,14 @@ title '"Radial Distribution Function of packing "$2""' w l lw 2 " | sed 's/-//g'
         exit
       else       
         $BINARY_std/dp3D_voxel
+      fi
+       ;;
+  pixel  )
+      if  [ $option_exit = "true" ];then
+        echo "next executable: dp3D_pixel"      
+        exit
+      else       
+        $BINARY_std/dp3D_pixel
       fi
        ;;
   image )
