@@ -2,32 +2,34 @@
 #                   simulation conditions                            #
 ######################################################################
 # coordinate file:
-lognorm_400init
+p4kpartp5_rm_size_ref
 ______________________________________________________________________
 # mode key word:
 # jamming elasto_plasticity viscoplasticity sintering
-jamming
+sintering
 ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_aoR= constant_velocity
 # gravity PID_controller thermal use_init_velocities oriented
 # Level_Set
-none
+no_rotation
+stress_ref
 ______________________________________________________________________
 ######################################################################
 #                           models                                   #
 ######################################################################
-# elasto_plasticiy and jamming key words:
-# none bonds no_elasticity
-none
+# sintering model:
+# Parhami_Mc_Meeking Bouvard_Pan viscous contact_Parhami
+# P_small_eat_large= gg_Surf_Migr=
+Bouvard_Pan
 ______________________________________________________________________
 # friction model:
 # Hertz_Mindlin Coulomb shear
-Hertz_Mindlin
+Coulomb
 ______________________________________________________________________
 # adhesion model:
 # DMT JKR
-DMT
+JKR
 ______________________________________________________________________
 ######################################################################
 #                         outputs                                    #
@@ -36,8 +38,7 @@ ______________________________________________________________________
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
 # sigzz<=
-epsvdot<=0.1000E-09
-timestep>=1000000
+density>=0.8
 ______________________________________________________________________
 # writing coordinate files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
@@ -47,53 +48,83 @@ ______________________________________________________________________
 # writing output files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
 # sigzz= none end
-density=0.1000E-03
+density=0.001
 ______________________________________________________________________
 # writing contact history files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
 # sigzz= none end
-end
+none
 ______________________________________________________________________
 ######################################################################
 #                         loadings                                   #
 ######################################################################
 # periodic conditions:
 # 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z
-1x1y1z
+0x0y0z
 ______________________________________________________________________
 # loading conditions (Pa for stress):
 # epsxdot= epsydot= epszdot= sigxx= sigyy= sigzz= equal_stress=
 # pressure=
-epsxdot=-0.1000E-03
-epsydot=-0.1000E-03
-epszdot=-0.1000E-03
-pressure=0.2E+05
+sigxx=0.0
+sigyy=0.0
+sigzz=0.0
+______________________________________________________________________
+# temperatures (deg C) and duration (s) for stage 1:
+# none T_init= T_final= time=
+T_init=1500.
+T_final=1500.
+time=0.
 ______________________________________________________________________
 ######################################################################
 #                         materials (from 0,1,2, ... to 9)           #
 ######################################################################
 # elastic parameters (Pa for stress):
 # E(1)= poisson(1)= delta_c(1)= fact_mult(1)=
-E(1)=0.2000E+11
-poisson(1)=0.3000E+00
+E(1)=0.1000E+12
+poisson(1)=0.2200E+00
 ______________________________________________________________________
 # plastic parameters (Pa for stress):
 # sigy(1)= Mstrain= Nvisco=
-sigy(1)=0.3000E+09
+sigy(1)=0.1000E+10
 Mstrain=0.0000E+00
 Nvisco=0.0000E+00
 ______________________________________________________________________
 # friction parameters:
 # frict(1,1)=
-frict(1,1)=0.
+frict(1,1)=0.01
 ______________________________________________________________________
 # work of adhesion parameters (J.m-2):
 # adhes(1,1)=
 adhes(1,1)=0.
 ______________________________________________________________________
+# sintering material(s):
+# 0 1 2 3 4 5 6 7 8 9
+1
+______________________________________________________________________
+# surface energy parameters for sintering (J.m-2):
+# gamma_s(1,1)=
+gamma_s(1,1)=0.905
+______________________________________________________________________
+# diffusion parameter (m3.s-1), activation energy (KJ/mol):
+# DeltabD0b(1,1)= Qb(1,1)=
+DeltabD0b(1,1)=1.3E-8
+Qb(1,1)=475.
+______________________________________________________________________
+# dihedral angle (deg):
+# chi(1,1)=
+chi(1,1)=138.
+______________________________________________________________________
+# atom vol(m3):
+# omega(1)=
+omega(1)=2.11E-29
+______________________________________________________________________
+# alpha parameter for sintering:
+# alpha(1,1)=
+alpha(1,1)=4.5
+______________________________________________________________________
 # density (g.mm-3):
 # ro(1)= correct_fact(1)=
-ro(1)=0.7890E-02
+ro(1)=0.8706E-02
 ______________________________________________________________________
 ######################################################################
 #                           numerics                                 #
@@ -103,14 +134,10 @@ ______________________________________________________________________
 # rigid_motion=
 1x1y1z
 ______________________________________________________________________
-# control of strain-rates for quasi-static conditions:
-# none aoamean= break= epsilon= ferror= kin_energy= vmax= ctrl_fact=
-none
-______________________________________________________________________
 # numerical parameters:
 # upscale(1)= safe_dt= damping= fixed_dt= random_seed=
 # potential_contact= aff_fact= P_fact= I_fact= D_fact=
-safe_dt=0.5000E-01
+safe_dt=0.1000E-01
 upscale(1)=0.1000E+01
-damping=0.5000E-01
+damping=0.0000E+00
 ______________________________________________________________________

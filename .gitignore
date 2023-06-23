@@ -1,4 +1,6 @@
-src/*.mod
+**/*.mod
+**/*.i*
+**/*__genmod.f90
 src/objects/
 src/objects_openMP/
 src/modules

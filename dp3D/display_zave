@@ -7,7 +7,7 @@
 
 # Christophe.martin@grenoble-inp.fr    November 2006
 
-BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 theuser=`whoami`
 
 Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
@@ -268,7 +268,10 @@ esac
      * )
       if [ "$option" = "$end_option" -a $i -gt 0 -o "$option" = "-keep" ];then
 # this is the end of the y label list, no more to plot
-        gnuplot -geometry 560x400 -persist plot_$file2display   
+        if [ "$option" != "-keep" ];then
+          gnuplot -geometry 560x400 -persist plot_$file2display 
+        fi  
+   
         rm -f tmp1 tmp2 tmp3
        if [ $nistimethere != "0" -a $option != "-keep" ];then
           rm  -f visco$file2display*

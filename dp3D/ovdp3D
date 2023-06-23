@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: ovdp3D,v 2.4 2021/11/09 15:27:05 chris Exp $
+! $Id: ovdp3D,v 2.6 2022/05/20 14:22:43 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -12,10 +12,15 @@
 # Christophe.martin@grenoble-inp.fr   
 # first created January 2014
 
-BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 if [ "$1" = "" ];then
   more $BINARY_std/help_ovdp3D
   exit
+fi
+# checking test option. If true, BINARY_std become the user bin
+if [ `echo  $1  | grep  -o _test` ];then
+  BINARY_std=/home/$(whoami)/bin/
+  test=`echo  $1  | grep  -o _test`
 fi
 # opt without -:
 # _skip allows skipping altogether the trs_obj treatment when the xyz files already exists
@@ -23,6 +28,7 @@ skip=`echo  $1  | grep -c _skip`
 optn=`echo $1 | sed 's/_skip//'`
 option_exit1=`echo  $1  | grep -c _exit1`
 option_exit2=`echo  $1  | grep -c _exit2`
+optn=`echo "$optn" | sed 's/_test//g'`
 optn=`echo "$optn" | sed 's/-//g'`
 xyz=`echo  $1  | grep -c _xyz`
 damage="0"
@@ -68,7 +74,7 @@ else
     $BINARY_std/select_damaged_parts $file2ovito
     damage="1"
   else
-    $BINARY_std/vdp3D -"$optn"_ovito $2
+    $BINARY_std/vdp3D -"$optn""$test"_ovito $2
   fi
 fi
 

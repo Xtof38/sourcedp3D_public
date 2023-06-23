@@ -6,7 +6,7 @@
 ###########################################################################
 
 # Christophe.martin@inpg.fr    November 2006
-BINARY_std=/usr/local/dp3D/
+BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 theuser=`whoami`
 if [ -d $BINARY_std ];then
 # this the default 
@@ -102,5 +102,7 @@ sed 's/$/ w l /g' tmp2 > tmp3
 cat tmp3 >> plot_$file2display
 echo "replot \"_tricRaj\" u (4-\$2):(\$3) title \"_tricRaj\" w l lw 4" >> plot_$file2display
 
-gnuplot -geometry 560x400 -persist plot_$file2display
+if [ "$option" != "-keep" ];then
+  gnuplot -geometry 560x400 -persist plot_$file2display 
+fi 
 rm -f tmp1 tmp2 tmp3 tmp4

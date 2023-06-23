@@ -1,12 +1,12 @@
 #!/bin/bash
-! $Id: ddp3D,v 2.10 2021/12/01 12:30:05 chris Exp $
+! $Id: ddp3D,v 2.12 2022/06/03 08:30:47 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D results
 ###########################################################################
 
 # Christophe.martin@grenoble-inp.fr    March 2007
-BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 theuser=`whoami`
 
 
@@ -139,6 +139,9 @@ theuser=`whoami`
       ;;
       -status )
       tocall=$BINARY_std"display_cstatus"
+      ;;
+      -Surf | -Mob | -Surf_n | -Mob_n )
+      tocall=$BINARY_std"display_Surf_Mob"
       ;;
       * )
       if [ "$c2" = "" ];then

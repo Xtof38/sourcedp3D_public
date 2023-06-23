@@ -49,4 +49,7 @@ cp -f /usr/local/dp3D/gnup_display plot_$file2display
         rm -f tmp1 
 
 #rm -f tmp1 tmp2 tmp3
-gnuplot -geometry 500x500 -persist plot_$file2display   
+        if [ "$option" != "-keep" ];then
+          gnuplot -geometry 560x400 -persist plot_$file2display 
+        fi  
+

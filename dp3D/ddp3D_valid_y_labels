@@ -27,13 +27,13 @@
       echo "-tensile                         % of bonded contacts in tension"
       echo "-stick                           % of sticking contacts"
       echo "-snap                            cumulative number of snapped plastic contacts" 
+      echo "-status                          fraction of contact for each status "
       echo "-ferror                          error on force equilibrium" 
-      echo "-status                          relative number of contacts for each status" 
       echo ""
       tput bold ; echo "particle related variables:"; tput sgr0
         
       echo "-size                            Mean particle size"
-      echo "-sigma_rp                        Standard_deviation_of_particle_radii"
+      echo "-sigma_rp                        Standard deviation of particle radii"
       echo "-Npart                           Number of particles"
       echo "" 
       tput bold ; echo "cluster related variables:" ; tput sgr0

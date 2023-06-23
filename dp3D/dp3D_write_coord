@@ -2,8 +2,11 @@
 # this is a shell that sends a signal to a dp3D running program
 # kill -s 30, 10 or 16 can be used
 
-mydp3D > tmp_mydp3D
 where=$(pwd)
+# grep -B n print the matching line and the n lines before
+# this is to ensure that if two dp3D run in two /= directories
+# it signals only the dp3D in the current directory
+mydp3D | grep -x -B 1 "$where"  > tmp_mydp3D
 grep -wx "$where" tmp_mydp3D > tmp1
 samedir=$(grep -x -c "$where"  tmp1)
 list_of_dp3D_prg_not_to_signal="dp3D/dp3Dgas"

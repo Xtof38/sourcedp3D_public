@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: mydp3D,v 2.5 2020/02/11 13:14:25 chris Exp $
+! $Id: mydp3D,v 2.6 2022/04/04 15:55:13 chris Exp $
 
 ###########################################################################
 # This is a script to get info on a dp3D proc 
@@ -11,32 +11,22 @@
       system=`hostname`
       echo "For user $theuser :"
       if [ "$system" = "master0.alineos.net" ];then
-        echo "Looking only for qsub jobs"
-	list_jobs=`qstat | grep $theuser | awk '{print $1}'`
+        echo "Looking only for slurm jobs"
+	list_jobs=`squeue | grep $theuser | awk '{print $1}'`
 	numjobs=`echo $list_jobs | awk '{print NF}'`
 	for job in $list_jobs
 	do
-	  prop=`pbsnodes -a | grep --color -B 5 $job | grep properties | awk '{print $3}'`
-	  node=`pbsnodes -a | grep  -B 5 $job | grep -v status | grep node[0-9].* | awk '{print $1}'`
-	  status=`qstat  $job | grep $job | awk '{print $5}'`
-	  dir=`qstat -x $job | grep init_work_dir | grep -oP '(?<=init_work_dir>).*(?=</init_work_dir)'`
+	  node=`scontrol show job $job | grep  BatchHost | grep -o node.*`
+	  status=`scontrol show job  $job | grep "JobState=.* " `
+	  dir=`scontrol show job $job | grep WorkDir | sed 's/   WorkDir=//g'`
 	  echo ""
-	  case $status in
-	    R )
-	    echo "job $job is running on node $node of type: $prop"
-	    ;;
-	    Q )
-	    echo "job $job is on queue on node $node of type: $prop"
-	    ;;
-	    * )
-	    echo "job $job has status $status on node $node of type: $prop"	    
-	  esac
+	  echo "job $job is running on node $node with status $status"
 	  echo "in directory:"
 	  echo "$dir"
 	  echo ""
 	done
         if  [ $numjobs = "0" ];then
-          echo "no dp3D process found with qsub"
+          echo "no dp3D process found with squeue"
         fi
 	
       else

@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: lastdp3D,v 1.1 2012/01/23 17:06:21 chris Exp $
+! $Id: lastdp3D,v 2.2 2022/09/23 15:20:33 chris Exp $
 
 ###########################################################################
 # This is a script to get the last 5 (<30 days) dp3D simulations 
@@ -7,7 +7,16 @@
 
 # Christophe.martin@Grenoble-INP.fr    January 2011
 theuser=`whoami`
-hours=`echo "$1" | sed 's/-//g'`
+ldir="$1"
+hours=`echo "$2" | sed 's/-//g'`
+
+if [ "$ldir" = "" ];then
+  echo "lastdp3D usage: lastdp3D directory -hours "
+  echo "need a directory"
+  echo "by default hours=48"
+  exit
+fi
+
 # 2 days is the default values (48 hours)
 if [ "$hours" = "" ];then
   minutes="2880"
@@ -15,38 +24,31 @@ if [ "$hours" = "" ];then
 else
   let "minutes = $hours * 60"
 fi
-echo "lastdp3D usage: lastdp3D -hours"
-echo "by default hours=48"
+
 
 echo "For user $theuser,"
-echo "dp3D simulations in the last $hours hours in /home/$theuser:"
+echo "dp3D simulations in the last $hours hours in $ldir:"
+ldir=$(realpath $ldir)
 
-list_dir=$(find /home/$theuser -type d -mmin -"$minutes" 2>/dev/null | sed '/test_before_commit/d')
+find $ldir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
+ | awk '{ print $6," ",$7," ",$8," ",$9}'  | sed 's/tstress//' 
+
+exit
+
+list_dir=$(find $ldir -type d -mmin -"$minutes" 2>/dev/null | sed '/test_before_commit/d')
+echo "list_dir: $list_dir $minutes"
 #list_dir="/home0/chris/compact01/pb_delta"
-  for dir in $list_dir
+for dir in $list_dir
   do
     if [ -f $dir/tstress ];then
       ls  -r -t -al $dir | awk '{ print $6," ",$7," ",$8," ",$9}'  | grep -w tstress | sed 's/tstress//'
       echo $dir
       echo ""
     fi
-  done
+done
 
 
 
-
-echo "dp3D simulations in the last $hours hours in /home0/$theuser:"
-echo ""
-list_dir=$(find /home0/$theuser -type d -mmin -"$minutes" 2>/dev/null | sed '/test_before_commit/d')
-#list_dir="/home0/chris/compact01/pb_delta"
-  for dir in $list_dir
-  do
-    if [ -f $dir/tstress ];then
-      ls  -r -t -al $dir | awk '{ print $6," ",$7," ",$8," ",$9}'  | grep -w tstress | sed 's/tstress//'
-      echo $dir
-      echo ""
-    fi
-  done
 
 exit
 # seems faster than:

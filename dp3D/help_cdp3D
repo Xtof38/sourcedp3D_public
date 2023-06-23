@@ -10,6 +10,9 @@ Modifies boundary conditions
 cdp3D -bonds file 
 Creates bonds between particles and/or between bonds and objetcs
 
+cdp3D -break_bonds file 
+Break bonds between particles and/or between bonds and objetcs
+
 cdp3D -class file
 Creates a file with distribution size of clusters
    
@@ -98,8 +101,11 @@ cdp3D -rdf file
 Computes the Radial Distribution Function of the packing  	
 
 cdp3D -renum file
-Reorder particles number to savec on cache calls for parallelization  	
+Reorder particles number to savec on cache calls for parallelization 
 
+cdp3D -ref_sphere (or -ref_rect)
+Creates a reference sphere or reference rectangle
+ 	
 cdp3D -resize file 
 Resizes particles  	
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D,v 2.5 2021/12/16 08:39:05 chris Exp $
+! $Id: dp3D,v 2.11 2023/05/02 15:59:46 chris Exp $
 #
 
 ###########################################################################
@@ -8,9 +8,11 @@
 
 # Christophe.martin@grenoble-inp.fr  
 
+# needto have unlimited access for memory:
+ulimit -s unlimited
 
 # find in the path the directory of dp3D executables
-BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 
 if [  "$BINARY_std" = "" -o ! -d "$BINARY_std" ];then
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -18,6 +20,7 @@ if [  "$BINARY_std" = "" -o ! -d "$BINARY_std" ];then
    echo "!   in variable   PATH                                    !" 
    echo "!   declare PATH in .bash_profile                         !"
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+   echo  "BINARY_std: $BINARY_std"
    echo  "PATH: $PATH"  
    exit
 fi
@@ -25,11 +28,9 @@ fi
 
 theuser=`whoami`
 BINARY=/$HOME/bin/
-system=`hostname`
 # this list should be the same as the list in the scpdp3D shell:
 list_exe_2update="dp3D_seq dp3D_openMP dp3D_openMP1 dp3D_openMP2 dp3D_openMP4 \
-                  dp3D_openMP6 dp3D_openMP8 dp3D_openMP10 dp3D_openMP12 \
-                  dp3D_openMP16 dp3D_openMP20 dp3D_openMP80"
+                  dp3D_openMP6 dp3D_openMP8"
 
 #### the following arguments for dp3D do not launch dp3D calculations
 #### but send a signal while executing
@@ -74,38 +75,26 @@ if [ ! -d $BINARY ];then
   mkdir $BINARY
 fi
 
+# cp brutally, even if not a new version all the executables:
 if [ -d $BINARY_std ];then
   for file in $list_exe_2update
   do  
-     test=$(diff -q $BINARY_std/"$file"    $BINARY/"$file") 
-     if [ ! -z "$test" -o ! -f $BINARY/"$file" ];then 
-       rm -f $BINARY/"$file"
-       cp  $BINARY_std/"$file" $BINARY/"$file"
-       newversion="yes"
-     fi
+    rm -f $BINARY/"$file"
+    cp  $BINARY_std/"$file" $BINARY/"$file"
   done
-  if [  "$newversion" = "yes"  ];then
-    echo "Using new version of dp3D"
-  fi
 fi
 
-$BINARY_std/mydp3D > tmp_mydp3D
 where=$(pwd)
-grep -w "$where" tmp_mydp3D > tmp1
-samedir=$(grep -x -c "$where"  tmp1)
+samedir=$($BINARY_std/mydp3D | grep -w "$where" | grep -x -c "$where")
 if [ "$samedir" != "0"  ];then
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
    echo "!   A dp3D program is already running in this directory   !"
    echo "!   It is not wise to run another one                     !"
    echo "!   in the same directory             !!                  !"
    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-   cat tmp_mydp3D  
-   rm -f tmp_mydp3D
+   $BINARY_std/mydp3D 
    exit
 fi
-rm -f tmp1 
-rm -f tmp_mydp3D
-
 
 
 # rm files from a former dp3D calc only when sure that the option is correct
@@ -148,36 +137,6 @@ case $1 in
        $BINARY/dp3D_openMP8
        launch=yes
        ;;
-  -openMP10 )
-       $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
-       $BINARY/dp3D_openMP10
-       launch=yes
-       ;;
-  -openMP12 )
-       $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
-       $BINARY/dp3D_openMP12
-       launch=yes
-       ;;
-  -openMP16 )
-       $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
-       $BINARY/dp3D_openMP16
-       launch=yes
-       ;;
-  -openMP20 )
-       $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
-       $BINARY/dp3D_openMP20
-       launch=yes
-       ;;
-  -openMP80 )
-       $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
-       $BINARY/dp3D_openMP80
-       launch=yes
-       ;;
   -test* )
 # ntest allows to launch several versions of a test version
 # needs to modify Make_dp3De
@@ -196,15 +155,16 @@ case $1 in
      * )
        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
        echo "$1 is not a valid option for dp3D"
-       echo "valid options : -openMP[n] with n=2,4,6,...,16    "
+       echo "valid options : -openMP[n] with n=2,4,6,8    "
+       echo "valid options : -openMP                      "
        echo "valid options : -write_log -write_coord "
        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-       rm -f tmp_mydp3D tmp1 logdp3D.tmp
+       rm -f logdp3D.tmp
        exit
 esac
 
 
 
 
-rm -f tmp_mydp3D tmp1 logdp3D.tmp
+rm -f logdp3D.tmp
 exit

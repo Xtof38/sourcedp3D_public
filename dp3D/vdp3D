@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.7 2022/02/08 09:50:28 chris Exp $
+! $Id: vdp3D,v 2.11 2022/05/20 14:22:43 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -11,11 +11,16 @@
 # Christophe.martin@grenoble-inp.fr   
 # first created september 2006
 
-BINARY_std=$(whereis dp3D | awk '{print $2"/"}' )
+BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 theuser=`whoami`
 if [ "$1" = "" ];then
   more $BINARY_std/help_vdp3D
   exit
+fi
+# checking test option. If true, BINARY_std become the user bin
+if [ `echo  $1  | grep  -o _test` ];then
+  BINARY_std=/home/$(whoami)/bin/
+  test=`echo  $1  | grep  -o _test`
 fi
 # by default no range for values to plot:
 range="0.0D0 0.0D0"
@@ -50,6 +55,8 @@ opt=`echo "$option_wo_exit" | sed 's/[0-9]//g'`
 opt=`echo "$opt" | sed 's/-f /-anim /g'`
 
 opt=`echo "$opt" | sed 's/_ovito//g'`
+
+opt=`echo "$opt" | sed 's/_test//g'`
 
 # opt without -:
 optn=`echo "$opt" | sed 's/-//g'`
@@ -281,7 +288,7 @@ case $optn in
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
    Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | eps[x-z] \
-   | dens | voronoi | potential | center_clumps | Temp | normal_axis \
+   | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z )
    if  [ "$ref_file" = "1" ];then
 # using the reference file if necessary
@@ -297,11 +304,12 @@ case $optn in
      echo "'$file_coord','$file_coord'"  >> list.tmp 
      echo "load xyz tmpfilevdp3D$ii.tmp" > script_rasmol$ii.tmp
      echo "script ivdp3D" >> script_rasmol$ii.tmp 
+# Deprecated. vdp3D -voro is a better option for visualization  
      if [ "$optn" = "voronoi" ];then
 # need to export to a file format readable by voro++:
         mv script_rasmol$ii.tmp script_rasmol$ii.save
-        cdp3D -export_nxyzR "$file_coord"
-        cdp3D -voronoi "$file_coord"
+        $BINARY_std/cdp3D -export_nxyzR"$test" "$file_coord"
+        $BINARY_std/cdp3D -voronoi"$test" "$file_coord"
         rm -f "$file_coord"_export
         mv script_rasmol$ii.save script_rasmol$ii.tmp
      fi
@@ -705,7 +713,7 @@ if [ "$ovito" = "" ];then
 # Another plot to see the  particles removed from the notch in -notch option
   if [ "$optn" = "notch" ];then
     rm -f TAGFILE
-    vdp3D -i "$file1"_rm  
+    $BINARY_std/vdp3D -i"$test" "$file1"_rm  
     cleandone=1
   fi
 # Another plot to see the  bonds removed from the crack in -crack option
@@ -716,7 +724,7 @@ if [ "$ovito" = "" ];then
       mv -f _0001_histc tmp_0001_histc
     fi
     cp -f "$file1"_crack _coord0001
-    vdp3D -fract_bonds _coord0001 
+    $BINARY_std/vdp3D -fract_bonds"$test" _coord0001 
     rm -f _coord0001 
     if [ -f tmpcoord0001 ];then
       mv -f tmpcoord0001 _coord0001

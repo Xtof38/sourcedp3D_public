@@ -110,7 +110,10 @@ vdp3D -Temp file
 displays temperature of particles
 
 vdp3D -voronoi file
-displays a radical voronoi tesselation	
+DEPRECATED. displays a radical voronoi tesselation. -voro may be a better option
+
+vdp3D -voro file
+using voro++, displays particle relative density and generates 3 .pov files to be rendered with povray to visualize the voronoi cells.
 
 vdp3D (-anim) -z (or -z_diff) file
 displays coordination numbers (or coordination number difference)

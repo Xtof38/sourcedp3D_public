@@ -98,7 +98,10 @@ ovdp3D -tag (or -untag) file
 generates a coord from file with selected particles tagged (or untagged)
 
 ovdp3D -voronoi file
-performs a radical voronoi tesselation	
+DEPRECATED. performs a radical voronoi tesselation. -voro may be a better option
+
+vdp3D -voro file
+using voro++, displays particle relative density and generates 3 .pov files to be rendered with povray to visualize the voronoi cells.
 
 ovdp3D (-anim) -z (or -z_diff) file
 generates an image of the packing showing coordination numbers (or coordination number
