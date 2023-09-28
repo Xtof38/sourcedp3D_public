@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: ovdp3D,v 2.6 2022/05/20 14:22:43 chris Exp $
+! $Id: ovdp3D,v 2.7 2023/08/25 10:49:49 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -104,6 +104,8 @@ fi
 # ovito
 if [  "$physical_console" = "0" ];then
   echo " $user uses remote console"
+  echo "Install ovito on a Windows or Linux computer"
+  echo "Use the Load Remote File option in ovito to view $file2ovito.xyz"
 else
   if [  "$xyz" = "0" -a "$option_exit1" = "0" ];then
   ovito $file2ovito.xyz

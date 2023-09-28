@@ -267,10 +267,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         if [ "$Ycolumn" != "(-$)" ];then
           echo "Strains are shown positive in compression !"
           echo "Stresses are shown positive in compression !"
-          if [ "$option" != "-keep" ];then
-            gnuplot -geometry 560x400 -persist plot_$file2display 
-          fi  
-   
+          gnuplot -geometry 560x400 -persist plot_$file2display 
           rm -f tmp1 tmp2 tmp3 
 	  exit
         else

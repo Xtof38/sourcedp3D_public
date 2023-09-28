@@ -234,8 +234,7 @@ let "i=0"
 sed 's/$/ w l lw 2 /g' tmp2 > tmp3
 cat tmp3 >> plot$file2display
 
-if [ "$option" != "-keep" ];then
   gnuplot -geometry 560x400 -persist plot$file2display 
-fi  
+  
 
 rm -f tmp1 tmp2 tmp3 tmp4
