@@ -2,22 +2,23 @@
 ! $Id: lastdp3D,v 2.2 2022/09/23 15:20:33 chris Exp $
 
 ###########################################################################
-# This is a script to get the last 5 (<30 days) dp3D simulations 
+# This is a script to get the last  dp3D simulations 
 ###########################################################################
 
 # Christophe.martin@Grenoble-INP.fr    January 2011
 theuser=`whoami`
 ldir="$1"
 hours=`echo "$2" | sed 's/-//g'`
+status=`echo "$3" | sed 's/-//g'`
 
+# 2 days is the default values (48 hours)
 if [ "$ldir" = "" ];then
-  echo "lastdp3D usage: lastdp3D directory -hours "
+  echo "lastdp3D usage: lastdp3D directory -hours -status"
   echo "need a directory"
   echo "by default hours=48"
   exit
 fi
 
-# 2 days is the default values (48 hours)
 if [ "$hours" = "" ];then
   minutes="2880"
   hours="48"
@@ -25,27 +26,58 @@ else
   let "minutes = $hours * 60"
 fi
 
+if [ "$status" != "" ];then
+  case $status in
+    ended | running )
+  ;;
+   * )
+   echo "lastdp3D usage: lastdp3D directory -hours -status"
+   echo "status=ended or running"
+   exit
+  esac
+fi
+
+
 
 echo "For user $theuser,"
-echo "dp3D simulations in the last $hours hours in $ldir:"
+echo "dp3D simulations $status in the last $hours hours in $ldir:"
 ldir=$(realpath $ldir)
 
-find $ldir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
- | awk '{ print $6," ",$7," ",$8," ",$9}'  | sed 's/tstress//' 
+#find $ldir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
+# | awk '{ print $6," ",$7," ",$8," ",$9}'  | sed 's/tstress//'
+list_dir=$(find $ldir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
+ | awk '{ print $9}'  | sed 's/tstress//')
+ 
+for dir in $list_dir
+  do
+    running_status=$(grep -c "calculated from BC as:" $dir/log)
+    if [ "$status" != "" ];then
+      case $status in
+        ended )
+        if [ "$running_status" = "1" ];then
+          find $dir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
+ | awk '{ print $6," ",$7," ",$8," ",$9}'  | sed 's/tstress//'
+        fi
+      ;;
+        running )
+        if [ "$running_status" = "0" ];then
+          find $dir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
+ | awk '{ print $6," ",$7," ",$8," ",$9}'  | sed 's/tstress//'
+        fi
+      ;;
+      esac
+    else
+      find $dir -type f -mmin -"$minutes" | xargs -r ls -r -t -al | grep -w tstress \
+ | awk '{ print $6," ",$7," ",$8," ",$9}'  | sed 's/tstress//'
+    fi 
+done
+ 
 
 exit
 
 list_dir=$(find $ldir -type d -mmin -"$minutes" 2>/dev/null | sed '/test_before_commit/d')
 echo "list_dir: $list_dir $minutes"
 #list_dir="/home0/chris/compact01/pb_delta"
-for dir in $list_dir
-  do
-    if [ -f $dir/tstress ];then
-      ls  -r -t -al $dir | awk '{ print $6," ",$7," ",$8," ",$9}'  | grep -w tstress | sed 's/tstress//'
-      echo $dir
-      echo ""
-    fi
-done
 
 
 
