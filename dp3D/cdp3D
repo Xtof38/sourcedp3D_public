@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.24 2022/10/26 09:40:58 chris Exp $
+! $Id: cdp3D,v 2.25 2024/01/17 16:03:31 chris Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -95,6 +95,14 @@ readorwritefile=`echo -e "$optn" | grep -o "_write\|_read"`
 #    esac
 #  done
 #fi
+keep_write_read=$(echo $optn | grep -c 'keep_write\|keep_read')
+
+if [ "$keep_write_read" = "1" ];then
+  echo $optn > tmp1
+  sed -i 's/keep/rm/' tmp1
+  optn=$(cat tmp1)
+  rm -f tmp1
+fi
 
 if [ "$writefile" != "" ];then
   if  [ "$opttest" = "merge" ];then

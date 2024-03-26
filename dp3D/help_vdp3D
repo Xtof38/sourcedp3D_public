@@ -88,8 +88,8 @@ displays potential of particles (need the command cdp3D -conduct)
 vdp3D -probe file
 computes a density gradient in a rectangle
 
-vdp3D -ref file
-generates a reference sphere from two particles
+vdp3D -ref_sphere -ref_rect file
+generates a reference sphere or rectangle from selected particles
 
 vdp3D -rm file
 generates a coord from file with selected particles removed
