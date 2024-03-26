@@ -14,4 +14,3 @@ Do not rush into simulating complicated and large simulations right away. Run gr
 when executing dp3D, if you run into troubles, type:
 ulimit -s unlimited
 to solve the issue
-
