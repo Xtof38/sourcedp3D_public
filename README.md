@@ -4,12 +4,10 @@ dp3D is a research code intended to simulate mostly materials science related pr
 To run dp3D (on linux distribution only), you need to:
 1. download the latest version of the dp3D user manual from https://www.overleaf.com/read/xvtqjkgrppvd;
 
-2. install the lapack library;
-
-3. download the dp3D directory into the directory where you have your executables, typically /usr/local/
+2. download the dp3D directory into the directory where you have your executables, typically /usr/local/
 make sure you have the necessary rights and that the path is declared into your .bashrc or .bash_profile;
 
-4. download the dp3D_examples  directory that contains examples that are good starting points for simulations;
+3. download the dp3D_examples  directory that contains examples that are good starting points for simulations;
 
 Do not rush into simulating complicated and large simulations right away. Run gradually through the user manual and its examples to educate yourself.
 
