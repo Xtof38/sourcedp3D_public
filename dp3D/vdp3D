@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.11 2022/05/20 14:22:43 chris Exp $
+! $Id: vdp3D,v 2.12 2024/04/22 16:03:04 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -138,7 +138,7 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
        anim_list=" contact z class force nobond deltats fract_bonds  \
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
             epsx epsy epsz sigxx sigyy sigzz sigxy sigxz sigyx sigyz \
-            sigzx sigzy press dens center_clumps Temp normal_axis \
+            sigzx sigzy sig_hydrostatic press dens center_clumps Temp normal_axis \
             misalign_x misalign_y misalign_z "
        anim=`echo "$anim_list" | grep -c -w $opt2n`
        if  [ "$anim" = "1" ];then
@@ -287,7 +287,7 @@ case $optn in
 
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
-   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | eps[x-z] \
+   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | sig_hydrostatic | press | eps[x-z] \
    | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z )
    if  [ "$ref_file" = "1" ];then
