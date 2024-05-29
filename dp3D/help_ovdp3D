@@ -89,7 +89,7 @@ ovdp3D -sphere (or -ellipsoid) file
 generates a coord from file with particles selected from a sphere (or an ellipsoid)
 
 ovdp3D (-anim) -sig(xx,yy or zz) or -press file
-generates an image of the packing showing principal stresses or pressure
+displays stress components or pressure with halo option at the particle level
 
 ovdp3D -spy file
 generates a coord from file with selected particles to be spyed
@@ -98,7 +98,7 @@ ovdp3D -tag (or -untag) file
 generates a coord from file with selected particles tagged (or untagged)
 
 ovdp3D -voronoi file
-DEPRECATED. performs a radical voronoi tesselation. -voro may be a better option
+DEPRECIATED. performs a radical voronoi tesselation. -voro may be a better option
 
 vdp3D -voro file
 using voro++, displays particle relative density and generates 3 .pov files to be rendered with povray to visualize the voronoi cells.

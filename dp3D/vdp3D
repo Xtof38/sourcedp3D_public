@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.12 2024/04/22 16:03:04 chris Exp $
+! $Id: vdp3D,v 2.13 2024/05/06 16:23:20 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -77,34 +77,19 @@ fi
 
 # these are the options that necessitate a reference file
 # looking for the file which will serve as a ref for the calculation:
-ref_file_list="nobond disp dispx dispy dispz dispr epsx epsy epsz z_diff"
-ref_file=`echo "$ref_file_list" | grep -c -w $optn`
-
+# will be 0 1 or 2 :
+ref_file_list="nobond disp dispx dispy dispz dispr z_diff epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy \
+epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy"
+ref_file=`echo "$ref_file_list" | grep -o -w $optn | grep -c $optn`
 if [ $ref_file = "1" ];then
-  if  [ -f  cond-dp3D ];then
-    file_ref=`sed -n '2p' cond-dp3D | cut -f 1,1 -d , |  sed "s|'||g" `  
-    if  [ -f  "$file_ref" ];then
-      echo "Using reference coordinate file $file_ref"
-    else
-      if  [ -f  _coord0000 ];then
-        file_ref="_coord0000"
-        echo "Using reference coordinate file $file_ref"
-      else
-        echo "For option $opt or $2, I need a reference coordinate file (typically _coord0000)"
-        echo "Enter the reference coordinate file:"
-        read file_ref
-      fi
-    fi
+  if  [ -f  _coord0000 ];then
+    file_ref=_coord0000
+    echo "Using reference coordinate file $file_ref"
   else
-    if  [ -f  _coord0000 ];then
-      file_ref=_coord0000
-      echo "Using reference coordinate file $file_ref"
-    else
-      echo "For option $opt or $2, I need a reference coordinate file (typically _coord0000)"
-      echo "Enter the reference coordinate file:"
-      read file_ref
-    fi
-  fi 
+    echo "For option $opt or $2, I need a reference coordinate file (typically _coord0000)"
+    echo "Enter the reference coordinate file:"
+    read file_ref
+  fi
 fi 
 
 # these are the options that necessitate a TAGFILE to pick particles:
@@ -137,8 +122,9 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
 # these are the options that can be combined with -f and -fi 
        anim_list=" contact z class force nobond deltats fract_bonds  \
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
-            epsx epsy epsz sigxx sigyy sigzz sigxy sigxz sigyx sigyz \
-            sigzx sigzy sig_hydrostatic press dens center_clumps Temp normal_axis \
+            epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy sigxx \
+	    sigyy sigzz sigxy sigxz sigyx sigyz \
+            sigzx sigzy press dens center_clumps Temp normal_axis \
             misalign_x misalign_y misalign_z "
        anim=`echo "$anim_list" | grep -c -w $opt2n`
        if  [ "$anim" = "1" ];then
@@ -287,21 +273,57 @@ case $optn in
 
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
-   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | sig_hydrostatic | press | eps[x-z] \
+   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | eps[x-z][x-z] \
    | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z )
-   if  [ "$ref_file" = "1" ];then
+   echo "ref_file $ref_file"
+   case  $ref_file in
+   0 )
+     echo "$f2visualize $opt$ovito $range" > list.tmp
+     for ((  ii = 1 ;  ii <= $f2visualize;  ii++  )); do
+       let "iii = ii + 1"   
+       file_coord=`eval echo "\\\$$(($iii))"`
+       echo "'$file_coord','$file_coord'"  >> list.tmp
+     done 
+   ;;
+   1 )
 # using the reference file if necessary
      let "ii = f2visualize + 1"
      echo "$ii "$opt""_ref"$ovito $range" > list.tmp
      echo "'$file_ref','$file_ref'"  >> list.tmp
-   else
-     echo "$f2visualize $opt$ovito $range" > list.tmp
-   fi
+     for ((  ii = 1 ;  ii <= $f2visualize;  ii++  )); do
+       let "iii = ii + 1"   
+       file_coord=`eval echo "\\\$$(($iii))"`
+       echo "'$file_coord','$file_coord'"  >> list.tmp
+     done 
+   ;;  
+   2 )
+# here we use all the _coord before the  $f2visualize  
+      list_coord=$(ls -1 _coord[0-9][0-9][0-9][0-9])
+      if [ $f2visualize != "1" ];then
+        echo "option -$optn is only available for 1 file or with -anim"
+	exit
+      fi     
+      file_coord=`eval echo "\\\$$((2))"`
+      for coord_file in $list_coord;do
+# returns the result of a string comparison using the locale-specific coalition sequence
+        if [ $(expr $coord_file \< $file_coord) -eq 1 ]; then
+          let "f2visualize = f2visualize + 1"
+        fi      
+      done   
+      echo "$f2visualize "$opt""_ref"$ovito $range" > list.tmp
+      for coord_file in $list_coord;do
+# returns the result of a string comparison using the locale-specific coalition sequence
+        if [ $(expr $coord_file \<= $file_coord) -eq 1 ]; then
+          echo "'$coord_file','$coord_file'"  >> list.tmp 
+        fi      
+      done   
+      
+   ;; 
+   * )
+   esac
    for ((  ii = 1 ;  ii <= $f2visualize;  ii++  )); do
-     let "iii = ii + 1"
-     file_coord=`eval echo "\\\$$(($iii))"`
-     echo "'$file_coord','$file_coord'"  >> list.tmp 
+     let "iii = ii + 1"   
      echo "load xyz tmpfilevdp3D$ii.tmp" > script_rasmol$ii.tmp
      echo "script ivdp3D" >> script_rasmol$ii.tmp 
 # Deprecated. vdp3D -voro is a better option for visualization  

@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.25 2024/01/17 16:03:31 chris Exp $
+! $Id: cdp3D,v 2.26 2024/05/06 16:23:20 chris Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -209,6 +209,9 @@ case $opttest in
   pixel )
         echo 'Pixelize (2D slice) a coordinate file '
        ;;
+  press )
+        echo 'Computes the halo pressure at a (x,y,z) location in the packing'
+       ;;      
   probe_x | probe_y | probe_z )
         echo 'Information on packing gradient along x,y or z axis'
        ;;
@@ -241,6 +244,9 @@ case $opttest in
        ;;
   size_cluster )
         echo 'Computes the cluster size along long axis'
+       ;;
+  sig* )
+        echo 'Computes the halo stress at a (x,y,z) location in the packing'
        ;;
   surface )
         echo 'Pick particles that are surfacing a cluster '
@@ -366,7 +372,7 @@ case $opttest in
         fi
       fi
        ;;
-  info | full_info | bonds | object | histo  | class | renum | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds )
+  info | full_info | bonds | object | histo  | class | renum | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* )
       if  [ $option_exit = "true" ];then
         echo "next executable: dp3D_cut"
         exit
