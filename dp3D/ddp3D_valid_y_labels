@@ -20,7 +20,7 @@
       echo "-horiprj                         indentation / (ri + rj) (local strain)"
       echo "-asa0                            contact radius/ plastic contact radius"
       echo "-kn1_obj                         number of contacts with objects"
-      echo "-Temp                            Temperature(°C)"  
+      echo "-Temp                            Temperature(deg C)"  
       echo "-rp                              mean radius (micron)"  
       echo "-sigma_rp                        standard deviation of mean radius (micron)"  
       echo "-unload                          % of unloading contacts"
@@ -36,16 +36,14 @@
       echo "-sigma_rp                        Standard deviation of particle radii"
       echo "-Npart                           Number of particles"
       echo "" 
-      tput bold ; echo "cluster related variables:" ; tput sgr0
-      echo "-bonds                           Number of bounded contacts to object"
-      echo "-forcex -forcey -forcez          Force on object"
+      tput bold ; echo "cluster/bond related variables:" ; tput sgr0
+      echo "-bonds                           Number of bounded contacts to particles or object"
+      echo "-Nrupt -Trupt                    Number of bonds fractured in Normal or Tangential mode"
+      echo "-Nc -nmax1  -nmax2 -npercluster  Number of clusters, largest and 2nd largest cluster size, part per cluster"
       echo "-lastbondx -lastbondy -lastbondz Coord of last failed bond"
-      echo "-kn1_obj                         Number of contacts with objects"
       echo ""
       tput bold ; echo "object related variables:" ; tput sgr0
-      echo "-bonds                           Number of bounded contacts to object"
       echo "-forcex -forcey -forcez          Force on object"
-      echo "-lastbondx -lastbondy -lastbondz Coord of last failed bond"
       echo "-kn1_obj                         Number of contacts with objects"
       echo ""
       tput bold ;echo "strain and time derivative related variables:"; tput sgr0

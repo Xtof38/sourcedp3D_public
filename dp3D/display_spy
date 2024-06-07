@@ -279,6 +279,21 @@ echo "set xlabel $Xlabel" >> plot_$file2display
         Ylabel='"Particle Voronoi packing density"'
         Ycolumn='($31)'
        ;;
+      -sigxx )
+        Title='"Particle xx local stress (MPa)"'
+        Ylabel='"Particle local stress (MPa)"'
+        Ycolumn='($32)'
+       ;;
+      -sigyy )
+        Title='"Particle yy local stress (MPa)"'
+        Ylabel='"Particle local stress (MPa)"'
+        Ycolumn='($33)'
+       ;;
+      -sigzz )
+        Title='"Particle zz local stress (MPa)"'
+        Ylabel='"Particle local stress (MPa)"'
+        Ycolumn='($34)'
+       ;;
     xrange* )
       echo $option > tmp1 
       sed 's/xrange/set xrange /' tmp1 > tmp2
@@ -332,6 +347,7 @@ echo "set xlabel $Xlabel" >> plot_$file2display
          echo "-theta                                rotation"
          echo "-Temp                                 temperature"
          echo "-dens_Voronoi                         Packing density (Voronoi) if available"
+         echo "-sigxx -sigyy -sigzz                  Particle local stress"
          exit 
       fi
      esac
