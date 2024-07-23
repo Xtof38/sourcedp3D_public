@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.14 2024/05/29 10:55:50 chris Exp $
+! $Id: vdp3D,v 2.16 2024/07/05 14:30:28 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -50,16 +50,37 @@ ovito=`echo  $1  | grep  -o _ovito`
 
 #is the lastoption a coordinate file or a script file ?
 # the first option without a number:
-opt=`echo "$option_wo_exit" | sed 's/[0-9]//g'`
-# old -f is replaced by -anim:
-opt=`echo "$opt" | sed 's/-f /-anim /g'`
-
-opt=`echo "$opt" | sed 's/_ovito//g'`
-
-opt=`echo "$opt" | sed 's/_test//g'`
-
+opt=`echo "$option_wo_exit" | sed 's/[0-9]//g' |  sed 's/_ovito//g' |  sed 's/_test//g'`
 # opt without -:
 optn=`echo "$opt" | sed 's/-//g'`
+# read and write may be used with vdp3D, optn should not be modified in this block
+
+optrw=$optn
+animrw=$(echo $optn | grep -c "anim")
+if [ "$animrw" != "0" ];then
+  optrw=`echo "$2" | sed 's/[0-9]//g'  | sed 's/_ovito//g' | sed 's/_test//g'`
+fi
+
+readfile=`echo -e "$optrw" | grep  "_read"`
+writefile=`echo -e "$optrw" | grep  "_write"`
+readorwritefile=`echo -e "$optrw" | grep -o "_write\|_read"`
+optrw0=$optrw
+optrw=`echo $optrw |sed "s|_read||1"`
+optrw=`echo $optrw |sed "s|_write||1"`
+
+if [ "$writefile" != "" ];then
+  echo "=======================================================" > script_dp3D
+  echo "script_dp3D created on `date +%D` with option: -$optrw" >> script_dp3D
+  echo "-------------------------------------------------------" >> script_dp3D
+  echo " " >> script_dp3D
+  echo "-$optrw0" > dp3D_coord.tmp
+fi
+if [ "$readfile" != "" ];then
+  echo "-$optrw0" > dp3D_coord.tmp
+fi
+
+optn=`echo $optn |sed "s|_read||1"`
+optn=`echo $optn |sed "s|_write||1"`
 
 #echo "$optn"
 echo "$option_wo_exit" > tmp1
@@ -79,8 +100,9 @@ fi
 # looking for the file which will serve as a ref for the calculation:
 # will be 0 1 or 2 :
 ref_file_list="nobond disp dispx dispy dispz dispr z_diff epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy \
-epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy"
-ref_file=`echo "$ref_file_list" | grep -o -w $optn | grep -c $optn`
+epsvol epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy epsvol"
+ref_file=`echo "$ref_file_list" | grep -o -w $optn | grep -cw $optn`
+# 2 will be the result for eps 
 if [ $ref_file = "1" ];then
   if  [ -f  _coord0000 ];then
     file_ref=_coord0000
@@ -117,12 +139,12 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
          range=$(sed 's/\///g' tmp1)
        fi
      else  # not -f lastoption
-# opt without -:
-       opt2n=`echo "$2" | sed 's/-//g'`
-# these are the options that can be combined with -f and -fi 
+# opt without - read and write:
+       opt2n=`echo "$2" | sed 's/-//g' | sed "s|_read||1" | sed "s|_write||1"`
+# these are the options that can be combined with anim 
        anim_list=" contact z class force nobond deltats fract_bonds  \
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
-            epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy sigxx \
+            epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy epsvol sigxx \
 	    sigyy sigzz sigxy sigxz sigyx sigyz \
             sigzx sigzy press dens center_clumps Temp normal_axis \
             misalign_x misalign_y misalign_z "
@@ -141,6 +163,7 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
          fi
        else
          echo "script $lastoption for option $opt does not exist !"      
+	 echo " opt2n $opt2n"	 
          exit
        fi
      fi # -f lastoption
@@ -274,9 +297,8 @@ case $optn in
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
    Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | eps[x-z][x-z] \
-   | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
+   | epsvol | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z )
-   echo "ref_file $ref_file"
    case  $ref_file in
    0 )
      echo "$f2visualize $opt$ovito $range" > list.tmp

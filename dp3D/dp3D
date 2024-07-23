@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D,v 2.11 2023/05/02 15:59:46 chris Exp $
+! $Id: dp3D,v 2.12 2024/07/23 08:17:29 chris Exp $
 #
 
 ###########################################################################
@@ -155,9 +155,13 @@ case $1 in
      * )
        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
        echo "$1 is not a valid option for dp3D"
-       echo "valid options : -openMP[n] with n=2,4,6,8    "
-       echo "valid options : -openMP                      "
-       echo "valid options : -write_log -write_coord "
+       echo "valid options : "
+       echo "-openMP[n] with n=2,4,6,8 using n threads    "
+       echo "-openMP   using all threads                   "
+       echo "-test test executable of dp3D"
+       echo "-write_log or -write_coord signaling dp3D to write in log or to write a coord file"
+       echo "-cleanstop signaling dp3D to write a coord file and then to stop "
+       echo "-v   version of dp3D"
        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
        rm -f logdp3D.tmp
        exit

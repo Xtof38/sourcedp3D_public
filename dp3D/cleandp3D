@@ -26,7 +26,7 @@ where=$(pwd)
 checkdp3D
 
 listfile="log object zave contact rupt cstatus ivdp3D warnings film _coord[0-9][0-9][0-9][0-9] \
- plot_tstress plot_zave plot_spy plot_tag plot_object plot_probe \
+ plot_tstress plot_zave plot_spy plot_tag plot_object plot_probe plot_cstatus plot_Surf_Mob \
  plot_rupt plot_histots[0-9][0-9][0-9][0-9] tstress fract_bonds Surf_Mob \
 _histoclust[0-9][0-9][0-9][0-9] \
 _tag[0-9][0-9][0-9][0-9][0-9][0-9][0-9]_[0-9][0-9][0-9][0-9][0-9][0-9][0-9] \
