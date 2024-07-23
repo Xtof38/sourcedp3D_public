@@ -1,0 +1,132 @@
+######################################################################
+#                   simulation conditions                            #
+######################################################################
+# coordinate file:
+p50_220kpart_size_rm_bonds_pick_rm_bc
+______________________________________________________________________
+# mode key word:
+# jamming elasto_plasticity viscoplasticity sintering
+elasto_plasticity
+______________________________________________________________________
+# general key words:
+# none stress_ref large_dens no_rotation rot_aoR= constant_velocity
+# gravity PID_controller thermal use_init_velocities oriented
+# Level_Set ellipsoids
+none
+______________________________________________________________________
+######################################################################
+#                           models                                   #
+######################################################################
+# elasto_plasticiy and jamming key words:
+# none bonds no_elasticity
+bonds
+______________________________________________________________________
+# bond key words:
+# large_bonds_full large_bonds geom toughness impinge only_bonds
+# stiffness beam clump_cluster iso_bonds= psi_bar= strength_deviation=
+# unload_stiff_ratio= plast_stiff_ratio= Rankine part_hydrostatic
+stiffness
+geom
+part_hydrostatic
+______________________________________________________________________
+# friction model:
+# Hertz_Mindlin Coulomb shear
+Hertz_Mindlin
+______________________________________________________________________
+# adhesion model:
+# DMT JKR
+JKR
+______________________________________________________________________
+######################################################################
+#                         outputs                                    #
+######################################################################
+# simulation termination:
+# density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
+# time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
+# sigzz<=
+epsilon>=0.02
+______________________________________________________________________
+# writing coordinate files:
+# density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
+# sigzz= none end
+epsilon=0.001
+______________________________________________________________________
+# writing output files:
+# density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
+# sigzz= none end
+epsilon=0.0001
+______________________________________________________________________
+# writing contact history files:
+# density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
+# sigzz= none end
+end
+______________________________________________________________________
+######################################################################
+#                         loadings                                   #
+######################################################################
+# periodic conditions:
+# 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z
+0x0y0z
+______________________________________________________________________
+# loading conditions (Pa for stress):
+# epsxdot= epsydot= epszdot= sigxx= sigyy= sigzz= equal_stress=
+# pressure=
+epsxdot=0.0000E+00
+epsydot=0.0000E+00
+epszdot=-1.0000E-05
+______________________________________________________________________
+######################################################################
+#                         materials (from 0,1,2, ... to 9)           #
+######################################################################
+# bond stiffnesses (tension and shear) (Pa):
+# K_N(1)= K_T(1)=
+K_N(1)=825.E+09
+K_T(1)=177.E+09
+K_N(0)=825.E+09
+K_T(0)=177.E+09
+______________________________________________________________________
+# plastic parameters (Pa for stress):
+# sigy(1)= Mstrain= Nvisco=
+sigy(1)=0.8000E+33
+sigy(0)=0.8000E+33
+Mstrain=0.0000E+00
+Nvisco=0.0000E+00
+______________________________________________________________________
+# friction parameters:
+# frict(1,1)=
+frict(1,1)=0.000E+00
+frict(0,1)=0.100E+00
+______________________________________________________________________
+# work of adhesion parameters (J.m-2):
+# adhes(1,1)=
+adhes(1,1)=0.0000E+00
+______________________________________________________________________
+# bond strength in tension (Pa):
+# sig_N(1,1)=
+sig_N(1,1)=295.E+06
+______________________________________________________________________
+# density (g.mm-3):
+# ro(1)= correct_fact(1)=
+ro(1)=0.8706E-02
+ro(2)=0.8706E-02
+______________________________________________________________________
+######################################################################
+#                           numerics                                 #
+######################################################################
+# affine motion conditions:
+# 1x1y1z 1x1y0z 1x0y0z 1x0y1z 0x1y1z 0x1y0z 0x0y1z 0x0y0z
+# rigid_motion=
+1x1y1z
+______________________________________________________________________
+# control of strain-rates for quasi-static conditions:
+# none aoamean= break= epsilon= ferror= kin_energy= vmax= ctrl_fact=
+kin_energy=1.E-07
+ctrl_fact=100.
+______________________________________________________________________
+# numerical parameters:
+# upscale(1)= safe_dt= damping= fixed_dt= random_seed=
+# potential_contact= aff_fact= P_fact= I_fact= D_fact=
+safe_dt=0.1
+upscale(1)=0.1000E+01
+damping=0.5000E-01
+______________________________________________________________________
