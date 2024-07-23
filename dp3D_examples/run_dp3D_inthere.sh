@@ -2,7 +2,7 @@
 here=$(pwd)
 # in order of appearance in the manual:
 list_directories_dp3D="generate_gaz_particles gaz_to_pack closedie_compact composite unl_rel cylinder  \
-                       crushing crush_cluster eff_prop_bonded_aggregate toughness buckling fiber thermal_shock clumps \
+                       crushing crush_cluster eff_prop_bonded_aggregate toughness buckling fiber Brazilian_test thermal_shock clumps \
                        large_dens sinter_velocity sinter_ramp_temperature sinter_cylinder sinter_grain_growth closedie_viscoplast gaz_to_pack_cluster \
                        viscoplasticity_stress_control generate_gaz_clusters"
 

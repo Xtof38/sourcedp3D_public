@@ -11,7 +11,7 @@ ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_aoR= constant_velocity
 # gravity PID_controller thermal use_init_velocities oriented
-# Level_Set
+# Level_Set ellipsoids
 thermal
 ______________________________________________________________________
 ######################################################################
