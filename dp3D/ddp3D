@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: ddp3D,v 2.12 2022/06/03 08:30:47 chris Exp $
+! $Id: ddp3D,v 2.15 2024/07/15 12:57:17 chris Exp $
 
 ###########################################################################
 # This is a script to display dp3D results
@@ -14,11 +14,14 @@ theuser=`whoami`
   if [ "$1" = "-tag" -o "$1" = "-spy" -o "$1" = "-histo" -o "$1" = "-anim" ];then
    option="$1"
    c1="$2";c2="$3";c3="$4";c4="$5";c5="$6";c6="$7";c7="$8";c8="$9"
-   c8="-keep"
+#   c8="-keep0"
   else
    option="-none"
    c1="$1";c2="$2";c3="$3";c4="$4";c5="$5";c6="$6";c7="$7";c8="$8"
-  fi    
+  fi  
+  list_option="$c1 $c2 $c3 $c4 $c5 $c6 $c7 $c8 $c9"
+  keepfile=$(echo $list_option | grep -c "\-keep")
+    
   if [ "$1" != "-histo" -a "$option" != "-tag" -a "$option" != "-spy" ];then
     if [ "$c1" != "-dens" -a "$c1" != "-dgeom" -a "$c1" != "-epsx" -a "$c1" != "-epsy" -a "$c1" != "-epsz" -a\
          "$c1" != "-time_s" -a "$c1" != "-time_h" -a "$c1" != "-time_y"  -a\
@@ -90,7 +93,7 @@ theuser=`whoami`
       tocall=$BINARY_std"display_rupt"
       ;;
       -sig | -pressure | -p | -press | -P | -pressure_n | -Mises | -q   \
-      | -sig[x-z][x-z] | -sigthetar  \
+      | -sig[x-z][x-z] | -sigthetar  | -sigrr  \
       | -sig[x-z][x-z]_[0-9] \
       | -sig[x-z][x-z]_mat_[0-9] )
 
@@ -198,10 +201,14 @@ theuser=`whoami`
         
 # the call to the correct display_:
   $tocall  $c1 $c2 $c3 $c4 $c5 $c6 $c7 $c8 $c9
+  
+
 
   if [ $option = "-anim" ];then
     echo "$tocall" 
     opt=$(echo "$tocall" | sed "s|$BINARY_std||1" | sed "s|display_||1" )
     animate_my_gif $opt
-    gnuplot -geometry 560x400 -persist plot_"$opt"_anim
+    if [ "$keepfile" = "0" ];then
+      gnuplot -geometry 560x400 -persist plot_"$opt"_anim
+    fi
   fi
