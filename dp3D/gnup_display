@@ -20,7 +20,7 @@ set style line 5 lt rgb "green" lw 2
 set style line 6 lt rgb "black" lw 2
 set style line 7 lt rgb "cyan" lw 2
 
-# to have _ wriiten correctly in late versions of gnuplot:
+# to have _ writen correctly in late versions of gnuplot:
 set key noenhanced
 set title noenhanced
 
@@ -29,3 +29,4 @@ set title noenhanced
 set grid
 #set xrange 
 #set yrange 
+# use  ,\ at the end of lines instead of replot when editing this file
