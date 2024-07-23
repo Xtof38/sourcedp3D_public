@@ -11,6 +11,8 @@ theuser=`whoami`
 
 file2display=cstatus
 
+lastoption=$(echo "${@: -1}")
+isitarange=$(echo $lastoption | grep -c range)
 # only one possibility for cstatus
 # looking for col 6 to colmax that have none zero columns 
 ncols=$(head -1 $file2display | awk '{ print NF}')
@@ -81,6 +83,7 @@ if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
   fi
   awk '{print $'$Xcol'}' $file2look > tmp1
   paste $file2display tmp1 > visco$file2display
+  rm -f tmp1
 fi
 
 case $1 in
@@ -132,9 +135,20 @@ esac
 cp -f "$BINARY_std"gnup_display plot_$file2display
 
     echo "set xlabel $Xlabel" >> plot_$file2display
+    if  [ "$isitarange" -ne "0" ];then
+      case $lastoption in    
+      xrange* )
+        range_string=$(echo $lastoption | sed 's/xrange/set xrange /' | sed 's/\//\[/' | sed 's/\//\]/')
+        sed -i "s|#set xrange|$range_string|1" plot_$file2display 
+      ;;
+     yrange* )
+        range_string=$(echo $lastoption | sed 's/yrange/set yrange /' | sed 's/\//\[/' | sed 's/\//\]/')
+        sed -i "s|#set yrange|$range_string|1" plot_$file2display 
+      ;;
+      esac
+    fi
     let "i=0"
     end_option="$1"0
-
     for Ycolumn in $Option_l 
     do
       Title=$(awk '{print $'$Ycolumn'}' $file2display | head -1)
@@ -153,29 +167,20 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display
         if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
-          ls -1 -Q visco$file2display > tmp1
+          file2plot=$(ls -1 -Q visco$file2display)
         else
-          ls -1 -Q $file2display > tmp1
+          file2plot=$(ls -1 -Q $file2display)
         fi
-    
+        Title_loc=$(echo $Title | sed 's/_/ /g')
         if [ $i -eq 1 ];then
 # plot only for the first line (1,1)
-          sed 's/^/plot /g' tmp1 > tmp2
+          plotstring="plot $file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
         else
 # replot everywhere except for the first line (1,1)
-          sed 's/^/replot /g' tmp1 > tmp2 
+          plotstring="$file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
         fi
-# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
-        sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
-# Not the most elegant !:    
-        sed 's/_/ /g' tmp3 > tmp2
-        sed 's/) title/\/$5) title /g' tmp2 > tmp3
-
-       sed 's/$/ w l lw 2 /g' tmp3 > tmp2
-       cat tmp2 >> plot_$file2display
-
+        echo $plotstring >> plot_$file2display
       fi
     done
     gnuplot -geometry 560x400 -persist plot_$file2display 
 
-rm -f tmp1 tmp2 tmp3

@@ -12,6 +12,7 @@ theuser=`whoami`
 file2display=tag
 
 Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16 $17 $18 $19"
+keepfile=$(echo $Option_l | grep -c "\-keep")
 
 # need a $file2display file in the current directory
 
@@ -288,7 +289,11 @@ echo "set xlabel $Xlabel" >> plot_$file2display
      * )
       if [ "$option" = "$end_option" -a "$i" -gt 0 ] || [ "$#" -gt 2 -a "$option" = "-keep" ];then
 # this is the end of the y label list, no more to plot
-        gnuplot -geometry 560x400 -persist plot_$file2display 
+ 	if [ $keepfile = "0" ];then
+	  gnuplot -geometry 560x400 -persist plot_$file2display 
+	else
+	  echo "option -keep does not lead to a plot"
+	fi
    
         rm -f tmp1 tmp2 tmp3 
         if [ $nistimethere != "0" -a $option != "-keep" ];then
@@ -349,6 +354,7 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 # number of lines in tmp1
       numlines=`grep -c "_$file2display"  < tmp1`
      let "ii=0"
+echo "i=$i ii=$ii numlines=$numlines"
      until [ "$numlines" = "0" ]
      do
        let "numlines-=1"

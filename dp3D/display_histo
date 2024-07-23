@@ -235,6 +235,8 @@ let "i=0"
 sed 's/$/ w l lw 2 /g' tmp2 > tmp3
 cat tmp3 >> plot$file2display
 
+   
+
   gnuplot -geometry 560x400 -persist plot$file2display 
   
 

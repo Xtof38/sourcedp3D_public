@@ -12,6 +12,9 @@ theuser=`whoami`
 
 file2display=object
 Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
+keepfile=$(echo $Option_l | grep -c "\-keep")
+
+
 #The number of data columns per object is:
 let "numdata=11"
 Ynum_kn1=`expr $numdata + 4`
@@ -60,6 +63,7 @@ if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
   esac
   awk '{print $'$Xcol'}' $file2look > tmp1
   paste $file2display tmp1 > visco$file2display
+  rm -f tmp1
 fi
 
 case $1 in
@@ -121,13 +125,6 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 # counting the number of objects in the simulation:
     num_obj=`grep -o forcex object | grep -c forcex`
     echo "$num_obj objects to process"
-# with quotes (-Q) one item per line (-1)
-# the file to display might be $file2display or visco$file2display
-    if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
-      ls -1 -Q visco$file2display > tmp1
-    else
-      ls -1 -Q $file2display > tmp1
-    fi
 # to look for the first occurence of a nonzero column
     let "done = 0"
 
@@ -139,83 +136,88 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
       Title_o=Number_of_bounded_contacts_to_object_
       Ylabel='"kb"'
       Ynum=5
+      l2look="bonds"
       ;;
     -sigxx )     
       Title_o=sig\(xx\)_on_object_
       Ylabel='"Stress (MPa)"'
       Ynum=6
+      l2look="sigx"
       ;;
     -sigrr )     
       Title_o=sig\(rr\)_on_object_
       Ylabel='"Stress (MPa)"'
       Ynum=6
+      l2look="sigrr"
       ;;
     -forcex )     
       Title_o=x_coordinate_of_the_total_force_on_object_
       Ylabel='"Force (N)"'
       Ynum=7
+      l2look="forcex"
       ;;
     -sigyy )     
       Title_o=sig\(yy\)_on_object_
       Ylabel='"Stress (MPa)"'
       Ynum=8
+      l2look="sigy"
       ;;
     -forcey )     
       Title_o=y_coordinate_of_the_total_force_on_object_
       Ylabel='"Force (N)"'
       Ynum=9
+      l2look="forcey"
       ;;
     -sigzz )     
       Title_o=sig\(zz\)_on_object_
       Ylabel='"Stress (MPa)"'
       Ynum=10
+      l2look="sigz"
       ;;
     -sigthetar )     
       Title_o=sig\(thetar\)_on_object_
       Ylabel='"Stress (MPa)"'
       Ynum=10
+      l2look="sigtr"
       ;;
     -forcez )     
       Title_o=z_coordinate_of_the_total_force_on_object_
       Ylabel='"Force (N)"'
       Ynum=11
+      l2look="forcez"
       ;;
     -lastbondx )     
       Title_o=x_coordinate_of_the_last_failed_bond_
       Ylabel='"coordinate (mm)"'
       Ynum=12
+      l2look="lastx"
       ;;
     -lastbondy )     
       Title_o=y_coordinate_of_the_last_failed_bond_
       Ylabel='"coordinate (mm)"'
       Ynum=13
+      l2look="lasty"
       ;;
     -lastbondz )     
       Title_o=z_coordinate_of_the_last_failed_bond_
       Ylabel='"coordinate (mm)"'
       Ynum=14
+      l2look="lastz"
       ;;
     -kn1_obj )     
       Title_o=contacts_with_object
       Ylabel='"number of contacts"'
       Ynum=15
+      l2look="kn1_obj"
       ;;
-    xrange* )
-      echo $option > tmp1 
-      sed 's/xrange/set xrange /' tmp1 > tmp2
-      sed 's/\//\[/' tmp2 > tmp1
-      xrange=`sed 's/\//\]/' tmp1`
-      sed "s|#set xrange|$xrange|1" plot_$file2display > tmp1
-      mv tmp1 plot_$file2display
+     xrange* )
+      range_string=$(echo $option | sed 's/xrange/set xrange /' | sed 's/\//\[/' | sed 's/\//\]/')
+      sed -i "s|#set xrange|$range_string|1" plot_$file2display 
       plot="no"
       ;;
-    yrange* )
-      echo $option > tmp1 
-      sed 's/yrange/set yrange /' tmp1 > tmp2
-      sed 's/\//\[/' tmp2 > tmp1
-      yrange=`sed 's/\//\]/' tmp1`
-      sed "s|#set yrange|$yrange|1" plot_$file2display > tmp1
-      mv tmp1 plot_$file2display
+     yrange* )
+      range_string=$(echo $option | sed 's/yrange/set yrange /' | sed 's/\//\[/' | sed 's/\//\]/')
+      sed -i "s|#set yrange|$range_string|1" plot_$file2display 
       plot="no"
       ;;
     anim )
@@ -226,9 +228,11 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
      * )
       if [ "$option" = "$end_option" -a $i -gt 0 -o "$option" = "-keep" ];then
 # this is the end of the y label list, no more to plot
-        gnuplot -geometry 560x400 -persist plot_$file2display 
-   
-        rm -f tmp1 tmp2 tmp3
+ 	if [ $keepfile = "0" ];then
+	  gnuplot -geometry 560x400 -persist plot_$file2display 
+	else
+	  echo "option -keep does not lead to a plot"
+	fi
        if [ $nistimethere != "0" -a $option != "-keep" ];then
           rm  -f visco$file2display*
         fi
@@ -240,7 +244,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
          echo "$option is not a valid y label"
        fi
        echo " valid y labels are  -bonds : Number of bounded contacts to object "
-       echo "                     -sigxx -sigyy -sigzz: stress on object"
+       echo "                     -sigxx -sigyy -sigzz -sigrr -sigthetar: stress on object"
        echo "                     -forcex -forcey -forcez: force on object"
        echo "                     -lastbondx -lastbondy -lastbondz: coord of last failed bond"
        exit       
@@ -257,6 +261,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 # the last y chosen gives the ylabel      
       if [ "$i" = "1" ];then
         echo "set ylabel $Ylabel" >> plot_$file2display
+        echo "set title  '"$(pwd)"'" >> plot_$file2display
       fi
 # by default we do not plot objects for which all fields are zero (no contact)
 # it may be plotted by deleting the # in plot_object
@@ -265,28 +270,27 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         numnonzero=`grep -c -v "0" tmp3`
       else
         numnonzero=`grep -c -v "0.0000E+00" tmp3`
-      fi
-# the title of the plot is pwd  
-      if [ "$i" = "1" ];then
-        echo "set title  '"$(pwd)"'" >> plot_$file2display
+        toplot=$(head -1 $file2display | awk -v c1=$num '{print $c1}' | grep -c $l2look)
       fi
 # with quotes (-Q) one item per line (-1)
-      if [ $numnonzero -gt 1 ];then
+      if [ $numnonzero -gt 1 -a $toplot -eq 1 ];then
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+        if [ $nistimethere != "0" ];then
+          file2plot=$(ls -1 -Q visco$file2display)
+        else
+          file2plot=$(ls -1 -Q $file2display)
+        fi   
+        Title_loc=$(echo $Title | sed 's/_/ /g')
         if [ $done -ne 1 ];then
-# plot  only for the first line (1,1)
-          sed 's/^/plot /g' tmp1 > tmp2
-          let "done = 1"
+# plot only for the first line (1,1)
+          plotstring="plot $file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
+	  done="1"
         else
 # replot everywhere except for the first line (1,1)
-          sed 's/^/replot /g' tmp1 > tmp2
-        fi 
-# add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
-        sed 's/$/ u '$Xcolumn':'$Ycolumn' title '$Title'/g' tmp2 > tmp3
-# Not the most elegant !:    
-        sed 's/_/ /g' tmp3 > tmp2
-
-        sed 's/$/ w l lw 2 /g' tmp2 > tmp3
-        cat tmp3 >> plot_$file2display  
+          plotstring="$file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
+        fi
+        echo $plotstring >> plot_$file2display
       else
         not2plot=`echo $Title | sed 's/_/ /g'`
         echo "Object $ii results in zero value thus ($not2plot not plotted)"
@@ -294,6 +298,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         num=`expr $Ynum_kn1 + $ii \* $numdata - $numdata`
         awk '{print $'$num'}' $file2display > tmp3
         numnonzero=`grep -c -v "0" tmp3`
+	rm -f tmp3
         if [ $numnonzero -gt 1 ];then
           echo ""
           echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
