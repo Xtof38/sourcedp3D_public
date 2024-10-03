@@ -38,7 +38,7 @@ _[0-9][0-9][0-9][0-9]_histc unl_rel fract_bonds_crack \
 _[0-9][0-9][0-9][0-9]_clumps
 _coord[0-9][0-9][0-9][0-9].xyz
 _coord[0-9][0-9][0-9][0-9].gif 
-cyl_ld_[0-9][0-9][0-9][0-9] _coord[0-9][0-9][0-9][0-9]__voronoi_dens"
+cyl_ld_[0-9][0-9][0-9][0-9] _coord[0-9][0-9][0-9][0-9]_voronoi_dens"
 
 
 case $1 in
