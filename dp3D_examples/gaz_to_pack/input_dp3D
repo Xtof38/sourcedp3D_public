@@ -77,7 +77,7 @@ E(1)=0.2000E+11
 poisson(1)=0.3000E+00
 ______________________________________________________________________
 # plastic parameters (Pa for stress):
-# sigy(1)= Mstrain= Nvisco=
+# sigy(1)= Mstrain= Nvisco= beta2=
 sigy(1)=0.3000E+09
 Mstrain=0.0000E+00
 Nvisco=0.0000E+00

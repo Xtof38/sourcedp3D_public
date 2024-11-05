@@ -6,6 +6,10 @@ list_directories_dp3D="generate_gaz_particles gaz_to_pack closedie_compact compo
                        large_dens sinter_velocity sinter_ramp_temperature sinter_cylinder sinter_grain_growth closedie_viscoplast gaz_to_pack_cluster \
                        viscoplasticity_stress_control generate_gaz_clusters"
 
+ist_directories_dp3D="gaz_to_pack closedie_compact composite unl_rel cylinder  \
+                       crushing crush_cluster eff_prop_bonded_aggregate toughness buckling fiber Brazilian_test thermal_shock clumps \
+                       large_dens sinter_velocity sinter_ramp_temperature sinter_cylinder sinter_grain_growth closedie_viscoplast gaz_to_pack_cluster \
+                       viscoplasticity_stress_control generate_gaz_clusters"
 
 
 case $1 in
@@ -53,7 +57,8 @@ case $1 in
 	  if [ -f input_dp3D_updated ];then
             echo "input_dp3D_updated file found in test : $dir" 
 	    diff input_dp3D input_dp3D_updated
-	    toget=$(diff input_dp3D_updated input_dp3D | grep -3 "timestep>=100" | tail -1 | sed 's/> //')
+	    toget=$(diff input_dp3D_updated input_dp3D | grep -2w "timestep>=100" | tail -1 | sed 's/> //')
+            echo "back to initial stop condition: $toget"    
 	    sed -i "s|timestep>=100|$toget|1" input_dp3D_updated 
 	    yn_clean="0"
 	    while [ "$yn_clean" != "n" -a "$yn_clean" != "y" ];do

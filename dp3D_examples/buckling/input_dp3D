@@ -337,7 +337,7 @@ K_N(0)=0.25E+12
 K_T(0)=0.2E+12
 ______________________________________________________________________
 # plastic parameters (Pa for stress):
-# sigy(1)= Mstrain= Nvisco=
+# sigy(1)= Mstrain= Nvisco= beta2=
 sigy(0)=0.8000E+33
 sigy(1)=0.8000E+33
 Mstrain=0.0000E+00
