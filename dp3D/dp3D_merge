@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D_merge,v 2.1 2022/05/20 14:22:43 chris Exp $
+! $Id: dp3D_merge,v 2.2 2024/10/17 16:03:45 chris Exp $
 
 ###########################################################################
 # This is a script to merge two samples into one using dp3D_translate
@@ -19,10 +19,7 @@ script_read=`echo -e "$3" | grep "_read"`
 axis="none"
 question="Normal axis of the common plane between the two packings (x,y,z)"
 if [ "$script_read" != "" ];then
-  axis=`awk 'NR==6{print $0}' script_dp3D`
-  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D > script_dp3D.tmp1
-  awk 'BEGIN{i=0} /===/{i++} i>=2{print $0}' script_dp3D > script_dp3D.tmp2
-  mv script_dp3D.tmp2 script_dp3D
+  axis=`awk 'NR==6{print $0}' script_dp3D_merge`
 else
   while [ "$axis" != "x" -a "$axis" != "y" -a "$axis" != "z" ];do
     echo "Type the normal of the common plane between the two packings (x,y,z)"
@@ -31,9 +28,11 @@ else
       echo "$question" >> script_dp3D
       echo "$axis" >> script_dp3D
       echo "" >> script_dp3D
+      mv script_dp3D script_dp3D_merge     
     fi
   done
 fi
+
 case $axis in
 x )
  let "naxis = 1"
@@ -56,30 +55,33 @@ echo "Using  cdp3D -trans_m$naxis"
 
 if [ "$script_write" != "" ]; then
   cdp3D -trans_m_write tmp_$1 $naxis
+  mv script_dp3D script_dp3D_trans_m 
 elif [ "$script_read" != "" ]; then
+  cp script_dp3D_trans_m script_dp3D
   cdp3D -trans_m_read tmp_$1 $naxis
-  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D >> script_dp3D.tmp1
-  awk 'BEGIN{i=0} /===/{i++} i>=2{print $0}' script_dp3D > script_dp3D.tmp2
-  mv script_dp3D.tmp2 script_dp3D
+  mv script_dp3D script_dp3D_trans_m
 else
   cdp3D -trans_m tmp_$1 $naxis
 fi
+
+
 # if the two files to merge have the same name, need to mv the translated files:
 mv tmp_$1_trans tmp_$1_trans_m 
 
 echo "Using  cdp3D -trans_p$naxis"
 if [ "$script_write" != "" ]; then
   cdp3D -trans_p_write tmp_$2 $naxis
+  mv script_dp3D script_dp3D_trans_p 
 elif [ "$script_read" != "" ]; then
+  cp script_dp3D_trans_p script_dp3D
   cdp3D -trans_p_read tmp_$2 $naxis
-  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D >> script_dp3D.tmp1
-  awk 'BEGIN{i=0} /===/{i++} i>=2{print $0}' script_dp3D > script_dp3D.tmp2
-  mv script_dp3D.tmp2 script_dp3D
+  mv script_dp3D script_dp3D_trans_p
 else
   cdp3D -trans_p tmp_$2 $naxis
 fi
 mv tmp_$2_trans tmp_$2_trans_p 
 rm -f tmp_$1 tmp_$2
+
 
 # now the merging using trs_obj
 # writing the list.tmp file
@@ -119,13 +121,15 @@ echo "going for cdp3D -bc"
 
 if [ "$script_write" != "" ]; then
   cdp3D -bc_write $1_$2 "none"
+  mv script_dp3D script_dp3D_bc 
 elif [ "$script_read" != "" ]; then
+  cp script_dp3D_bc script_dp3D
   cdp3D -bc_read $1_$2
-  awk 'BEGIN{i=0} /===/{i++} i<2{print $0}' script_dp3D >> script_dp3D.tmp1
-  mv script_dp3D.tmp1 script_dp3D
+  mv script_dp3D script_dp3D_bc
 else
   cdp3D -bc $1_$2
 fi
+
 rm -f $1_$2 tmp_$1_trans_m tmp_$2_trans_p list.tmp
 # to return to the proper prompt
 

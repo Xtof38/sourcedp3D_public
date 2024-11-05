@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.26 2024/05/06 16:23:20 chris Exp $
+! $Id: cdp3D,v 2.27 2024/10/17 16:03:45 chris Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -98,18 +98,12 @@ readorwritefile=`echo -e "$optn" | grep -o "_write\|_read"`
 keep_write_read=$(echo $optn | grep -c 'keep_write\|keep_read')
 
 if [ "$keep_write_read" = "1" ];then
-  echo $optn > tmp1
-  sed -i 's/keep/rm/' tmp1
-  optn=$(cat tmp1)
-  rm -f tmp1
+  optn=$(echo $optn | sed 's/keep/rm/')
 fi
 
+
 if [ "$writefile" != "" ];then
-  if  [ "$opttest" = "merge" ];then
-    echo "=======================================================" >> script_dp3D
-  else
-    echo "=======================================================" > script_dp3D
-  fi
+  echo "=======================================================" > script_dp3D
   echo "script_dp3D created on `date +%D` with option: -$opttest" >> script_dp3D
   echo "-------------------------------------------------------" >> script_dp3D
   echo " " >> script_dp3D
@@ -121,7 +115,7 @@ fi
 
 case $opttest in
   bc )
-	echo 'Adding or moving plane objects'
+	echo 'Modifying boundary conditions'
        ;;
   bonds )
         echo 'Creates bonds between particles and/or with objetcs'
