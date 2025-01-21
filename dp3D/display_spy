@@ -98,7 +98,7 @@ case $1 in
       ;;
   -time_s )
       Xlabel='"Time (sec) "'
-      Xcolumn='($32)'
+      Xcolumn='($35)'
       ;;
   -time_h )
       Xlabel='"Time (hour) "'
