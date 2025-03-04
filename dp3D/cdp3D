@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.27 2024/10/17 16:03:45 chris Exp $
+! $Id: cdp3D,v 2.29 2025/02/03 15:31:06 martinch Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -168,7 +168,7 @@ case $opttest in
         echo 'Gives geometric information on the packing'
        ;;
   library | lib ) 
-        echo "Sorts coordinate packings of the current dir (+recursive) into /home0/chris/sourcedp3D/dp3D_library"
+        echo "Sorts coordinate packings of the current dir (+recursive) into /homer/martinch/sourcedp3D/dp3D_library"
        ;;
   long_axis ) 
         echo "Computes the orientation of the longest axis of clusters"
@@ -250,6 +250,9 @@ case $opttest in
        ;;
   trans* )
 	echo 'Translates the whole packing (with the objects, if any) '
+       ;;
+  voro_dens )
+        echo  'Generates a _voronoi_dens file with voronoi density for each particle'
        ;;
   voronoi )
         echo  'DEPRECATED: Performs a radical voronoi tesselation(voro++). vdp3D -voro may be a better option.'
@@ -366,7 +369,7 @@ case $opttest in
         fi
       fi
        ;;
-  info | full_info | bonds | object | histo  | class | renum | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* )
+  info | full_info | bonds | object | histo  | class | renum | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* | voro_dens )
       if  [ $option_exit = "true" ];then
         echo "next executable: dp3D_cut"
         exit

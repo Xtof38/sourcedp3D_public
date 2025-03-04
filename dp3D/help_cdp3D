@@ -136,6 +136,9 @@ tag particles nnn mmm ... in file
 cdp3D -trans file
 Translates the whole packing in x, y or z directions (with the objects, if any)  
 
+cdp3D -voro_dens file
+Generates a _voronoi_dens file with voronoi density for each particle
+
 cdp3D -voronoi file
 Performs a radical Voronoi tesselation (voro++)
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D_lib,v 2.3 2022/05/20 14:22:43 chris Exp $
+! $Id: dp3D_lib,v 2.4 2025/01/28 16:39:05 martinch Exp $
 
 ###########################################################################
 # This is a script to class automatically packings and cp them into directory
@@ -12,10 +12,8 @@
 BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
 theuser=`whoami`
 
-if  [ "$theuser" = "Christophe" ];then
-  theuser="chris"
-fi
-dir_biblio="/home0/chris/sourcedp3D/dp3D_library/"
+
+dir_biblio="/homer/martinch/sourcedp3D/dp3D_library/"
 
 if [ -d $dir_biblio ];then
   echo "using packing library directory for dp3D: $dir_biblio"

@@ -25,7 +25,7 @@ where=$(pwd)
 
 checkdp3D
 
-listfile="log object zave contact rupt cstatus ivdp3D warnings film _coord[0-9][0-9][0-9][0-9] \
+listfile_std="log object zave contact rupt cstatus ivdp3D warnings film _coord[0-9][0-9][0-9][0-9] \
  plot_tstress plot_zave plot_spy plot_tag plot_object plot_probe plot_cstatus plot_Surf_Mob \
  plot_rupt plot_histots[0-9][0-9][0-9][0-9] tstress fract_bonds Surf_Mob \
 _histoclust[0-9][0-9][0-9][0-9] \
@@ -39,20 +39,37 @@ _[0-9][0-9][0-9][0-9]_clumps
 _coord[0-9][0-9][0-9][0-9].xyz
 _coord[0-9][0-9][0-9][0-9].gif 
 cyl_ld_[0-9][0-9][0-9][0-9] _coord[0-9][0-9][0-9][0-9]_voronoi_dens"
+listfile_histc="_[0-9][0-9][0-9][0-9]_histc"
+
+histc=$(echo $1 | grep -c histc)
+
+case $histc in
+
+1 )
+listfile=$listfile_histc
+;;
+
+* )
+listfile=$listfile_std
+
+esac
+
+opt=$(echo $1 | sed 's/histc//' | sed 's/-//')
 
 
-case $1 in
--f )
+
+case $opt in
+f )
   rm -f $listfile
 ;;
--df | -d )
+df | d )
   loc_dirs=$(find $(pwd) -type d)
 
   for where in $loc_dirs;do
     checkdp3D
   done
   answer='n'
-  echo "Will remove all dp3D result files in the following directories:"
+  echo "Will remove dp3D result files in the following directories:"
   echo "$loc_dirs"
   if [ "$1" = "-df" ];then
     answer="y"

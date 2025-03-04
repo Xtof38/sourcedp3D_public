@@ -293,20 +293,24 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         echo $plotstring >> plot_$file2display
       else
         not2plot=`echo $Title | sed 's/_/ /g'`
-        echo "Object $ii results in zero value thus ($not2plot not plotted)"
+        if [ $num_obj -lt 10 ];then
+          echo "Object $ii results in zero value thus ($not2plot not plotted)"
+        fi
 # to know if there has been a contact with the object
         num=`expr $Ynum_kn1 + $ii \* $numdata - $numdata`
         awk '{print $'$num'}' $file2display > tmp3
         numnonzero=`grep -c -v "0" tmp3`
 	rm -f tmp3
-        if [ $numnonzero -gt 1 ];then
-          echo ""
-          echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-          echo "number of contacts with object $ii is non zero"
-          echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-          echo ""
-        else
-          echo "no contact with this object"
+        if [ $num_obj -lt 10 ];then
+          if [ $numnonzero -gt 1 ];then
+            echo ""
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            echo "number of contacts with object $ii is non zero"
+            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+            echo ""
+          else
+            echo "no contact with this object"
+          fi
         fi
       fi
     fi    

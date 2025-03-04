@@ -271,8 +271,8 @@ echo "set xlabel $Xlabel" >> plot_$file2display
         Ycolumn='($29)'
        ;;
       -Temp )
-        Title='"Particle tempearature (°C)"'
-        Ylabel='"Particle tempearature (°C)"'
+        Title='"Particle tempearature (deg C)"'
+        Ylabel='"Particle tempearature (deg C)"'
         Ycolumn='($30)'
        ;;
       -dens_Voronoi )
