@@ -17,7 +17,7 @@ rm -f option_dp3D.tmp
 
 axis_list="xyz"
 
-BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
+BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 
 theuser=`whoami`
 numberofarg="$#"

@@ -9,7 +9,7 @@
 # Christophe.martin@grenoble-inp.fr   
 # first created October 2008
 
-BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
+BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
 
 

@@ -12,7 +12,7 @@
 # Christophe.martin@grenoble-inp.fr   
 # first created January 2014
 
-BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
+BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 if [ "$1" = "" ];then
   more $BINARY_std/help_ovdp3D
   exit

@@ -6,7 +6,7 @@
 ###########################################################################
 
 # Christophe.martin@grenoble-inp.fr    November 2006
-BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
+BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
 
 if  [ -f "_histo$2" -o $1 = "help" ];then

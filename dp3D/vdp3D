@@ -11,7 +11,7 @@
 # Christophe.martin@grenoble-inp.fr   
 # first created september 2006
 
-BINARY_std=$(whereis dp3D | awk '{print $NF}' | rev | sed 's/D3pd//' | rev)
+BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
 if [ "$1" = "" ];then
   more $BINARY_std/help_vdp3D
