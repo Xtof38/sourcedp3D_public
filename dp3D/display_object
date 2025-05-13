@@ -125,10 +125,6 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 # counting the number of objects in the simulation:
     num_obj=`grep -o forcex object | grep -c forcex`
     echo "$num_obj objects to process"
-# to look for the first occurence of a nonzero column
-    let "done = 0"
-
-
     for option in $Option_l
     do
     case $option in
@@ -281,16 +277,8 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         else
           file2plot=$(ls -1 -Q $file2display)
         fi   
-        Title_loc=$(echo $Title | sed 's/_/ /g')
-        if [ $done -ne 1 ];then
-# plot only for the first line (1,1)
-          plotstring="plot $file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
-	  done="1"
-        else
-# replot everywhere except for the first line (1,1)
-          plotstring="$file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
-        fi
-        echo $plotstring >> plot_$file2display
+# calls gnup_lc_lt shell handling variables:
+        source $BINARY_std/gnup_lc_lt
       else
         not2plot=`echo $Title | sed 's/_/ /g'`
         if [ $num_obj -lt 10 ];then
@@ -301,6 +289,9 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         awk '{print $'$num'}' $file2display > tmp3
         numnonzero=`grep -c -v "0" tmp3`
 	rm -f tmp3
+        if  [ $i -eq 1 ];then
+          let "i=0"
+        fi
         if [ $num_obj -lt 10 ];then
           if [ $numnonzero -gt 1 ];then
             echo ""

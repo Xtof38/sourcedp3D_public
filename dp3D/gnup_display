@@ -1,26 +1,35 @@
 #decomment  lines to print into a  file:
 #and rerun gnuplot, inserting these lines in between
-#plot and replot for multiple curves graph
-
+#
 #set terminal postscript eps  color  
 # or for larger fonts:
 #set terminal postscript eps  color "Arial" 24 
 #set output "your_file.eps"  
+# to be relocated at the end of this file to produce a pdf:
+# set output 
+#!epstopdf --outfile=your_file.pdf your_file.eps 
 
 # for the option anim, decomment:
 #set terminal gif animate
 #set output "animate.gif"
 
-# ready to handle colors yourself:
-set style line 1 lt rgb "red" lw 2
-set style line 2 lt rgb "blue" lw 2
-set style line 3 lt rgb "orange" lw 2
-set style line 4 lt rgb "violet" lw 2
-set style line 5 lt rgb "green" lw 2
-set style line 6 lt rgb "black" lw 2
-set style line 7 lt rgb "cyan" lw 2
+# ready to handle colors and line types yourself (decomment next line):
+#set for [i=1:5] linetype i dt i
 
-# to have _ writen correctly in late versions of gnuplot:
+set style line 1 lt 1 lc rgb "red" lw 2 #plain
+#set style line 2 lt 2 lc rgb "red" lw 2 # -----
+#set style line 3 lt 3 lc rgb "red" lw 2  # .....
+#set style line 4 lt 4 lc rgb "red" lw 2  # -.-.-.-
+set style line 2 lt 1 lc rgb "blue" lw 2
+set style line 3 lt 1 lc rgb "orange" lw 2
+set style line 4 lt 1 lc rgb "violet" lw 2
+set style line 5 lt 1 lc rgb "green" lw 2
+set style line 6 lt 1 lc rgb "dark-blue" lw 2
+set style line 7 lt 1 lc rgb "cyan" lw 2
+set style line 8 lt 1 lc rgb "sienna4" lw 2
+
+
+# to have _ written correctly in late versions of gnuplot:
 set key noenhanced
 set title noenhanced
 

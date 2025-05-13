@@ -305,15 +305,7 @@ esac
       else
         file2plot=$(ls -1 -Q $file2display)
       fi
-      Title_loc=$(echo $Title | sed 's/_/ /g')
-      if [ $i -eq 1 ];then
-# plot only for the first line (1,1)
-        plotstring="plot $file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
-      else
-# replot everywhere except for the first line (1,1)
-        plotstring="$file2plot u $Xcolumn:$Ycolumn title $Title_loc w l lw 2 ,\\"
-      fi
-      echo $plotstring >> plot_$file2display
-      
+# calls gnup_lc_lt shell handling variables:
+      source $BINARY_std/gnup_lc_lt      
     fi
     done

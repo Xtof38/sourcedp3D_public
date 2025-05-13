@@ -354,7 +354,6 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 # number of lines in tmp1
       numlines=`grep -c "_$file2display"  < tmp1`
      let "ii=0"
-echo "i=$i ii=$ii numlines=$numlines"
      until [ "$numlines" = "0" ]
      do
        let "numlines-=1"
