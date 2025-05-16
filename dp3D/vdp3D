@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.16 2024/07/05 14:30:28 chris Exp $
+! $Id: vdp3D,v 2.17 2025/05/13 14:16:32 martinch Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files

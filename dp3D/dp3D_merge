@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D_merge,v 2.2 2024/10/17 16:03:45 chris Exp $
+! $Id: dp3D_merge,v 2.3 2025/05/13 14:16:26 martinch Exp $
 
 ###########################################################################
 # This is a script to merge two samples into one using dp3D_translate
