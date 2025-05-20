@@ -1,0 +1,10 @@
+#!/bin/bash
+        Title_loc=$(echo $Title | sed 's/_/ /g')
+        if [ $i -eq 1 ];then
+# plot only for the first line (1,1)
+          plotstring="plot $file2plot u $Xcolumn:$Ycolumn title $Title_loc w l ls $i lw 2 ,\\"
+        else
+# replot everywhere except for the first line (1,1)
+          plotstring="$file2plot u $Xcolumn:$Ycolumn title $Title_loc w l ls $i lw 2 ,\\"
+        fi
+        echo $plotstring >> plot_$file2display
