@@ -54,20 +54,20 @@ case $1 in
           echo "Job done in test: $dir"
           rm -f input_dp3D
           mv input_dp3D_save input_dp3D 
-	  if [ -f input_dp3D_updated ];then
-            echo "input_dp3D_updated file found in test : $dir" 
-	    diff input_dp3D input_dp3D_updated
-	    toget=$(diff input_dp3D_updated input_dp3D | grep -2w "timestep>=100" | tail -1 | sed 's/> //')
-            echo "back to initial stop condition: $toget"    
-	    sed -i "s|timestep>=100|$toget|1" input_dp3D_updated 
-	    yn_clean="0"
-	    while [ "$yn_clean" != "n" -a "$yn_clean" != "y" ];do
-              read -e -p "replace input_dp3D  by input_dp3D_updated ? (y/n)" -i "n" yn_clean
-            done
-            if [ "$yn_clean" = "y" ];then
-	      mv input_dp3D_updated input_dp3D
-	    fi
-	  fi
+#	  if [ -f input_dp3D_updated ];then
+#            echo "input_dp3D_updated file found in test : $dir" 
+#	    diff input_dp3D input_dp3D_updated
+#	    toget=$(diff input_dp3D_updated input_dp3D | grep -2w "timestep>=100" | tail -1 | sed 's/> //')
+#            echo "back to initial stop condition: $toget"    
+#	    sed -i "s|timestep>=100|$toget|1" input_dp3D_updated 
+#	    yn_clean="0"
+#	    while [ "$yn_clean" != "n" -a "$yn_clean" != "y" ];do
+#             read -e -p "replace input_dp3D  by input_dp3D_updated ? (y/n)" -i "n" yn_clean
+#            done
+#            if [ "$yn_clean" = "y" ];then
+#	      mv input_dp3D_updated input_dp3D
+#	    fi
+#	  fi
         fi
       else
         echo "pb for sed to find '# sigzz<=' in test : $dir"    
@@ -96,6 +96,9 @@ case $1 in
   -update )
   for dir in $list_directories_dp3D; do
     if [ -f "$dir/input_dp3D_updated" ];then
+      toget=$(diff $dir/input_dp3D_updated $dir/input_dp3D | grep -2w "timestep>=100" | tail -1 | sed 's/> //')
+      echo "back to initial stop condition: $toget"   
+      sed -i "s|timestep>=100|$toget|1" $dir/input_dp3D_updated 
       mv -f "$dir/input_dp3D_updated" "$dir/input_dp3D"
       echo "$dir/input_dp3D  updated"
     fi

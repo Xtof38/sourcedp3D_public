@@ -125,7 +125,7 @@ ______________________________________________________________________
 none
 ______________________________________________________________________
 # numerical parameters:
-# upscale(1)= safe_dt= damping= fixed_dt= random_seed=
+# upscale(1)= safe_dt= damping= fixed_dt= max_dt= random_seed=
 # potential_contact= aff_fact= P_fact= I_fact= D_fact=
 fixed_dt=0.05
 upscale(1)=0.1000E+01
