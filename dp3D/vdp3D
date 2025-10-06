@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.17 2025/05/13 14:16:32 martinch Exp $
+! $Id: vdp3D,v 2.20 2025/10/06 15:16:10 martinch Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -146,8 +146,8 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
             epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy epsvol sigxx \
 	    sigyy sigzz sigxy sigxz sigyx sigyz \
-            sigzx sigzy press dens center_clumps Temp normal_axis \
-            misalign_x misalign_y misalign_z "
+            sigzx sigzy press Mises dens center_clumps Temp normal_axis \
+            misalign_x misalign_y misalign_z level"
        anim=`echo "$anim_list" | grep -c -w $opt2n`
        if  [ "$anim" = "1" ];then
          fscript=ivdp3D 
@@ -296,9 +296,9 @@ case $optn in
 
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
-   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | eps[x-z][x-z] \
+   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | Mises | eps[x-z][x-z] \
    | epsvol | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
-   | misalign_x | misalign_y | misalign_z )
+   | misalign_x | misalign_y | misalign_z | level )
    case  $ref_file in
    0 )
      echo "$f2visualize $opt$ovito $range" > list.tmp
@@ -366,7 +366,7 @@ case $optn in
    done      
    ;;
 # There should be only one coord file for these options:
-   tag | rm | keep  | pick | ref_sphere | ref_rect | spy | crack | notch | probe | sphere | ellipsoid )
+   tag | rm | keep  | pick | ref_sphere | ref_rect | spy | crack | notch | probe | sphere | ellipsoid | part )
    if  [ "$f2visualize" -gt "1" ];then
      echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" 
      echo "There should be only one coordinate file with option  $opt" 
@@ -442,7 +442,7 @@ esac
 # some specific actions now for each case
 echo '----------------------------------------------------------'
 case $optn in
-   spy | tag | rm | keep | pick )
+   spy | tag | rm | keep | pick | part )
      echo " Select the particles you want to $optn                    "
 # this is the standard rasmol 
      if [ "$ovito" = "" ];then
@@ -633,7 +633,7 @@ if [ "$ovito" = "" ];then
 # checking that the files are there before launching rasmol:
     file2check=`grep  "load xyz " script_rasmol$ii.tmp |  awk '{ print $3 }'`
     if [ -f $file2check ];then
-      $BINARY_std/rasmol -script script_rasmol$ii.tmp &
+      $BINARY_std/rasmol -prompt -script script_rasmol$ii.tmp &
     else
       echo "Error, no $file2check file to visualize !"
     fi
@@ -646,7 +646,7 @@ if [ "$ovito" = "" ];then
       echo "Exiting, next executable: rasmol"
       exit
     else
-      $BINARY_std/rasmol -script script_rasmol$f2visualize.tmp
+      $BINARY_std/rasmol -prompt -script script_rasmol$f2visualize.tmp
     fi
   else
     echo "Error, no $file2check file to visualize !"

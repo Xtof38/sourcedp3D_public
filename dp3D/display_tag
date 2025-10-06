@@ -156,9 +156,11 @@ echo "set title $Title" >> plot_$file2display
 echo "set xlabel $Xlabel" >> plot_$file2display
     let "i=0"
     end_option="$1"0
+    let "noption=0"
 
     for option in $Option_l
     do
+      let "noption+=1"
 
       case $option in
       -status )
@@ -342,15 +344,12 @@ echo "set xlabel $Xlabel" >> plot_$file2display
       else
         ls -1 -Q _$file2display* > tmp1
       fi
-      if [ $i -eq 1 ];then
-# plot only for the first line (1,1)
-        sed '1,1 s/^/plot /g' tmp1 > tmp3
-      else
-# replot everywhere except for the first line (1,1)
-        sed 's/^/replot /g' tmp1 > tmp3       
+      cp -f tmp1 tmp2
+      if [ $noption = "1" ];then
+        sed   '1 s/^/plot /g' tmp1 > tmp2
       fi
 # add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
-      sed 's/$/ u '$Xcolumn':'$Ycolumn' title /g' tmp3 > tmp2
+      sed -i 's/$/ u '$Xcolumn':'$Ycolumn' title /g'  tmp2
 # number of lines in tmp1
       numlines=`grep -c "_$file2display"  < tmp1`
      let "ii=0"
@@ -361,22 +360,13 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 # get the first line of tmp1       
        tocopy=`sed -n ''1'p' tmp1`
 # and copy it on th ith line of tmp2
-       if  [ "$numlines" = "0" ];then
-         sed ''$ii','$ii' s/$/'$tocopy'specialtagtoreplace123456789/g' tmp2 > tmp3
-       else
-         sed ''$ii','$ii' s/$/'$tocopy'/g' tmp2 > tmp3
-       fi
+       sed -i ''$ii','$ii' s/$/'$tocopy' w l lw 2 ,\\/g' tmp2 
 # decreasing the number of lines in tmp1            
-       sed '1,1d' tmp1 > tmp4
-       mv -f tmp3 tmp2   
-       mv -f tmp4 tmp1    
+       sed -i '1,1d' tmp1 
      done 
-sed 's/$/ w l lw 2 ,\\/g' tmp2 > tmp3
-sed '/specialtagtoreplace123456789/s/,\\//g' tmp3 > tmp2
-sed 's/specialtagtoreplace123456789//' tmp2 > tmp3
-cat tmp3 >> plot_$file2display
+     cat tmp2 >> plot_$file2display
     fi
 
     done
 
-rm -f tmp1 tmp2 tmp3 tmp4
+rm -f tmp1 tmp2

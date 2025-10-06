@@ -64,6 +64,9 @@ displays the packing with ivdp3D as the default script
 vdp3D -iref file
 displays the reference sphere
 
+vdp3D -level file
+displays the levels of particles to track fracture
+
 vdp3D -keep file
 generates a coord from file with only selected particles kept
 

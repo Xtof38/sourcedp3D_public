@@ -61,6 +61,9 @@ generates an image of the packing showing the reference sphere
 ovdp3D -keep file
 generates a coord from file with only selected particles kept
 
+ovdp3D -level file
+displays the levels of particles to track fracture
+
 ovdp3D -Nnetwork file
 displays the normal force network of a 2D section
 
@@ -88,8 +91,8 @@ generates a coord from file with selected particles removed
 ovdp3D -sphere (or -ellipsoid) file
 generates a coord from file with particles selected from a sphere (or an ellipsoid)
 
-ovdp3D (-anim) -sig(xx,yy or zz) or -press file
-displays stress components or pressure with halo option at the particle level
+ovdp3D (-anim) -sig(xx,yy or zz) or -press or -Mises file
+displays stress components or pressure or Mises stress with halo option at the particle level
 
 ovdp3D -spy file
 generates a coord from file with selected particles to be spyed

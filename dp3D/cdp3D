@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.30 2025/05/13 14:16:26 martinch Exp $
+! $Id: cdp3D,v 2.32 2025/07/10 10:24:31 martinch Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -403,6 +403,9 @@ case $opttest in
         title_plot="Temperature (deg.C)"
         ycol='$3'
       fi
+      echo "set key noenhanced " >> plot_probe
+      echo "set title noenhanced" >> plot_probe
+
       echo "set xlabel '"$title_plot "'" >> plot_probe
       echo "set title  '$title_plot along "$opttest" axis '" | sed 's/-probe_//g' >> plot_probe
       echo "set ylabel '"$opttest" (micron)'" | sed 's/-probe_//g'  >> plot_probe
@@ -432,13 +435,18 @@ title '"$title_plot of packing "$2""' w l lw 2 " | sed 's/-//g' >> plot_probe
        ;;
   rm | keep | cut_rect | cut_cyl | noisolated | pick )
 # prepares the tagpartnum.tmp and the tagpart.tmp file to be read by trs_tag_rm
-      $BINARY_std/dp3D_cut
+      if  [ $option_exit = "true" ];then
+          echo "next executable: dp3D_cut followed by trs_tag_rm, see cdp3D"
+          exit
+      else
+        $BINARY_std/dp3D_cut
+      fi
       if [ -f tagpartnum.tmp ];then
         if  [ $option_exit = "true" ];then
           echo "next executable: trs_tag_rm"
           exit
         else       
-          trs_tag_rm
+          $BINARY_std/trs_tag_rm
         fi
       fi
        ;;
