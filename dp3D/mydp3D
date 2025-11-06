@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: mydp3D,v 2.6 2022/04/04 15:55:13 chris Exp $
+! $Id: mydp3D,v 2.7 2025/10/24 07:37:53 martinch Exp $
 
 ###########################################################################
 # This is a script to get info on a dp3D proc 
@@ -30,16 +30,7 @@
         fi
 	
       else
-        ps -ef | grep "$theuser" > tmp2
-        grep "dp3D" tmp2   > tmp1
-# mydp3D is not interesting
-        sed '/mydp3D/d' tmp1 > tmp2
-        sed '/00:00:00/d' tmp2 > tmp1
-        sed '/\/bin\/sh/d' tmp1 > tmp2
-# we rm zombie processes
-        sed '/defunct/d' tmp2 > tmp1
-#the second field 
-        awk '{ print $2 }' tmp1 > tmp2
+        ps -ef | grep "$theuser" | grep "dp3D" | sed '/mydp3D/d' | sed '/00:00:00/d' | sed '/\/bin\/sh/d' | sed '/odp3D/d' | sed '/defunct/d' | awk '{ print $2 }' > tmp2
         numlines=`grep -c .  < tmp2`
         numproc="0"
         until [ "$numlines" = "0" ]

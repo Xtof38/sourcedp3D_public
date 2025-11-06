@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.32 2025/07/10 10:24:31 martinch Exp $
+! $Id: cdp3D,v 2.33 2025/10/21 15:06:48 martinch Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -224,6 +224,9 @@ case $opttest in
   renum )
 	echo 'Renumbers the packing to save on cache miss '	
        ;;
+  reorder )
+	echo 'Reorders the packing to get ordered list of bonds '	
+       ;;
   resize )
 	echo 'Resizes particles (without any densification)  '	
        ;;
@@ -369,7 +372,7 @@ case $opttest in
         fi
       fi
        ;;
-  info | full_info | bonds | object | histo  | class | renum | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* | voro_dens )
+  info | full_info | bonds | object | histo  | class | renum | reorder | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* | voro_dens )
       if  [ $option_exit = "true" ];then
         echo "next executable: dp3D_cut"
         exit

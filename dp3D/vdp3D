@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.20 2025/10/06 15:16:10 martinch Exp $
+! $Id: vdp3D,v 2.22 2025/10/21 15:07:51 martinch Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -13,6 +13,14 @@
 
 BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
+richebourg=$(hostname | grep -c richebourg)
+# rasmol works on richebourg but without -prompt (older version ?)
+if [ $richebourg = "1" ];then
+  rasmolprompt=""
+else
+  rasmolprompt="-prompt"
+fi
+
 if [ "$1" = "" ];then
   more $BINARY_std/help_vdp3D
   exit
@@ -633,7 +641,7 @@ if [ "$ovito" = "" ];then
 # checking that the files are there before launching rasmol:
     file2check=`grep  "load xyz " script_rasmol$ii.tmp |  awk '{ print $3 }'`
     if [ -f $file2check ];then
-      $BINARY_std/rasmol -prompt -script script_rasmol$ii.tmp &
+      $BINARY_std/rasmol $rasmolprompt -script script_rasmol$ii.tmp &
     else
       echo "Error, no $file2check file to visualize !"
     fi
@@ -646,7 +654,7 @@ if [ "$ovito" = "" ];then
       echo "Exiting, next executable: rasmol"
       exit
     else
-      $BINARY_std/rasmol -prompt -script script_rasmol$f2visualize.tmp
+      $BINARY_std/rasmol $rasmolprompt -script script_rasmol$f2visualize.tmp
     fi
   else
     echo "Error, no $file2check file to visualize !"
