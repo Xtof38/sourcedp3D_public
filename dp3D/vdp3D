@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: vdp3D,v 2.22 2025/10/21 15:07:51 martinch Exp $
+! $Id: vdp3D,v 2.23 2025/12/02 10:41:00 martinch Exp $
 
 ###########################################################################
 # This is a script to display dp3D generated coord files
@@ -107,8 +107,7 @@ fi
 # these are the options that necessitate a reference file
 # looking for the file which will serve as a ref for the calculation:
 # will be 0 1 or 2 :
-ref_file_list="nobond disp dispx dispy dispz dispr z_diff epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy \
-epsvol epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy epsvol"
+ref_file_list="nobond disp dispx dispy dispz dispr z_diff"
 ref_file=`echo "$ref_file_list" | grep -o -w $optn | grep -cw $optn`
 # 2 will be the result for eps 
 if [ $ref_file = "1" ];then
@@ -152,7 +151,7 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
 # these are the options that can be combined with anim 
        anim_list=" contact z class force nobond deltats fract_bonds  \
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
-            epsxx epsyy epszz epsxy epsxz epsyx epsyz epszx epszy epsvol sigxx \
+            epsxx epsyy epszz epsvol sigxx \
 	    sigyy sigzz sigxy sigxz sigyx sigyz \
             sigzx sigzy press Mises dens center_clumps Temp normal_axis \
             misalign_x misalign_y misalign_z level"
@@ -307,6 +306,16 @@ case $optn in
    Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | Mises | eps[x-z][x-z] \
    | epsvol | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z | level )
+
+   if  [ "$optn" = "dens" -o  "$optn" = "voro" ];then
+     herepwd=$(pwd)
+     mdp3D=$($BINARY_std/mydp3D | tail -2)
+     if  [ "$herepwd" = "$mdp3D" ];then
+       echo "You cannot invoke this option while a dp3D simulation is going in the same directory"
+       exit
+     fi
+   fi
+  
    case  $ref_file in
    0 )
      echo "$f2visualize $opt$ovito $range" > list.tmp

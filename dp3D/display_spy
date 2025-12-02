@@ -74,7 +74,17 @@ fi
 case $1 in
   -dens )
       Xlabel='"Relative Density "'
-      Xcolumn='($1)'
+      correct_fact=$(grep correct_fact.*=[0-9] input_dp3D | head -1 | cut -c 17-)
+      if [ "$correct_fact" = "" ];then
+        correct_fact=1.
+        Xcolumn='($1)'
+      else
+        Xcolumn='($1\/'$correct_fact')' 
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "Using correction factor from input_dp3D for density  "
+        echo "correc_fact="$correct_fact 
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+      fi
       ;;
   -dgeom )
       Xlabel='"Geometric Relative Density "'
@@ -301,6 +311,21 @@ echo "set xlabel $Xlabel" >> plot_$file2display
         Ylabel='"Particle local pressure (MPa)"'
         Ycolumn='(-0.333333*($32+$33+$34))'
        ;;
+      -epsxx )
+        Title='"Particle xx local strain"'
+        Ylabel='"Particle local strain"'
+        Ycolumn='($36)'
+       ;;
+      -epsyy )
+        Title='"Particle yy local strain"'
+        Ylabel='"Particle local strain"'
+        Ycolumn='($37)'
+       ;;
+      -epszz )
+        Title='"Particle zz local strain"'
+        Ylabel='"Particle local strain"'
+        Ycolumn='($38)'
+       ;;
     xrange* )
       echo $option > tmp1 
       sed 's/xrange/set xrange /' tmp1 > tmp2
@@ -360,6 +385,7 @@ echo "set xlabel $Xlabel" >> plot_$file2display
          echo "-dens_Voronoi                         Packing density (Voronoi) if available"
          echo "-sigxx -sigyy -sigzz                  Particle local stress"
          echo "-press                                Particle local pressure (part hydrostatic)"
+         echo "-epsxx -epsyy -epszz                  Particle local strain"
          exit 
       fi
      esac

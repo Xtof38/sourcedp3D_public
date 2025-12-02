@@ -89,7 +89,17 @@ fi
 case $1 in
   -dens )
       Xlabel='"Relative Density "'
-      Xcolumn='($1)'
+      correct_fact=$(grep correct_fact.*=[0-9] input_dp3D | head -1 | cut -c 17-)
+      if [ "$correct_fact" = "" ];then
+        correct_fact=1.
+        Xcolumn='($1)'
+      else
+        Xcolumn='($1/'$correct_fact')' 
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "Using correction factor from input_dp3D for density  "
+        echo "correc_fact="$correct_fact 
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+      fi
       ;;
   -dgeom )
       Xlabel='"Geometric Relative Density "'
@@ -154,7 +164,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
       Title=$(awk '{print $'$Ycolumn'}' $file2display | head -1)
       Title=\""${Title:3}"\"
       Ylabel='"Relative contact number"'
-      Ycolumn="(\$"$Ycolumn")"
+      Ycolumn="(\$"$Ycolumn"/\$5)"
       if [ "$plot" != "no" ];then
 #   a valid y label has been chosen    
         let "i+=1"

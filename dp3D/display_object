@@ -13,7 +13,7 @@ theuser=`whoami`
 file2display=object
 Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
 keepfile=$(echo $Option_l | grep -c "\-keep")
-
+correct_fact="1."
 
 #The number of data columns per object is:
 let "numdata=11"
@@ -69,7 +69,17 @@ fi
 case $1 in
   -dens )
       Xlabel='"Relative Density "'
-      Xcolumn='($1)'
+      correct_fact=$(grep correct_fact.*=[0-9] input_dp3D | head -1 | cut -c 17-)
+      if [ "$correct_fact" = "" ];then
+        correct_fact=1.
+        Xcolumn='($1)'
+      else
+        Xcolumn='($1/'$correct_fact')' 
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+        echo "Using correction factor from input_dp3D for density  "
+        echo "correc_fact="$correct_fact 
+        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+      fi
       ;;
   -dgeom )
       Xlabel='"Geometric Relative Density "'
@@ -294,11 +304,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         fi
         if [ $num_obj -lt 10 ];then
           if [ $numnonzero -gt 1 ];then
-            echo ""
-            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
             echo "number of contacts with object $ii is non zero"
-            echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-            echo ""
           else
             echo "no contact with this object"
           fi

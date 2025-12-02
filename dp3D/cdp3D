@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: cdp3D,v 2.33 2025/10/21 15:06:48 martinch Exp $
+! $Id: cdp3D,v 2.34 2025/11/14 14:14:35 martinch Exp $
 
 ###########################################################################
 # This is a script to help transform _coord files
@@ -263,6 +263,9 @@ case $opttest in
   voxel | voxel_file )
         echo 'Voxelize (3D image) a coordinate file '
        ;;
+  developper )
+#  an option specific for developpers
+       ;;
 
 
      * )
@@ -372,7 +375,7 @@ case $opttest in
         fi
       fi
        ;;
-  info | full_info | bonds | object | histo  | class | renum | reorder | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* | voro_dens )
+  developper | info | full_info | bonds | object | histo  | class | renum | reorder | clumps | long_axis | normal_axis | rotate | size_cluster | break_bonds | press | sig* | voro_dens )
       if  [ $option_exit = "true" ];then
         echo "next executable: dp3D_cut"
         exit
