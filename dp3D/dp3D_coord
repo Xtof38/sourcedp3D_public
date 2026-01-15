@@ -1,5 +1,5 @@
 #!/bin/bash
-! $Id: dp3D_coord,v 2.0 2018/06/19 12:31:51 chris Exp $
+! $Id$
 
 ###########################################################################
 # This is the old script to help transform _coord files

@@ -23,19 +23,17 @@ if [ `echo  $1  | grep  -o _test` ];then
   test=`echo  $1  | grep  -o _test`
 fi
 # opt without -:
-# _skip allows skipping altogether the trs_obj treatment when the xyz files already exists
-skip=`echo  $1  | grep -c _skip`
-optn=`echo $1 | sed 's/_skip//'`
+optn=`echo $1 | sed 's/_xyzonly//'`
 option_exit1=`echo  $1  | grep -c _exit1`
 option_exit2=`echo  $1  | grep -c _exit2`
+option_xyzonly=`echo  $1  | grep -c _xyzonly`
 optn=`echo "$optn" | sed 's/_test//g'`
 optn=`echo "$optn" | sed 's/-//g'`
-xyz=`echo  $1  | grep -c _xyz`
 damage="0"
 # to know if the user is on the physical console
 user=`whoami`
 physical_console=$(who | grep $user | head -1 | grep -c '(:0)')
-
+ovito_loaded=$(module avail ovito | grep -c loaded)
 local=`echo $DISPLAY | grep -c localhost`
 
 if [ "$local" = "1" ];then
@@ -66,22 +64,16 @@ if [  "$file2ovito" = "" ];then
   exit
 fi
 
-if [ "$skip" = "1" ];then
-  echo "Not launching ovito"
-else
 # calling the standard vdp3D with _ovito option
-  if [ "$optn" = "damage" -o "$2" = "-damage" ];then
-    $BINARY_std/select_damaged_parts $file2ovito
-    damage="1"
-  else
-    $BINARY_std/vdp3D -"$optn""$test"_ovito $2
-  fi
+if [ "$optn" = "damage" -o "$2" = "-damage" ];then
+  $BINARY_std/select_damaged_parts $file2ovito
+  damage="1"
+else
+  $BINARY_std/vdp3D -"$optn""$test"_ovito $2
 fi
 
-if [ "$skip" = "1" ];then
-  echo "Skipping altogether the xyz file generation"
-fi
-if [  "$xyz" = "1" -a "$option_exit1" = "0" ];then
+
+if [  "$xyz" = "1" -a "$option_exit1" = "0" -a "$ovito_loaded" = "0" ] || [ "$option_xyzonly" = "1" ];then
   echo "Only generating $file2ovito.xyz file to use with ovito"
   if [  "$option_exit1" = "0" -a "$option_exit2" = "0" ];then
     rm -f *.tmp
@@ -90,7 +82,6 @@ if [  "$xyz" = "1" -a "$option_exit1" = "0" ];then
   rm -f tmp1
   exit
 fi
-
 
 if [ ! -f $file2ovito.xyz -a "$option_exit1" = "0" -a "$damage" = "0" ];then
   echo "An error has occured in the treatment of $file2ovito"
@@ -102,12 +93,12 @@ fi
 
 # rm the comment after the number of particles to make the file readable by 
 # ovito
-if [  "$physical_console" = "0" ];then
+if [  "$physical_console" = "0" -a "$ovito_loaded" = "0" ];then
   echo " $user uses remote console"
   echo "Install ovito on a Windows or Linux computer"
   echo "Use the Load Remote File option in ovito to view $file2ovito.xyz"
 else
-  if [  "$xyz" = "0" -a "$option_exit1" = "0" ];then
+  if [  "$ovito_loaded" = "1" -a "$option_exit1" = "0" ];then
   ovito $file2ovito.xyz
   fi
 fi

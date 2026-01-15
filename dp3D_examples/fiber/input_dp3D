@@ -42,7 +42,7 @@ ______________________________________________________________________
 # simulation termination:
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
-# sigzz<=
+# sigzz<= ferror<=
 timestep>=1.2E+07
 ______________________________________________________________________
 # writing coordinate files:

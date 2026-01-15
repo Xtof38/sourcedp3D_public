@@ -6,10 +6,6 @@ list_directories_dp3D="generate_gaz_particles gaz_to_pack closedie_compact compo
                        large_dens sinter_velocity sinter_ramp_temperature sinter_cylinder sinter_grain_growth closedie_viscoplast gaz_to_pack_cluster \
                        viscoplasticity_stress_control generate_gaz_clusters"
 
-ist_directories_dp3D="gaz_to_pack closedie_compact composite unl_rel cylinder  \
-                       crushing crush_cluster eff_prop_bonded_aggregate toughness buckling fiber Brazilian_test thermal_shock clumps \
-                       large_dens sinter_velocity sinter_ramp_temperature sinter_cylinder sinter_grain_growth closedie_viscoplast gaz_to_pack_cluster \
-                       viscoplasticity_stress_control generate_gaz_clusters"
 
 
 case $1 in
@@ -96,7 +92,7 @@ case $1 in
   -update )
   for dir in $list_directories_dp3D; do
     if [ -f "$dir/input_dp3D_updated" ];then
-      toget=$(diff $dir/input_dp3D_updated $dir/input_dp3D | grep -2w "timestep>=100" | tail -1 | sed 's/> //')
+      toget=$(diff $dir/input_dp3D_updated $dir/input_dp3D | tail -1 | sed 's/> //')
       echo "back to initial stop condition: $toget"   
       sed -i "s|timestep>=100|$toget|1" $dir/input_dp3D_updated 
       mv -f "$dir/input_dp3D_updated" "$dir/input_dp3D"
@@ -106,7 +102,7 @@ case $1 in
   ;;
   * )  
   echo "$0 usage: "
-  echo "$0  -all      --> runs all simulations (long!)"
+  echo "$0  -all      	--> runs all simulations (long!)"
   echo "$0  -100istep --> runs all simulations for the first 100 timesteps"
   echo "$0  -clean    --> cleans the result files of all simulations"
   echo "$0  -update   --> update input_dp3D from input_dp3D_updated"

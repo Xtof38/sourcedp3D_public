@@ -43,7 +43,7 @@ ______________________________________________________________________
 # simulation termination:
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
-# sigzz<=
+# sigzz<= ferror<=
 epsilon>=0.02
 ______________________________________________________________________
 # writing coordinate files:
@@ -86,7 +86,7 @@ K_N(0)=825.E+09
 K_T(0)=177.E+09
 ______________________________________________________________________
 # plastic parameters (Pa for stress):
-# sigy(1)= Mstrain= Nvisco=
+# sigy(1)= Mstrain= Nvisco= beta2=
 sigy(1)=0.8000E+33
 sigy(0)=0.8000E+33
 Mstrain=0.0000E+00
@@ -124,7 +124,7 @@ kin_energy=1.E-07
 ctrl_fact=100.
 ______________________________________________________________________
 # numerical parameters:
-# upscale(1)= safe_dt= damping= fixed_dt= random_seed=
+# upscale(1)= safe_dt= damping= fixed_dt= max_dt= random_seed=
 # potential_contact= aff_fact= P_fact= I_fact= D_fact=
 safe_dt=0.1
 upscale(1)=0.1000E+01

@@ -14,12 +14,6 @@
 BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
 richebourg=$(hostname | grep -c richebourg)
-# rasmol works on richebourg but without -prompt (older version ?)
-if [ $richebourg = "1" ];then
-  rasmolprompt=""
-else
-  rasmolprompt="-prompt"
-fi
 
 if [ "$1" = "" ];then
   more $BINARY_std/help_vdp3D
