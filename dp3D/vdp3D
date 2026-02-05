@@ -147,7 +147,7 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
             epsxx epsyy epszz epsvol sigxx \
 	    sigyy sigzz sigxy sigxz sigyx sigyz \
-            sigzx sigzy press Mises dens center_clumps Temp normal_axis \
+            sigzx sigzy press Mises deform dens center_clumps Temp normal_axis \
             misalign_x misalign_y misalign_z level"
        anim=`echo "$anim_list" | grep -c -w $opt2n`
        if  [ "$anim" = "1" ];then
@@ -228,6 +228,9 @@ fi     # anim
 # ivdp3D will be kept in the local directory for further use if need be
 if [ "$ovito" = "" ];then
   cp "$BINARY_std"ivdp3D .
+  echo '------------------------------------------ '
+  echo " at rasmol prompt, type 'set write on'   "   
+  echo '------------------------------------------ '
 fi
 
 case $optn in
@@ -298,7 +301,7 @@ case $optn in
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
    Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | Mises | eps[x-z][x-z] \
-   | epsvol | dens | voro | voronoi | potential | center_clumps | Temp | normal_axis \
+   | epsvol | dens | deform | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z | level )
 
    if  [ "$optn" = "dens" -o  "$optn" = "voro" ];then
@@ -433,9 +436,6 @@ case $optn in
         echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
         exit
       fi       
-      echo '------------------------------------------ '
-      echo " at rasmol prompt, type 'set write on'   "   
-      echo '------------------------------------------ '
    fi
    ;;
    ref )
@@ -446,8 +446,14 @@ case $optn in
    ;;
    * )
    echo "-$optn is not a correct option"
-   more $BINARY_std/help_vdp3D
-   exit
+   if [ "$ovito" = "" ];then
+     more $BINARY_std/help_vdp3D
+     exit
+   else
+     more $BINARY_std/help_ovdp3D
+     echo "noovito" >> no_ovito_rendering.tmp
+     exit
+   fi
 esac
 
 # some specific actions now for each case

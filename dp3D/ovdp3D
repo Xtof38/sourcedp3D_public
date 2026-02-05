@@ -99,7 +99,11 @@ if [  "$physical_console" = "0" -a "$ovito_loaded" = "0" ];then
   echo "Use the Load Remote File option in ovito to view $file2ovito.xyz"
 else
   if [  "$ovito_loaded" = "1" -a "$option_exit1" = "0" ];then
-  ovito $file2ovito.xyz
+    if [ ! -f "no_ovito_rendering.tmp" ];then
+      ovito $file2ovito.xyz
+    else
+      rm -f "no_ovito_rendering.tmp"
+    fi
   fi
 fi
 

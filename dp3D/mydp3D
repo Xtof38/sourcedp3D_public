@@ -40,9 +40,10 @@
          pidn=`sed -n ''1'p' tmp2`
          sed '1,1d' tmp2 > tmp1
          mv -f tmp1 tmp2
-         ls -ald  /proc/$pidn/exe* > tmp1
 
-         whatdp3D=`grep  dp3D tmp1 | awk '{ print $NF }' | sed '/rasmol/d'`
+         ls -ald  /proc/$pidn/exe* > tmp1
+         whatdp3D=$(ps -ef | grep "$theuser" | grep "$pidn" | grep "dp3D" | awk '{ print $8 }')
+#         whatdp3D=`grep  dp3D tmp1 | awk '{ print $NF }' | sed '/rasmol/d'`
 # print section of file from regular expression to end of file
 #         whatdp3D=`echo "$whatdp3D"  | sed -n '/\/dp3D/,$p'`
          if [ "$whatdp3D" != "" ];then

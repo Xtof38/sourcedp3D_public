@@ -21,6 +21,18 @@ theuser=`whoami`
   fi  
   list_option="$c1 $c2 $c3 $c4 $c5 $c6 $c7 $c8 $c9"
   keepfile=$(echo $list_option | grep -c "\-keep")
+  object=$(echo $list_option | grep -c "\-object")
+# look for the position of argument -object and get rid of it:
+  position=1
+  for arg in "$@"; do
+    if [ "$arg" = "-object" ]; then
+        varname="c$position"
+        declare "$varname="
+        break
+    fi
+    ((position++))
+  done
+
     
   if [ "$1" != "-histo" -a "$option" != "-tag" -a "$option" != "-spy" ];then
     if [ "$c1" != "-dens" -a "$c1" != "-dgeom" -a "$c1" != "-epsx" -a "$c1" != "-epsy" -a "$c1" != "-epsz" -a\
@@ -105,8 +117,12 @@ theuser=`whoami`
         if [ "$c2" = "-sigrr" -o "$c2" = "-sigthetar" ];then
           answer="object"
         else
-          echo "macro stress or stress with objects (type macro or obj)?" 
-          read answer
+          if [ "$object" = "0" ];then
+            echo "macro stress or stress with objects (type macro or obj)?" 
+            read answer
+          else
+            answer="object"
+          fi
         fi
         case $answer in
           macro | m )
@@ -198,7 +214,7 @@ theuser=`whoami`
       esac
     ;;
   esac
-        
+      
 # the call to the correct display_:
   $tocall  $c1 $c2 $c3 $c4 $c5 $c6 $c7 $c8 $c9
   
