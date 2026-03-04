@@ -89,7 +89,7 @@ echo "$option_wo_exit" > tmp1
 # this is safer if a tmp2 file has been created and not properly rm:
 rm -f tmp2
 
-if [ $optn != "Nnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
+if [ $optn != "Nnetwork" -a $optn != "Tnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
   rm -f TAGFILE
 fi
 
@@ -116,7 +116,7 @@ if [ $ref_file = "1" ];then
 fi 
 
 # these are the options that necessitate a TAGFILE to pick particles:
-TAGFILE_list="spy tag rm keep pick ref_rect ref_sphere crack notch probe Nnetwork disp_field c_axis sphere ellipsoid"
+TAGFILE_list="spy tag rm keep pick ref_rect ref_sphere crack notch probe Nnetwork Tnetwork disp_field c_axis sphere ellipsoid"
 TAG_file=`echo "$TAGFILE_list" | grep -c -w $optn`
 
 
@@ -145,9 +145,9 @@ if [ "$optn" = "anim" -o "$optn" = "animobject" ];then
 # these are the options that can be combined with anim 
        anim_list=" contact z class force nobond deltats fract_bonds  \
             fract_bonds_fine z_diff bonds disp dispx dispy dispz dispr  \
-            epsxx epsyy epszz epsvol sigxx \
+            epsxx epsyy epszz epsrr epsvol sigxx \
 	    sigyy sigzz sigxy sigxz sigyx sigyz \
-            sigzx sigzy press Mises deform dens center_clumps Temp normal_axis \
+            sigzx sigzy press sigrr Mises deform dens center_clumps Temp normal_axis \
             misalign_x misalign_y misalign_z level"
        anim=`echo "$anim_list" | grep -c -w $opt2n`
        if  [ "$anim" = "1" ];then
@@ -300,8 +300,8 @@ case $optn in
 
    i | iref | contact | z | force | class | object | nobond | bonds | \
    deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
-   Nnetwork | disp_field | c_axis | sig[x-z][x-z] | press | Mises | eps[x-z][x-z] \
-   | epsvol | dens | deform | voro | voronoi | potential | center_clumps | Temp | normal_axis \
+   Nnetwork | Tnetwork | disp_field | c_axis | sig[x-z][x-z] |  sigrr | press | Mises | eps[x-z][x-z] \
+   | epsvol | epsrr | dens | deform | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z | level )
 
    if  [ "$optn" = "dens" -o  "$optn" = "voro" ];then
@@ -543,11 +543,16 @@ case $optn in
        echo " and 'exit'                                              "
      fi
      ;;         
-   probe | Nnetwork | disp_field )      
+   probe | Nnetwork | Tnetwork | disp_field )      
 # need the _xxxx_histc file that comes with the _coordxxxx coordinate file for Nnetwork:
      case $optn in
-       Nnetwork  )
-         tocheck="_"`echo "$file_coord" | sed 's/_coord//g'`"_histc"
+       Nnetwork | Tnetwork  )
+         isitacoord=$(echo "$file_coord" | grep -c "_coord[0-9][0-9][0-9][0-9]")
+         if [ "$isitacoord" = "0" ];then
+           tocheck="$file_coord"
+         else
+           tocheck="_"`echo "$file_coord" | sed 's/_coord//g'`"_histc"
+         fi
        ;;         
        disp_field )
          tocheck="_coord0000"
@@ -683,7 +688,7 @@ if [ "$ovito" = "" ];then
     if [ -f TAGFILE ];then     
 # !!! numpart is the number of lines in tmp2 not the number of tagged particles       
       if [ $optn = "ref_rect" -o $optn = "ref_sphere" -o  $optn = "crack" -o \
-            $optn = "notch" -o  $optn = "Nnetwork" -o $optn = "c_axis" -o \
+            $optn = "notch" -o  $optn = "Nnetwork" -o  $optn = "Tnetwork" -o $optn = "c_axis" -o \
             $optn = "disp_field" -o  $optn = "sphere" -o  $optn = "ellipsoid" -o \
             $optn = "probe" ];then
 # only two particles selected for ref and crack
@@ -718,7 +723,7 @@ if [ "$ovito" = "" ];then
 	rm -f *.tmp
         exit
       fi
-      if [ $optn = "Nnetwork" -o $optn = "disp_field" -o $optn = "c_axis" ];then
+      if [ $optn = "Nnetwork" -o $optn = "Tnetwork" -o $optn = "disp_field" -o $optn = "c_axis" ];then
         file1="$2"
       fi
       echo "'$file1'" > tagpartnum.tmp
@@ -726,7 +731,7 @@ if [ "$ovito" = "" ];then
       echo "$opt $num_opt" >> tagpartnum.tmp
 
       if [ $optn = "ref_rect"  -o $optn = "ref_sphere" -o $optn = "crack" -o \
-            $optn = "notch" -o $optn = "Nnetwork" -o $optn = "probe" -o  \
+            $optn = "notch" -o $optn = "Nnetwork" -o $optn = "Tnetwork" -o $optn = "probe" -o  \
             $optn = "sphere" -o $optn = "ellipsoid" -o $optn = "c_axis" -o \
             $optn = "disp_field" ];then
         firstpart=`awk '/monitor /{ print $2}' TAGFILE`
@@ -757,7 +762,7 @@ if [ "$ovito" = "" ];then
         $BINARY_std\trs_tag_rm
       fi
 # do not remove TAGFILE yet it may be used for visualization by 
-      if [ $optn != "Nnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
+      if [ $optn != "Nnetwork" -a $optn != "Tnetwork" -a $optn != "disp_field" -a $optn != "c_axis" ];then
         rm -f TAGFILE
       fi
     else
@@ -810,7 +815,7 @@ if [ "$optn" = "probe" ];then
    rm -f TAGFILE
 fi
 # A gnuplot for the -Nnetwork and -disp_field options
-if [  "$optn" = "Nnetwork" -o "$optn" = "disp_field" -o $optn = "c_axis" ];then
+if [  "$optn" = "Nnetwork" -o "$optn" = "Tnetwork" -o "$optn" = "disp_field" -o $optn = "c_axis" ];then
   if [ -f plot_$optn ];then
      head -1 plot_$optn > tmp1
      xxf=`awk '//{ print $2}' tmp1`

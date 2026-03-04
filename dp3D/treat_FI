@@ -1,0 +1,27 @@
+#!/bin/bash
+
+if [ -f "input_dp3D_unload1" ];then
+  input="input_dp3D_unload1"
+else
+  if [ -f "input_dp3D" ];then
+    input="input_dp3D"
+  else
+    echo "Need to provide input_dp3D or input_dp3D_unload1 for option FI"
+    exit
+  fi
+fi
+
+file=$(grep -A 1 "coordinate file" "$input" | grep -v "coordinate file" | head -1)
+epszdot=$(grep "epszdot=" "$input" | grep -v \# | grep -o [0-9].*) 
+info=$(cdp3D -info $file)
+hmin=$(echo "$info" |  grep -A 1 "Min simulation box limits"  | grep -v "Min simulation box limits" | head -1 | awk '{ print $3  }')
+hmax=$(echo "$info" |  grep -A 1 "Max simulation box limits"  | grep -v "Max simulation box limits" | head -1 | awk '{ print $3  }')
+h0=`echo "pad=20; min=64; print ($hmax - $hmin)" | python3`
+R=$(echo "$info" |  grep -A 1 "Max simulation box limits"  | grep -v "Max simulation box limits" | head -1 | awk '{ print $2  }')
+file2plot=$(ls -1 -Q visco$file2display)
+echo "R=$R" >> plot_$file2display
+echo "S=3.1416*R*R" >> plot_$file2display
+echo "p=2*3.1416*R" >> plot_$file2display
+echo "h0=$h0" >> plot_$file2display
+echo "epszdot=-$epszdot" >> plot_$file2display
+Title=\"$Title_o\"

@@ -13,3 +13,8 @@ download the dp3D_examples directory that contains examples that are good starti
 Do not rush into simulating complicated and large simulations right away. Run gradually through the user manual and its examples to educate yourself.
 
 when executing dp3D, if you run into troubles, type: ulimit -s unlimited to solve the issue
+
+For developpers: 
+This project uses a pre-commit hook to update Fortran file headers. To enable it:
+
+git config core.hooksPath src/dp3D_tools/  

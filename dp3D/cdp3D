@@ -251,6 +251,9 @@ case $opttest in
   tag )
         echo 'Tag particles '
        ;;
+  Tnetwork )
+	echo 'Displays the tangential force network on a 2D section from particles nnn mmm'	
+       ;;
   trans* )
 	echo 'Translates the whole packing (with the objects, if any) '
        ;;
@@ -294,13 +297,13 @@ esac
 	   exit
          fi   
        fi
-
+echo "opttest $opttest"
 case $opttest in
-  tag  | spy | part | Nnetwork | disp_field | ref_sphere | ref_rect )
+  tag  | spy | part | Nnetwork | Tnetwork | disp_field | ref_sphere | ref_rect )
       echo "'$file'" > tagpartnum.tmp
       let "numpart = $numberofarg - 2"
       echo "$numpart" >> tagpartnum.tmp
-      if [ $opttest = "Nnetwork" -o $opttest = "disp_field" ];then
+      if [ $opttest = "Nnetwork" -o $opttest = "Tnetwork" -o $opttest = "disp_field" ];then
         if [ -f TAGFILE ];then
           rotate=`grep -c "rotate.*90" TAGFILE`
           if [ $rotate = "1" ];then
@@ -340,7 +343,7 @@ case $opttest in
       else
         rm -f plot_$opttest
         trs_tag_rm
-        if [ $opttest = "Nnetwork" -o $opttest = "disp_field" ];then
+        if [ $opttest = "Nnetwork" -o $opttest = "Tnetwork" -o $opttest = "disp_field" ];then
           if [ -f plot_$opttest ];then
             head -1 plot_$opttest > tmp1
             xxf=`awk '//{ print $2}' tmp1`

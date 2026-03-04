@@ -112,6 +112,9 @@ generates a coord from file with selected particles tagged
 vdp3D -Temp file
 displays temperature of particles
 
+vdp3D -Tnetwork file
+displays the tangential force network of a 2D section
+
 vdp3D -voronoi file
 DEPRECIATED. displays a radical voronoi tesselation. -voro may be a better option
 

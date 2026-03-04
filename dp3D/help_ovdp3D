@@ -91,7 +91,7 @@ generates a coord from file with selected particles removed
 ovdp3D -sphere (or -ellipsoid) file
 generates a coord from file with particles selected from a sphere (or an ellipsoid)
 
-ovdp3D (-anim) -sig(xx,yy or zz) or -press or -Mises file
+ovdp3D (-anim) -sig(xx,yy, zz or rr) or -press or -Mises file
 displays stress components or pressure or Mises stress with halo option at the particle level
 
 ovdp3D -spy file
@@ -99,6 +99,9 @@ generates a coord from file with selected particles to be spyed
 
 ovdp3D -tag (or -untag) file
 generates a coord from file with selected particles tagged (or untagged)
+
+ovdp3D -Tnetwork file
+displays the tangential force network of a 2D section
 
 ovdp3D -voronoi file
 DEPRECIATED. performs a radical voronoi tesselation. -voro may be a better option

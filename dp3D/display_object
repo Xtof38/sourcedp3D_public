@@ -216,6 +216,14 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
       Ynum=15
       l2look="kn1_obj"
       ;;
+    -FI ) # a special option to plot the Friction_Indicia
+      Title_o=Friction_Indicia
+      Ylabel='"Friction Indicia"'
+      Ynum='(((S/(p*h0*exp($38*epszdot))*log(abs($21/$32))) > 0) ? (S/(p*h0*exp($38*epszdot))*log(abs($21/$32))) : 1/0 )'
+      l2look=""
+      i="0"
+      num_obj="1"
+     ;;
      xrange* )
       range_string=$(echo $option | sed 's/xrange/set xrange /' | sed 's/\//\[/' | sed 's/\//\]/')
       sed -i "s|#set xrange|$range_string|1" plot_$file2display 
@@ -261,7 +269,9 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
     do
     if [ "$plot" != "no" ];then
       let "i+=1"
-      num=`expr $Ynum + $ii \* $numdata - $numdata`
+      if [ "$option" != "-FI" ];then
+        num=`expr $Ynum + $ii \* $numdata - $numdata`
+      fi
       Ycolumn=\(\$"$num"\)
       Title=\"$Title_o$ii\"
 # the last y chosen gives the ylabel      
@@ -269,44 +279,51 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         echo "set ylabel $Ylabel" >> plot_$file2display
         echo "set title  '"$(pwd)"'" >> plot_$file2display
       fi
-# by default we do not plot objects for which all fields are zero (no contact)
-# it may be plotted by deleting the # in plot_object
-      awk '{print $'$num'}' $file2display > tmp3
-      if [ "$option" = "-bonds" ];then
-        numnonzero=`grep -c -v "0" tmp3`
-      else
-        numnonzero=`grep -c -v "0.0000E+00" tmp3`
-        toplot=$(head -1 $file2display | awk -v c1=$num '{print $c1}' | grep -c $l2look)
-      fi
-# with quotes (-Q) one item per line (-1)
-      if [ $numnonzero -gt 1 -a $toplot -eq 1 ];then
-# with quotes (-Q) one item per line (-1)
-# the file to display might be $file2display or visco$file2display
-        if [ $nistimethere != "0" ];then
-          file2plot=$(ls -1 -Q visco$file2display)
-        else
-          file2plot=$(ls -1 -Q $file2display)
-        fi   
-# calls gnup_lc_lt shell handling variables:
+      if [ "$option" = "-FI" ];then
+
+        Ycolumn="$Ynum"
+        source $BINARY_std/treat_FI
         source $BINARY_std/gnup_lc_lt
       else
-        not2plot=`echo $Title | sed 's/_/ /g'`
-        if [ $num_obj -lt 10 ];then
-          echo "Object $ii results in zero value thus ($not2plot not plotted)"
-        fi
-# to know if there has been a contact with the object
-        num=`expr $Ynum_kn1 + $ii \* $numdata - $numdata`
+# by default we do not plot objects for which all fields are zero (no contact)
+# it may be plotted by deleting the # in plot_object
         awk '{print $'$num'}' $file2display > tmp3
-        numnonzero=`grep -c -v "0" tmp3`
-	rm -f tmp3
-        if  [ $i -eq 1 ];then
-          let "i=0"
+        if [ "$option" = "-bonds" ];then
+          numnonzero=`grep -c -v "0" tmp3`
+        else
+          numnonzero=`grep -c -v "0.0000E+00" tmp3`
+          toplot=$(head -1 $file2display | awk -v c1=$num '{print $c1}' | grep -c $l2look)
         fi
-        if [ $num_obj -lt 10 ];then
-          if [ $numnonzero -gt 1 ];then
-            echo "number of contacts with object $ii is non zero"
+# with quotes (-Q) one item per line (-1)
+        if [ $numnonzero -gt 1 -a $toplot -eq 1 ];then
+# with quotes (-Q) one item per line (-1)
+# the file to display might be $file2display or visco$file2display
+          if [ $nistimethere != "0" ];then
+            file2plot=$(ls -1 -Q visco$file2display)
           else
-            echo "no contact with this object"
+            file2plot=$(ls -1 -Q $file2display)
+          fi   
+# calls gnup_lc_lt shell handling variables:
+          source $BINARY_std/gnup_lc_lt
+        else
+          not2plot=`echo $Title | sed 's/_/ /g'`
+          if [ $num_obj -lt 10 ];then
+            echo "Object $ii results in zero value thus ($not2plot not plotted)"
+          fi
+# to know if there has been a contact with the object
+          num=`expr $Ynum_kn1 + $ii \* $numdata - $numdata`
+          awk '{print $'$num'}' $file2display > tmp3
+          numnonzero=`grep -c -v "0" tmp3`
+	  rm -f tmp3
+          if  [ $i -eq 1 ];then
+            let "i=0"
+          fi
+          if [ $num_obj -lt 10 ];then
+            if [ $numnonzero -gt 1 ];then
+              echo "number of contacts with object $ii is non zero"
+            else
+              echo "no contact with this object"
+            fi
           fi
         fi
       fi

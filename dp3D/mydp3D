@@ -30,7 +30,7 @@
         fi
 	
       else
-        ps -ef | grep "$theuser" | grep "dp3D" | sed '/mydp3D/d' | sed '/00:00:00/d' | sed '/\/bin\/sh/d' | sed '/odp3D/d' | sed '/defunct/d' | awk '{ print $2 }' > tmp2
+        ps -ef | grep "$theuser" | grep "dp3D" | sed '/mydp3D/d' | sed '/00:00:00/d' | sed '/\/bin\/sh/d' | sed '/nedit /d' | sed '/odp3D/d' | sed '/defunct/d' | awk '{ print $2 }' > tmp2
         numlines=`grep -c .  < tmp2`
         numproc="0"
         until [ "$numlines" = "0" ]

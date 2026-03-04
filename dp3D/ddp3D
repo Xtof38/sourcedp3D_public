@@ -107,15 +107,19 @@ theuser=`whoami`
       -sig | -pressure | -p | -press | -P | -pressure_n | -Mises | -q   \
       | -sig[x-z][x-z] | -sigthetar  | -sigrr  \
       | -sig[x-z][x-z]_[0-9] \
-      | -sig[x-z][x-z]_mat_[0-9] )
+      | -sig[x-z][x-z]_mat_[0-9] | -FI)
 
 #generic sig= sigxx sigyy sigzz      
       if [ "$c2" = "-sig" ];then
         c5="$c3";c6="$c4";c2="-sigxx";c3="-sigyy";c4="-sigzz"
       fi
       if [ -f object ];then
-        if [ "$c2" = "-sigrr" -o "$c2" = "-sigthetar" ];then
+        if [ "$c2" = "-sigrr" -o "$c2" = "-sigthetar" -o "$c2" = "-FI" ];then
           answer="object"
+          if [ "$c2" = "-FI" ];then
+# generates the viscobject file only (no plot)
+            $BINARY_std"display_object" -time_s -sigzz -keep
+          fi
         else
           if [ "$object" = "0" ];then
             echo "macro stress or stress with objects (type macro or obj)?" 

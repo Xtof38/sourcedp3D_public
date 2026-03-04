@@ -133,6 +133,9 @@ spy particles nnn mmm ... in file
 cdp3D -tag file nnn mmm
 tag particles nnn mmm ... in file  
 
+cdp3D -Tnetwork file  nnn mmm 
+Displays the tangential force network on a 2D section from particles nnn mmm	
+
 cdp3D -trans file
 Translates the whole packing in x, y or z directions (with the objects, if any)  
 
