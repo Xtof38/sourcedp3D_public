@@ -297,7 +297,7 @@ esac
 	   exit
          fi   
        fi
-echo "opttest $opttest"
+
 case $opttest in
   tag  | spy | part | Nnetwork | Tnetwork | disp_field | ref_sphere | ref_rect )
       echo "'$file'" > tagpartnum.tmp
