@@ -139,7 +139,7 @@ color [190,255,190] #lightgreen
 
 #color mg
 select magnesium
-color green
+color violet
 
 #color ni
 select nickel
@@ -160,7 +160,7 @@ color greenblue
 
 #color po
 select polonium
-color violet
+color green
 
 #color pt
 select platinum
@@ -196,7 +196,7 @@ color brown
 
 #color zr
 select zirconium
-color [69,4,69]  #deep violet
+color white
 
 
 #a color for objects
