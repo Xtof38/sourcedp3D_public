@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ $# -le 1 ] || [ "$1" = "--help" ]; then
+  cat <<EOF
+Usage: $0 DATE FILE...
+git checkout on FILE... since the specified DATE on the current branch.
+examples:
+git-co-since yesterday a_directory
+git-co-since '1 month ago' some/file/path/file.ext
+git-co-since '1 year ago' some/file/path/file.ext
+git-co-since '4 Dec 2012' some/file/path/file.ext
+
+EOF
+  exit
+fi
+
+
+branch1=$(git rev-parse --abbrev-ref HEAD)
+revision1=$(git rev-list -1 --before="$1" "$branch1")
+shift
+
+echo "checking out $revision1"
+revision2=HEAD
+
+git checkout "$revision1"  -- "$@"

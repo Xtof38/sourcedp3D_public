@@ -79,10 +79,6 @@ case $1 in
       Xlabel='"Time (hour) "'
       Xcolumn='($7)'
       ;;
-  -time_y )
-      Xlabel='"Time (year) "'
-      Xcolumn='($8)'
-      ;;
   -p )
       Xlabel='"Pressure (MPa)"'
       Xcolumn='($9)'
@@ -100,7 +96,7 @@ case $1 in
        echo " $1 is not a valid x label"
        echo " valid x labels are  -dens -dgeom            : density / geometric density"
        echo "                     -epsx -epsy -epsz       : x y and z strain"
-       echo "                     -time_s -time_h -time_y : time in sec, hour or year"   
+       echo "                     -time_s -time_h         : time in sec, hour"   
        echo "                     -timestep               : timestep" 
        echo "                     -p                      : pressure"   
        echo ""
@@ -158,6 +154,12 @@ esac
       Title='"Macroscopic_Pressure"'
       Ylabel='"Stress (MPa)"'
       Ycolumn='($9)'
+      let "ylog=0"
+       ;;
+    -elastic_energy )
+      Title='"Elastic_Energy of bonds"'
+      Ylabel='"Elastic Energy (mJ)"'
+      Ycolumn='($8)'
       let "ylog=0"
        ;;
     -Mises | -q )
@@ -310,7 +312,7 @@ esac
 # the first y chosen gives the ylabel
         echo "set ylabel $Ylabel" >> plot_$file2display
 # the title of the plot is pwd    
-        echo "set title  '"$(pwd)"'" >> plot_$file2display
+        echo "set title  current_dir" >> plot_$file2display
       fi
 # for sintering it is better to use log scale
       if [ $ylog -eq 1 -a $i -eq 1 ];then

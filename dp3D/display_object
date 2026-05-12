@@ -277,7 +277,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 # the last y chosen gives the ylabel      
       if [ "$i" = "1" ];then
         echo "set ylabel $Ylabel" >> plot_$file2display
-        echo "set title  '"$(pwd)"'" >> plot_$file2display
+        echo "set title  current_dir" >> plot_$file2display
       fi
       if [ "$option" = "-FI" ];then
 

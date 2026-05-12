@@ -34,6 +34,13 @@ damage="0"
 user=`whoami`
 physical_console=$(who | grep $user | head -1 | grep -c '(:0)')
 ovito_loaded=$(module avail ovito | grep -c loaded)
+if [ -f ~/bin/ovito ];then
+  ovitobin="1"
+else
+  ovitobin="0"
+fi
+
+
 local=`echo $DISPLAY | grep -c localhost`
 
 if [ "$local" = "1" ];then
@@ -93,12 +100,13 @@ fi
 
 # rm the comment after the number of particles to make the file readable by 
 # ovito
-if [  "$physical_console" = "0" -a "$ovito_loaded" = "0" ];then
+
+if [  "$physical_console" = "0" -a "$ovito_loaded" = "0" -a "$ovitobin" = "0" ];then
   echo " $user uses remote console"
   echo "Install ovito on a Windows or Linux computer"
   echo "Use the Load Remote File option in ovito to view $file2ovito.xyz"
 else
-  if [  "$ovito_loaded" = "1" -a "$option_exit1" = "0" ];then
+  if [  "$ovito_loaded" = "1" -a "$option_exit1" = "0" -o "$ovitobin" = "1" ];then
     if [ ! -f "no_ovito_rendering.tmp" ];then
       ovito $file2ovito.xyz
     else

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###########################################################################
-# This is a script to display colums of the rupt files in the current 
+# This is a script to display colums of the fract_bonds files in the current 
 # directory
 ###########################################################################
 
@@ -9,10 +9,25 @@
 BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
 
-file2display=rupt
+file2display=fract_bonds_running
+
+
 
 Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
 keepfile=$(echo $Option_l | grep -c "\-keep")
+crack2compute=$(echo $Option_l | grep -c "\-crack_length")
+
+# need to compute the crack_length as post_processing of fract_bonds:
+if [ $crack2compute != "0" ] ;then
+   last_coord=$(ls -1 _coord[0-9][0-9][0-9][0-9] | tail -1)
+   cdp3D -crack_length $last_coord 
+fi
+# if dp3D is running cdp3D -craack_length will create filefract_bonds_running instead of fract_bonds:
+if [ -f fract_bonds_running ];then
+  file2display=fract_bonds_running
+else
+  file2display=fract_bonds
+fi
 
 # need a $file2display file in the current directory
 # need a file2display file in the current directory
@@ -41,9 +56,6 @@ if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
     -time_h )
         Xcol="2"
         ;;
-    -time_y )
-        Xcol="3"
-        ;;       
     esac
     file2look="visco"
   else
@@ -59,12 +71,6 @@ if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
     -time_s )
         Xcol="6"
       ;;
-    -time_h )
-        Xcol="7"
-        ;;
-    -time_y )
-        Xcol="8"
-        ;;       
     esac
   fi
   awk '{print $'$Xcol'}' $file2look > tmp1
@@ -92,15 +98,15 @@ case $1 in
       ;;
   -epsx )
       Xlabel='"Strain (x)"'
-      Xcolumn='(-$2)'
+      Xcolumn='($2)'
       ;; 
   -epsy )
       Xlabel='"Strain (y)"'
-      Xcolumn='(-$3)'
+      Xcolumn='($3)'
       ;; 
   -epsz )
       Xlabel='"Strain (z)"'
-      Xcolumn='(-$4)'
+      Xcolumn='($4)'
       ;; 
   -timestep )
       Xlabel='"Timestep "'
@@ -114,26 +120,14 @@ case $1 in
       Xlabel='"Time (hour) "'
       Xcolumn='($'$numcol')'
       ;;
-  -time_y )
-      Xlabel='"Time (year) "'
-      Xcolumn='($'$numcol')'
-      ;;       
      * )
        echo " $1 is not a valid x label"
        echo " valid x labels are  -dens -dgeom : density / geometric density"
        echo "                     -epsx -epsy -epsz : x y and z strain"
        echo ""
-       echo " valid y labels are  -bonds : Number of bonds"
-       echo "                     -Nrupt : Number of bonds broken in tension"
-       echo "                     -Trupt : Number of bonds broken in shear"
-       echo "                     -Nc    : Number of clusters"
-       echo "                     -nmax1 : Size of the biggest cluster"
-       echo "                     -nmax2 : Size of the second biggest cluster"
-       echo "                     -npercluster : Average number of particle per cluster"
-       echo "                     -sigN_bmin : Min bond normal stress"
-       echo "                     -sigN_bmax : Max bond normal stress"
-       echo "                     -sigT_bmax : Max bond shear stress"        
-       exit 
+       echo " valid y labels are  -elastic_en   : Stored elastic energy"
+       echo "                     -crack_length : crack_length"
+      exit 
 esac
 # gnup_display  is the standard view for gnuplot and display_  
 cp -f "$BINARY_std"gnup_display plot_$file2display
@@ -145,56 +139,16 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
     for option in $Option_l
     do
     case $option in
-    -bonds )
-      Title='"Number_of_bonds"'
-      Ylabel='"Nb"'
-      Ycolumn='($5)'
+    -elastic_en )
+      Title='"Elastic_energy"'
+      Ylabel='"E (mJ)"'
+      Ycolumn='($15)'
        ;;
-    -Nrupt )
-      Title='"Number_of_bonds_broken_in_tension"'
-      Ylabel='"Nb"'
-      Ycolumn='($6)'
+    -crack_length  )
+      Title='"crack_length "'
+      Ylabel='"length (microns)"'
+      Ycolumn='($19)'
        ;;       
-    -Trupt )
-      Title='"Number_of_bonds_broken_in_shear"'
-      Ylabel='"Nb"'
-      Ycolumn='($7)'
-       ;;
-    -Nc )
-      Title='"Number_of_clusters"'
-      Ylabel='"nc"'
-      Ycolumn='($8)'
-       ;;       
-    -nmax1 )
-      Title='"Size_of_the_biggest_cluster"'
-      Ylabel='"n"'
-      Ycolumn='($9)'
-       ;;       
-    -nmax2 )
-      Title='"Size_of_the_second_biggest_cluster"'
-      Ylabel='"n"'
-      Ycolumn='($10)'
-       ;;       
-    -npercluster )
-      Title='"Average_number_of_particle_per_cluster"'
-      Ylabel='"n"'
-      Ycolumn='($11)'      
-      ;; 
-    -sigN_bmin )
-      Title='"Min_bond_normal_stress"'
-      Ylabel='"stress (MPa)"'
-      Ycolumn='($12)'      
-      ;; 
-    -sigN_bmax )
-      Title='"Max_bond_normal_stress"'
-      Ylabel='"stress (MPa)"'
-      Ycolumn='($13)'      
-      ;; 
-    -sigT_bmax )
-      Title='"Max_bond_shear_stress"'
-      Ylabel='"stress (MPa)"'
-      Ycolumn='($14)'      
-      ;; 
      xrange* )
       range_string=$(echo $option | sed 's/xrange/set xrange /' | sed 's/\//\[/' | sed 's/\//\]/')
       sed -i "s|#set xrange|$range_string|1" plot_$file2display 
@@ -215,6 +169,8 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 # this is the end of the y label list, no more to plot
  	if [ $keepfile = "0" ];then
 	  gnuplot -geometry 560x400 -persist plot_$file2display 
+# finally need to rm 
+          rm -f fract_bonds_running
 	else
 	  echo "option -keep does not lead to a plot"
 	fi
@@ -229,16 +185,12 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
        else 
          echo "$option is not a valid y label"
        fi
-       echo " valid y labels are  -bonds : Number of bonds"
-       echo "                     -Nrupt : Number of bonds broken in tension"
-       echo "                     -Trupt : Number of bonds broken in shear"
-       echo "                     -Nc    : Number of clusters"
-       echo "                     -nmax1 : Size of the biggest cluster"
-       echo "                     -nmax2 : Size of the second biggest cluster"
-       echo "                     -npercluster : Average number of particle per cluster"
-       echo "                     -sigN_bmin : Min bond normal stress"
-       echo "                     -sigN_bmax : Max bond normal stress"
-       echo "                     -sigT_bmax : Max bond shear stress"        
+       echo " $1 is not a valid x label"
+       echo " valid x labels are  -dens -dgeom : density / geometric density"
+       echo "                     -epsx -epsy -epsz : x y and z strain"
+       echo ""
+       echo " valid y labels are  -elastic_en   : Stored elastic energy"
+       echo "                     -crack_length : crack_length"
        exit       
       fi      
     esac

@@ -54,8 +54,8 @@ case $1 in
         tolookfor="h/R"
          ;;         
       -uN )
-        Title='Normal velocity at the contact (µm.s-1)'
-        Xlabel='uN (µm.s-1)'
+        Title='Normal velocity at the contact (micron.s-1)'
+        Xlabel='uN (micron.s-1)'
         tolookfor="rn("
          ;;         
       -a )
@@ -74,8 +74,8 @@ case $1 in
         tolookfor="deltats/R"
         ;; 
 #      -uT )
-#        Title='Tangential relative velocity at the contact (µm.s-1)'
-#        Xlabel='uT (µm.s-1)'
+#        Title='Tangential relative velocity at the contact (micron.s-1)'
+#        Xlabel='uT (micron.s-1)'
 #        tolookfor="rtabs("
 #        ;;  
       -a0 )
@@ -99,13 +99,13 @@ case $1 in
         tolookfor="Z"
         ;;           
       -size )
-        Title='Particle size (µm)'
-        Xlabel='2R (µm) '
+        Title='Particle size (micron)'
+        Xlabel='2R (micron) '
         tolookfor="Diam("
         ;;           
       -rpeq )
-        Title='2* Contact equivalent radius 2*rp1*rp2/(rp1+rp2) (µm)'
-        Xlabel='2rpeq (µm) '
+        Title='2* Contact equivalent radius 2*rp1*rp2/(rp1+rp2) (micron)'
+        Xlabel='2rpeq (micron) '
         tolookfor="tworpeq("
         ;;           
       -long_axis_x )

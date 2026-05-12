@@ -25,6 +25,9 @@ Computes particle potentials and effective conductivity
 cdp3D -contact file 
 Translates individual objects to tangent or contact nearest particle
 
+cdp3D -crack_length
+Computes a crack lenghth from fract_bonds file
+
 cdp3D -cubic file 
 Creates a file with a cubic arrangement of particles
 

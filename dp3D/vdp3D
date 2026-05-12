@@ -779,7 +779,18 @@ if [ "$ovito" = "" ];then
 # Another plot to see the  particles removed from the notch in -notch option
   if [ "$optn" = "notch" ];then
     rm -f TAGFILE
-    $BINARY_std/vdp3D -i"$test" "$file1"_rm  
+    if [ -f "$file1"_rm -a -f "$file1"_mark_rm ];then
+      echo "files "$file1"_rm and "$file1"_mark_rm exist"
+      echo "which file should be used ?"
+      read file
+      $BINARY_std/vdp3D -i"$test" "$file"
+    else
+      if [ -f "$file1"_rm ];then
+        $BINARY_std/vdp3D -i"$test" "$file1"_rm
+      else
+        $BINARY_std/vdp3D -i"$test" "$file1"_mark_rm
+      fi
+    fi
     cleandone=1
   fi
 # Another plot to see the  bonds removed from the crack in -crack option

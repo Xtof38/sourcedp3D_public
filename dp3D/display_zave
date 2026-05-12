@@ -315,7 +315,7 @@ esac
 # the first y chosen gives the ylabel
         echo "set ylabel $Ylabel" >> plot_$file2display
 # the title of the plot is pwd    
-        echo "set title  '"$(pwd)"'" >> plot_$file2display
+        echo "set title  current_dir" >> plot_$file2display
       fi
 
 # with quotes (-Q) one item per line (-1)

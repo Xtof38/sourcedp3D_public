@@ -36,7 +36,7 @@ theuser=`whoami`
     
   if [ "$1" != "-histo" -a "$option" != "-tag" -a "$option" != "-spy" ];then
     if [ "$c1" != "-dens" -a "$c1" != "-dgeom" -a "$c1" != "-epsx" -a "$c1" != "-epsy" -a "$c1" != "-epsz" -a\
-         "$c1" != "-time_s" -a "$c1" != "-time_h" -a "$c1" != "-time_y"  -a\
+         "$c1" != "-time_s" -a "$c1" != "-time_h" -a "$c1"  -a\
          "$c1" != "-h" -a "$c1" != "-timestep" -a "$c1" != "-p" -a\
          "$c1" != "-Temp" -a "$c1" != "-rp" ];then
       echo "ddp3D usage:" 
@@ -44,7 +44,7 @@ theuser=`whoami`
       tput bold ;echo "valid x labels for ddp3D are :"; tput sgr0
       echo "-dens -dgeom               density / geometric density"
       echo "-epsx  -epsy  -epsz        x y and z strain"
-      echo "-time_s  -time_h  -time_y  time in sec, hour or year" 
+      echo "-time_s  -time_h           time in sec, hour" 
       echo "-timestep                  timestep" 
       echo "-p                         pressure" 
       echo "-Temp                      temperature (deg. C)" 
@@ -153,7 +153,7 @@ theuser=`whoami`
       tocall=$BINARY_std"display_object"
       ;;
       -dens | -epsdot | -epsxdot | -epsydot | -epszdot | -epsvdot \
-      | -Ddot | -kin | -kin_n | -delta | -Temp | -temp | -rp )
+      | -Ddot | -kin | -kin_n | -delta | -Temp | -temp | -rp | -elastic_energy )
 #generic eps= epsx epsy epsz      
       if [ "$c2" = "-epsdot" ];then
         c5="$c3";c6="$c4";c2="-epsxdot";c3="-epsydot";c4="-epszdot"
@@ -165,6 +165,9 @@ theuser=`whoami`
       ;;
       -Surf | -Mob | -Surf_n | -Mob_n )
       tocall=$BINARY_std"display_Surf_Mob"
+      ;;
+      -elastic_en | -crack_length )
+      tocall=$BINARY_std"display_fract_bonds"
       ;;
       * )
       if [ "$c2" = "" ];then

@@ -12,7 +12,7 @@
 # for the option anim, decomment:
 #set terminal gif animate
 #set output "animate.gif"
-
+current_dir = system("pwd")
 # ready to handle colors and line types yourself (decomment next line):
 #set for [i=1:5] linetype i dt i
 
