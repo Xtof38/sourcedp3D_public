@@ -11,7 +11,7 @@ ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_aoR= constant_velocity
 # gravity PID_controller thermal use_init_velocities oriented
-# Level_Set ellipsoids
+# Level_Set ellipsoids no_Voronoi
 no_rotation
 stress_ref
 ______________________________________________________________________
@@ -37,22 +37,22 @@ ______________________________________________________________________
 # simulation termination:
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
-# sigzz<= ferror<=
-density>=0.8
+# sigzz<= ferror<= Temp<= Temp>=
+# sigzz= none end
 ______________________________________________________________________
 # writing coordinate files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 density=0.01
 ______________________________________________________________________
 # writing output files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 density=0.001
 ______________________________________________________________________
 # writing contact history files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 none
 ______________________________________________________________________
 ######################################################################

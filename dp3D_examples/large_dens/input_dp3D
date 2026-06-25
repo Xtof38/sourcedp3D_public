@@ -11,7 +11,7 @@ ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_aoR= constant_velocity
 # gravity PID_controller thermal use_init_velocities oriented
-# Level_Set ellipsoids
+# Level_Set ellipsoids no_Voronoi
 large_dens
 no_rotation
 stress_ref
@@ -37,22 +37,22 @@ ______________________________________________________________________
 # simulation termination:
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
-# sigzz<= ferror<=
-density>=0.95
+# sigzz<= ferror<= Temp<= Temp>=
+# sig_T(1,1)=
 ______________________________________________________________________
 # writing coordinate files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 density=0.1
 ______________________________________________________________________
 # writing output files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 sigzz=1.E+06
 ______________________________________________________________________
 # writing contact history files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 end
 ______________________________________________________________________
 ######################################################################
@@ -98,12 +98,12 @@ ______________________________________________________________________
 adhes(1,1)=0.0000E+00
 ______________________________________________________________________
 # bond strength in tension (Pa):
-# sig_N(1,1)=
+# sig_N(1,1)= dev_sig_N(1,1)=
 sig_N(1,1)=5.E+09
 sig_N(0,1)=0.
 ______________________________________________________________________
 # bond strength in shear (Pa):
-# sig_T(1,1)=
+# sig_T(1,1)= dev_sig_T(1,1)=
 sig_T(1,1)=0.
 sig_T(0,1)=0.
 ______________________________________________________________________

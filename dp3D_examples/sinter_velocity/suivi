@@ -1,0 +1,126 @@
+dp3D version: 3.5 02/04/2026
+dp3D -openMP4 started on machine montrachet by martinch
+at time: 07:56:52 and date 20-05-2026 
+directory: /home/martinch/sourcedp3D/dp3D_examples/sinter_velocity
+ Number of threads used:            4
+ Max number of threads available on this machine:           12
+ The code is working in parallel ? T
+ -------------------------------
+ | Sintering mode               |
+ -------------------------------
+ coordinate file: p400p6365R6p75
+ ------------------------------------------------------
+ There are            4  tagged particles 
+       17       78      200      340
+ ------------------------------------------------------
+ -------------------------------------------------
+ There are          400 particles and            0  objects
+ -------------------------------------------------
+ -----------------------------------------------------
+ | Stress controlled test                             |
+ -----------------------------------------------------
+ For sintering, instead of a zero pressure, using:   0.1019E-02   MPa
+ ---------------------------------------
+| Contacts between materials  1 and  1 |
+| Young modulus E with JKR             |
+ ---------------------------------------
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ ! Material            1  has label: cu 
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ particles have approximately the same size
+ ------------------------------------------------------
+ Level    1      216 cells
+ Number of cells in the 3 directions   6   6   6
+ Periodic conditions in the 3 directions T T T
+ ------------------------------------------------------
+ 
+ ----------------------------------
+ |   Starting dp3D simulation      |
+ ----------------------------------
+relative density=  0.636495
+ writing coord file  : _coord0000                    
+relative density=  0.646588
+ writing coord file  : _coord0001                    
+relative density=  0.656617
+ writing coord file  : _coord0002                    
+relative density=  0.666655
+ writing coord file  : _coord0003                    
+relative density=  0.676702
+ writing coord file  : _coord0004                    
+relative density=  0.686766
+ writing coord file  : _coord0005                    
+relative density=  0.696823
+ writing coord file  : _coord0006                    
+relative density=  0.706878
+ writing coord file  : _coord0007                    
+relative density=  0.716921
+ writing coord file  : _coord0008                    
+relative density=  0.726956
+ writing coord file  : _coord0009                    
+relative density=  0.736988
+ writing coord file  : _coord0010                    
+relative density=  0.747017
+ writing coord file  : _coord0011                    
+relative density=  0.757043
+ writing coord file  : _coord0012                    
+relative density=  0.767066
+ writing coord file  : _coord0013                    
+relative density=  0.777088
+ writing coord file  : _coord0014                    
+relative density=  0.787111
+ writing coord file  : _coord0015                    
+relative density=  0.797131
+ writing coord file  : _coord0016                    
+relative density=  0.807152
+ writing coord file  : _coord0017                    
+relative density=  0.817172
+ writing coord file  : _coord0018                    
+relative density=  0.827189
+ writing coord file  : _coord0019                    
+relative density=  0.837206
+ writing coord file  : _coord0020                    
+relative density=  0.847220
+ writing coord file  : _coord0021                    
+relative density=  0.857236
+ writing coord file  : _coord0022                    
+relative density=  0.867250
+ writing coord file  : _coord0023                    
+relative density=  0.877265
+ writing coord file  : _coord0024                    
+relative density=  0.887279
+ writing coord file  : _coord0025                    
+relative density=  0.897290
+ writing coord file  : _coord0026                    
+ rou >= roufinal   0.900000035190968       0.900000000000000     
+relative density=  0.900000
+ writing coord file  : _coord0027                    
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ Generating contact history file:  _0027_histc
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ ! Density and stress calculated from BC as:  !
+ ! x: periodic   y: periodic   z: periodic    !
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 
+ !!!!!!!!!!!! Warnings !!!!!!!!!!!!!!!!!!!!!!
+! warning  1:
+Files input_dp3D and input_dp3D_updated differ. Consider replacing input_dp3D by input_dp3D_updated
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+! warning  2:
+affine sintering: all errors are increasing
+ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ 
+ job done
+ elapsed cpu time :    0days   0hours  14mins  20secs  (  0.8600E+03 secs)
+ elapsed system time (from clock periods) :   219.6209      sec
+ CPU time as calculated by partial clocks :    0days   0hours  13mins  40secs  (  0.8202E+03 secs)
+ initializations inside timestep loop:   24.3 %
+ contact detection                   :    1.0 %
+ contact force computation           :   19.5 %
+ force summation                     :   39.1 %
+ Verlet-velocity loop                :    1.6 %
+ averages inside timestep loop       :    2.4 %
+ averages outside timestep loop      :    3.9 %
+ output writing in files             :    8.3 %
+ 
+ 

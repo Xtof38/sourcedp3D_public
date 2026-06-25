@@ -11,7 +11,7 @@ ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_aoR= constant_velocity
 # gravity PID_controller thermal use_init_velocities oriented
-# Level_Set ellipsoids
+# Level_Set ellipsoids no_Voronoi
 none
 ______________________________________________________________________
 ######################################################################
@@ -23,8 +23,8 @@ bonds
 ______________________________________________________________________
 # bond key words:
 # large_bonds_full large_bonds geom toughness impinge only_bonds
-# stiffness beam clump_cluster iso_bonds= psi_bar= strength_deviation=
-# unload_stiff_ratio= plast_stiff_ratio= Rankine part_hydrostatic
+# stiffness beam clump_cluster iso_bonds= psi_bar= unload_stiff_ratio=
+# plast_stiff_ratio= Rankine part_hydrostatic
 large_bonds_full
 geom
 toughness
@@ -44,22 +44,22 @@ ______________________________________________________________________
 # simulation termination:
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
-# sigzz<= ferror<=
+# sigzz<= ferror<= Temp<= Temp>=
 fracture=0.05
 ______________________________________________________________________
 # writing coordinate files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 epsilon=0.5000E-04
 ______________________________________________________________________
 # writing output files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 epsilon=0.1000E-05
 ______________________________________________________________________
 # writing contact history files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 end
 ______________________________________________________________________
 ######################################################################

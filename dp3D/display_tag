@@ -9,86 +9,29 @@
 BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
 theuser=`whoami`
 
-file2display=tag
+file2display=_tag
 
 Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16 $17 $18 $19"
 keepfile=$(echo $Option_l | grep -c "\-keep")
 
 # need a $file2display file in the current directory
 
-numtagfile=`ls _$file2display* | grep -c "_$file2display"`
+numtagfile=`ls $file2display* | grep -c "$file2display"`
 
 if [ $numtagfile != "0" ];then 
-  name=`ls _$file2display* | head -1` 
+  name=`ls $file2display* | head -1` 
   numcol=`head -1 $name | awk '{print NF }'`
   let "numcol = numcol + 1"  
 else
   echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       
-  echo "file _$file2display does not exist !"
+  echo "file $file2display does not exist !"
   echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
   exit
 fi   
-# the old format:
-echo "$1" > istimethere
-nistimethere=`grep -c 'time\_h\|time\_y'  istimethere`
-rm -f istimethere
-
-if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
-# if mixing  columns of $file2display and visco:
-# old format:
-  if [ -f visco  ];then 
-    case $1 in
-    -time_h )
-        Xcol="2"
-        ;;
-    -time_y )
-        Xcol="3"
-        ;;       
-    esac
-    file2look="visco"
-  else
-    file2look="tstress"
-    case $1 in
-    -dgeom )
-        Xcol="23"
-	file2look="zave"
-      ;;
-    -time_h )r
-        Xcol="7"
-        ;;
-    -time_y )
-        Xcol="8"
-        ;;       
-    esac
-  fi
-  awk '{print $'$Xcol'}' $file2look > tmp1
-  fichlist=`ls _$file2display*`
-  
-  for fich in $fichlist
-  do
-# if the potential contact did not exist from the very begining there is a difflength
-# in time:
-  let " difflength = $(grep -c . tmp1) - $(grep -c . $fich)"
-  if [ "$difflength" -gt "0" ];then
-# copy the second line of $fich as many time as necessary to readjust the time accordingly
-    sed '1!d'  $fich > tmp2
-    sed '2!d'  $fich > tmp3
-    let "iii=0"
-    until [ "$iii" = "$difflength" ];do
-      cat tmp3 >> tmp2
-      let "iii+=1"
-    done
-# taking away the first comment line of $fich
-    sed '1,1d' $fich > tmp3
-    cat tmp3 >> tmp2  
-#tmp1 is put at the end (the last column) of visco$fich
-    paste tmp2 tmp1 > visco$fich
-  else
-#tmp1 is put at the end (the last column) of visco$fich
-    paste $fich tmp1 > visco$fich
-  fi
-  done
-fi
+# the list of xaxis columns that are missing in this file: (-Temp id for the particle Temp
+listxmissing="-dgeom -timestep -time_h -Temp"
+# addmissingXcolumn pastes the column missing into the visco$file2display and returns isdollar1missing 0 or 1
+source $BINARY_std/addmissingXcolumn
 case $1 in
   -dens )
       Xlabel='"Relative Density "'
@@ -145,17 +88,17 @@ case $1 in
       Xlabel='"Time (hour) "'
       Xcolumn='($'$numcol')'
       ;;
-  -time_y )
-      Xlabel='"Time (year) "'
+  -Temp)
+      Xlabel='"Temperature (deg C)"'
       Xcolumn='($'$numcol')'
-      ;; 
-       * )
+      ;;  
+     * )
        echo " $1 is not a valid x label"
        echo " valid x labels are " 
        echo " -dens                    density" 
        echo " -h                       force indentation"
        echo " -indent                  geometric indentation"
-       echo " -time_s -time_h -time_y  time in sec, hour or year"       
+       echo " -time_s -time_h          time in sec, hour"       
        echo " -timestep                time step"       
        echo " -epsx -epsy or -epsz     x y and z strain"
        exit 
@@ -309,8 +252,8 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 	fi
    
         rm -f tmp1 tmp2 tmp3 
-        if [ $nistimethere != "0" -a $option != "-keep" ];then
-          rm  -f visco_$file2display*
+        if [ $isdollar1missing != "0" -a $option != "-keep" ];then
+          rm  -f visco$file2display*
         fi
 	exit  
       else
@@ -350,10 +293,10 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display
-      if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
-        ls -1 -Q visco_$file2display* > tmp1
+      if [ $isdollar1missing != "0" ] ;then
+        ls -1 -Q visco$file2display* > tmp1
       else
-        ls -1 -Q _$file2display* > tmp1
+        ls -1 -Q $file2display* > tmp1
       fi
       cp -f tmp1 tmp2
       if [ $noption = "1" ];then
@@ -362,7 +305,7 @@ echo "set xlabel $Xlabel" >> plot_$file2display
 # add  " u '$Xcolumn':'$Ycolumn' title "at the end ($) of every line 
       sed -i 's/$/ u '$Xcolumn':'$Ycolumn' title /g'  tmp2
 # number of lines in tmp1
-      numlines=`grep -c "_$file2display"  < tmp1`
+      numlines=`grep -c "$file2display"  < tmp1`
      let "ii=0"
      until [ "$numlines" = "0" ]
      do

@@ -8,6 +8,8 @@ src/makedp3D.log
 src_last_ok/
 src_last_ok_old/
 test_before_commit/reference/abstract
+test_before_commit/git_diff_since
+test_before_commit/refrence/time_CPU
 test_before_commit/test/
 src/result_compile
 src/result_compile_e

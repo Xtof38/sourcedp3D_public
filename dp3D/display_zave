@@ -27,47 +27,10 @@ else
   exit
 fi   
 
-# the old format:
-echo "$1" > istimethere
-nistimethere=`grep -c "\-time"  istimethere`
-rm -f istimethere
-if [ $nistimethere != "0" ];then
-# if mixing  columns of $file2display and visco:
-# old format:
-  if [ -f visco  ];then 
-    case $1 in
-    -time_s )
-        Xcol="1"
-      ;;
-    -time_h )
-        Xcol="2"
-        ;;
-    -time_y )
-        Xcol="3"
-        ;;       
-    esac
-    file2look="visco"
-  else
-    case $1 in
-    -timestep )
-        Xcol="5"
-      ;;
-    -time_s )
-        Xcol="6"
-      ;;
-    -time_h )
-        Xcol="7"
-        ;;
-    -time_y )
-        Xcol="8"
-        ;;       
-    esac
-    file2look="tstress"
-  fi
-  awk '{print $'$Xcol'}' $file2look > tmp1
-  paste $file2display tmp1 > visco$file2display
-  rm -f tmp1
-fi
+# the list of xaxis columns that are missing in this file:
+listxmissing="-dgeom -timestep -time_s -time_h -Temp"
+# addmissingXcolumn pastes the column missing into the visco$file2display and returns isdollar1missing 0 or 1
+source $BINARY_std/addmissingXcolumn
 
 
 case $1 in
@@ -113,15 +76,15 @@ case $1 in
       Xlabel='"Time (hour) "'
       Xcolumn='($'$numcol')'
       ;;
-  -time_y )
-      Xlabel='"Time (year) "'
+  -Temp )
+      Xlabel='"Temperature (deg. C) "'
       Xcolumn='($'$numcol')'
-      ;;       
+      ;;
      * )
        echo " $1 is not a valid x label"
        echo " valid x labels are  -dens -dgeom : density / geometric density"
        echo "                     -epsx -epsy -epsz : x y and z strain"
-       echo "                     -time_s -time_h -time_y : time in sec, hour or year"       
+       echo "                     -time_s -time_h  : time in sec, hour"       
        echo ""       
        echo " valid y labels are  -z or -zave : coordination number "
        echo "                     -z11 : number of type 1 particles in contact with a type 1 particle"
@@ -280,7 +243,7 @@ esac
 	fi
    
         rm -f tmp1 tmp2 tmp3
-       if [ $nistimethere != "0" -a $option != "-keep" ];then
+       if [ $isdollar1missing != "0" -a $option != "-keep" ];then
           rm  -f visco$file2display*
         fi
 	exit  
@@ -320,7 +283,7 @@ esac
 
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display
-      if [ $nistimethere != "0" ];then
+      if [ $isdollar1missing != "0" ];then
         file2plot=$(ls -1 -Q visco$file2display)
       else
         file2plot=$(ls -1 -Q $file2display)

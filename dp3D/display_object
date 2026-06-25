@@ -36,35 +36,10 @@ else
   echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
   exit
 fi   
-# the old format:
-echo "$1" > istimethere
-nistimethere=`grep -c "\-time"  istimethere`
-rm -f istimethere
-if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
-# if mixing  columns of $file2display and visco:
-  file2look="tstress"
-  case $1 in
-  -dgeom )
-    Xcol="23"
-    file2look="zave"
-    ;;	
-  -timestep )
-    Xcol="5"
-    ;;
-  -time_s )
-    Xcol="6"
-    ;;
-  -time_h )
-    Xcol="7"
-    ;;
-  -time_y )
-    Xcol="8"
-    ;;       
-  esac
-  awk '{print $'$Xcol'}' $file2look > tmp1
-  paste $file2display tmp1 > visco$file2display
-  rm -f tmp1
-fi
+# the list of xaxis columns that are missing in this file:
+listxmissing="-dgeom -timestep -time_s -time_h -Temp"
+# addmissingXcolumn pastes the column missing into the visco$file2display and returns isdollar1missing 0 or 1
+source $BINARY_std/addmissingXcolumn
 
 case $1 in
   -dens )
@@ -109,15 +84,15 @@ case $1 in
       Xlabel='"Time (hour) "'
       Xcolumn='($'$numcol')'
       ;;
-  -time_y )
-      Xlabel='"Time (year) "'
+  -Temp )
+      Xlabel='"Temperature (deg. C) "'
       Xcolumn='($'$numcol')'
-      ;;       
+      ;;
      * )
        echo " $1 is not a valid x label"
        echo " valid x labels are  -dens -dgeom : density / geometric density"
        echo "                     -epsx -epsy -epsz : x y and z strain"
-       echo "                     -time_s -time_h -time_y : time in sec, hour or year"              
+       echo "                     -time_s -time_h: time in sec, hour"              
        echo ""
        echo " valid y labels are  -bonds : Number of bounded contacts to object "
        echo "                     -sigxx -sigyy -sigzz: stress on object"
@@ -247,7 +222,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 	else
 	  echo "option -keep does not lead to a plot"
 	fi
-       if [ $nistimethere != "0" -a $option != "-keep" ];then
+       if [ $isdollar1missing != "0" -a $option != "-keep" ];then
           rm  -f visco$file2display*
         fi
 	exit  
@@ -298,7 +273,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
         if [ $numnonzero -gt 1 -a $toplot -eq 1 ];then
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display
-          if [ $nistimethere != "0" ];then
+          if [ $isdollar1missing != "0" ];then
             file2plot=$(ls -1 -Q visco$file2display)
           else
             file2plot=$(ls -1 -Q $file2display)

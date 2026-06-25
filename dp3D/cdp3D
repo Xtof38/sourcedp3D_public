@@ -185,6 +185,9 @@ case $opttest in
   mixt | mixture )
         echo 'Generating a mixture of particles, sub options include clusters, gradient and stripes'
        ;;
+  notch )
+        echo 'Generates a notch from two particles'
+       ;;
   Nnetwork )
 	echo 'Displays the normal force network on a 2D section from particles nnn mmm'	
        ;;
@@ -301,7 +304,7 @@ esac
        fi
 
 case $opttest in
-  tag  | spy | part | Nnetwork | Tnetwork | disp_field | ref_sphere | ref_rect )
+  tag  | spy | part | Nnetwork | Tnetwork | disp_field | ref_sphere | ref_rect | notch )
       echo "'$file'" > tagpartnum.tmp
       let "numpart = $numberofarg - 2"
       echo "$numpart" >> tagpartnum.tmp
@@ -381,7 +384,7 @@ case $opttest in
       fi
        ;;
   developper | info | full_info | bonds | object | histo  | class | renum | reorder | clumps | long_axis | normal_axis | rotate | size_cluster \
-             | break_bonds | press | sig* | voro_dens | crack_length )
+             | break_bonds | press | sig* | voro_dens | crack_length | pick )
       if  [ $option_exit = "true" ];then
         echo "next executable: dp3D_cut"
         exit
@@ -445,7 +448,7 @@ title '"$title_plot of packing "$2""' w l lw 2 " | sed 's/-//g' >> plot_probe
   library | lib )
       $BINARY_std/dp3D_lib $file
        ;;
-  rm | keep | cut_rect | cut_cyl | noisolated | pick )
+  rm | keep | cut_rect | cut_cyl | noisolated )
 # prepares the tagpartnum.tmp and the tagpart.tmp file to be read by trs_tag_rm
       if  [ $option_exit = "true" ];then
           echo "next executable: dp3D_cut followed by trs_tag_rm, see cdp3D"

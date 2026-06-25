@@ -17,6 +17,7 @@ Option_l="$2 $3 $4 $5 $6 $7 $8 $9 $10 $11 $12 $13 $14 $15 $16"
 keepfile=$(echo $Option_l | grep -c "\-keep")
 crack2compute=$(echo $Option_l | grep -c "\-crack_length")
 
+
 # need to compute the crack_length as post_processing of fract_bonds:
 if [ $crack2compute != "0" ] ;then
    last_coord=$(ls -1 _coord[0-9][0-9][0-9][0-9] | tail -1)
@@ -41,41 +42,11 @@ else
   echo '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'       	 
   exit
 fi     
-# the old format:
-echo "$1" > istimethere
-nistimethere=`grep -c "\-time"  istimethere`
-rm -f istimethere
-if [ $nistimethere != "0" ] || [ "$1" == "-dgeom" ];then
-# if mixing  columns of $file2display and visco:
-# old format:
-  if [ -f visco  ];then 
-    case $1 in
-    -time_s )
-        Xcol="1"
-      ;;
-    -time_h )
-        Xcol="2"
-        ;;
-    esac
-    file2look="visco"
-  else
-    file2look="tstress"
-    case $1 in
-    -dgeom )
-        Xcol="23"
-	file2look="zave"
-      ;;
-    -timestep )
-        Xcol="5"
-      ;;
-    -time_s )
-        Xcol="6"
-      ;;
-    esac
-  fi
-  awk '{print $'$Xcol'}' $file2look > tmp1
-  paste $file2display tmp1 > visco$file2display
-fi
+# the list of xaxis columns that are missing in this file:
+listxmissing="-dgeom -timestep -time_s -time_h -Temp"
+# addmissingXcolumn pastes the column missing into the visco$file2display and returns isdollar1missing 0 or 1
+source $BINARY_std/addmissingXcolumn
+
 
 case $1 in
   -dens )
@@ -120,6 +91,10 @@ case $1 in
       Xlabel='"Time (hour) "'
       Xcolumn='($'$numcol')'
       ;;
+  -Temp )
+      Xlabel='"Temperature (deg. C) "'
+      Xcolumn='($'$numcol')'
+      ;;
      * )
        echo " $1 is not a valid x label"
        echo " valid x labels are  -dens -dgeom : density / geometric density"
@@ -142,7 +117,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
     -elastic_en )
       Title='"Elastic_energy"'
       Ylabel='"E (mJ)"'
-      Ycolumn='($15)'
+      Ycolumn='($14)'
        ;;
     -crack_length  )
       Title='"crack_length "'
@@ -175,7 +150,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 	  echo "option -keep does not lead to a plot"
 	fi
         rm -f tmp1 tmp2 tmp3
-       if [ $nistimethere != "0" -a $option != "-keep" -a $option != "-keep" ];then
+       if [ $isdollar1missing != "0" -a $option != "-keep" -a $option != "-keep" ];then
           rm  -f visco$file2display*
         fi
 	exit  
@@ -206,7 +181,7 @@ cp -f "$BINARY_std"gnup_display plot_$file2display
 
 # with quotes (-Q) one item per line (-1)
 # the file to display might be $file2display or visco$file2display
-      if [ $nistimethere != "0" ] || [ $1 == "-dgeom" ];then
+      if [ $isdollar1missing != "0" ];then
         file2plot=$(ls -1 -Q visco$file2display)
       else
         file2plot=$(ls -1 -Q $file2display)

@@ -11,7 +11,7 @@ ______________________________________________________________________
 # general key words:
 # none stress_ref large_dens no_rotation rot_aoR= constant_velocity
 # gravity PID_controller thermal use_init_velocities oriented
-# Level_Set ellipsoids
+# Level_Set ellipsoids no_Voronoi
 none
 ______________________________________________________________________
 ######################################################################
@@ -23,8 +23,8 @@ bonds
 ______________________________________________________________________
 # bond key words:
 # large_bonds_full large_bonds geom toughness impinge only_bonds
-# stiffness beam clump_cluster iso_bonds= psi_bar= strength_deviation=
-# unload_stiff_ratio= plast_stiff_ratio= Rankine part_hydrostatic
+# stiffness beam clump_cluster iso_bonds= psi_bar= unload_stiff_ratio=
+# plast_stiff_ratio= Rankine part_hydrostatic
 stiffness
 ______________________________________________________________________
 # friction model:
@@ -41,22 +41,22 @@ ______________________________________________________________________
 # simulation termination:
 # density<= density>= epsilon>= pressure<= pressure>= epsvdot<= aoR>=
 # time>= timestep>= fracture= sigxx>= sigxx<= sigyy>= sigyy<= sigzz>=
-# sigzz<= ferror<=
+# sigzz<= ferror<= Temp<= Temp>=
 epsilon>=.03
 ______________________________________________________________________
 # writing coordinate files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 epsilon=0.001
 ______________________________________________________________________
 # writing output files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 epsilon=0.0001
 ______________________________________________________________________
 # writing contact history files:
 # density= epsilon= pressure= aoR= time= timestep= sigxx= sigyy=
-# sigzz= none end
+# sigzz= Temp= none end (>= or <=)
 end
 ______________________________________________________________________
 ######################################################################
@@ -352,12 +352,12 @@ ______________________________________________________________________
 adhes(1,1)=0.
 ______________________________________________________________________
 # bond strength in tension (Pa):
-# sig_N(1,1)=
+# sig_N(1,1)= dev_sig_N(1,1)=
 sig_N(1,1)=0.4000E+33
 sig_N(0,1)=0.4000E+33
 ______________________________________________________________________
 # bond strength in shear (Pa):
-# sig_T(1,1)=
+# sig_T(1,1)= dev_sig_T(1,1)=
 sig_T(1,1)=0.4000E+33
 sig_T(0,1)=0.4000E+33
 ______________________________________________________________________

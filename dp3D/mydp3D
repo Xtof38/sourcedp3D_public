@@ -10,7 +10,7 @@
       theuser=`whoami`
       system=`hostname`
       echo "For user $theuser :"
-      if [ "$system" = "master0.alineos.net" ];then
+      if [ "$system" = "master0.simap.cluster" ];then
         echo "Looking only for slurm jobs"
 	list_jobs=`squeue | grep $theuser | awk '{print $1}'`
 	numjobs=`echo $list_jobs | awk '{print NF}'`
