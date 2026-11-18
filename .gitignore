@@ -7,6 +7,7 @@ src/modules
 src/makedp3D.log
 src_last_ok/
 src_last_ok_old/
+src_test/
 test_before_commit/reference/abstract
 test_before_commit/git_diff_since
 test_before_commit/refrence/time_CPU
@@ -17,4 +18,7 @@ src/Make_dp3D_openMP
 dp3D/v0.4.5.voro++
 dp3D/Odp3D
 dp3D_library/
-
+dp3D/myvoro++
+dp3D/odp3D.py
+dp3D/addmissingXcolumn
+dp3D/goto_git

@@ -13,10 +13,37 @@
 # first created January 2014
 
 BINARY_std=$(whereis -b cdp3D | awk '{print $NF}' | rev | sed 's/D3pdc//' | rev)
-if [ "$1" = "" ];then
+anyoption=$(echo $1 | grep -c "-")
+
+# file to visualize:
+if [ "$anim" = "1" ];then
+  file2ovito="_coord0000"
+else
+  file2ovito=$2
+fi
+
+
+if [ $1 != "" ];then
+  if [ $anyoption = "0" ];then
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    echo "!    Need an option for ovdp3D          !"
+    echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    more -20 $BINARY_std/help_ovdp3D
+    exit
+  else
+    if [  "$file2ovito" = "" ];then
+      echo "Need a file name to process with option $1"
+      exit
+    fi
+  fi
+else
   more $BINARY_std/help_ovdp3D
   exit
 fi
+
+
+
+
 # checking test option. If true, BINARY_std become the user bin
 if [ `echo  $1  | grep  -o _test` ];then
   BINARY_std=/home/$(whoami)/bin/
@@ -59,17 +86,7 @@ fi
 
 anim=`echo  $1  | grep -c anim`
 
-# file to visualize:
-if [ "$anim" = "1" ];then
-  file2ovito="_coord0000"
-else
-  file2ovito=$2
-fi
 
-if [  "$file2ovito" = "" ];then
-  echo "Need a file name to process with option $1"
-  exit
-fi
 
 # calling the standard vdp3D with _ovito option
 if [ "$optn" = "damage" -o "$2" = "-damage" ];then

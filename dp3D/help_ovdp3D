@@ -50,7 +50,7 @@ ovdp3D -anim -fract_bonds_fine
 generates an animation with bonds fracture number and crack growth precisely described
 
 ovdp3D -histo_bonds
-generates an image of the history of bonds fracture
+generates an image of the history (by timestep) of bonds or particle fracture
 
 ovdp3D -i file
 generates an image from file with ivdp3D as the default script

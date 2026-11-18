@@ -73,14 +73,6 @@ case $1 in
 esac
 
 
-
-if [ -f $BINARY_std/dp3D_version ];then
-  cat $BINARY_std/dp3D_version > logdp3D.tmp
-fi
-echo "dp3D $1 started on machine $(hostname) by $(whoami)" >> logdp3D.tmp
-echo "at time: $(date +"%T and date %d-%m-%Y") " >> logdp3D.tmp
-echo "directory: $(pwd)" >> logdp3D.tmp
-cat logdp3D.tmp
 newversion="no"
 # only useful on the linux machines:
 #this ensures that the latest version is used :
@@ -117,37 +109,31 @@ launch=no
 case $1 in
   -openMP )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        $BINARY/dp3D_openMP
        launch=yes
        ;;
   -openMP1 )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        $BINARY/dp3D_openMP1
        launch=yes
        ;;
   -openMP2 )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        $BINARY/dp3D_openMP2
        launch=yes
        ;;
   -openMP4 )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        $BINARY/dp3D_openMP4
        launch=yes
        ;;
   -openMP6 )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        $BINARY/dp3D_openMP6
        launch=yes
        ;;
   -openMP8 )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        $BINARY/dp3D_openMP8
        launch=yes
        ;;
@@ -156,14 +142,12 @@ case $1 in
 # needs to modify Make_dp3De
        ntest=$(echo $1 | grep -o [0-9])
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
        /$HOME/bin/dp3De$ntest $2
        launch=yes
        ;;
    "" )
        $BINARY_std/cleandp3D -f
-       mv logdp3D.tmp log
-       $BINARY/dp3D_seq
+        $BINARY/dp3D_seq
        launch=yes
        ;;
      * )
@@ -177,12 +161,9 @@ case $1 in
        echo "-clean_stop signaling dp3D to write a coord file and then to stop "
        echo "-v   version of dp3D"
        echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-       rm -f logdp3D.tmp
        exit
 esac
 
 
 
-
-rm -f logdp3D.tmp
 exit

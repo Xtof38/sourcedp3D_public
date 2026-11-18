@@ -28,6 +28,9 @@ displays sintered contacts
 vdp3D -crack  file 
 generates a coord from file with selected bonds broken 	
 
+vdp3D -deform  file 
+generates a 2D plot of the elastic deformation of a compact after ejection	
+
 vdp3D (-anim) -deltats file
 displays tangential contact strain network
 
@@ -55,8 +58,8 @@ displays bonds fracture number
 vdp3D -anim -fract_bonds_fine 
 displays bonds fracture number and crack growth precisely described
 
-vdp3D -histo_bonds
-displays the history (by timestep) of bonds fracture
+vdp3D -histo_bonds -histo_parts
+displays the history (by timestep) of bonds or particle fracture
 
 vdp3D -i file
 displays the packing with ivdp3D as the default script

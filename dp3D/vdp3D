@@ -299,7 +299,7 @@ case $optn in
    ;;       
 
    i | iref | contact | z | force | class | object | nobond | bonds | \
-   deltats | disp | disp[r-z] | histo_bonds | fract_bonds | z_diff | \
+   deltats | disp | disp[r-z] | histo_bonds | histo_parts | fract_bonds | z_diff | \
    Nnetwork | Tnetwork | disp_field | c_axis | sig[x-z][x-z] |  sigrr | press | Mises | eps[x-z][x-z] \
    | epsvol | epsrr | dens | deform | voro | voronoi | potential | center_clumps | Temp | normal_axis \
    | misalign_x | misalign_y | misalign_z | level )

@@ -14,17 +14,51 @@
         echo "Looking only for slurm jobs"
 	list_jobs=`squeue | grep $theuser | awk '{print $1}'`
 	numjobs=`echo $list_jobs | awk '{print NF}'`
+#        echo "list of jobs: $list_jobs"
+        new_list=""  
+
+	for job in $list_jobs
+	do
+          range=${job#[0-9]*_[}
+          range=${range%]}
+          job0=${job%_*}
+#          echo "range $range job0 $job0"
+          if [ $range != "$job" ];then
+            IFS='-' read -r start end <<< "$range"
+            list_jobs=$(printf '%s\n' "${list_jobs[@]}" | grep -vxF "$job") 
+            for item in $(eval echo ""$job0"_{$start..$end}"); do
+              new_list=$(echo "$new_list $item")
+            done
+          fi 
+        done
+        list_jobs=$(echo "$list_jobs $new_list")
+
+
 	for job in $list_jobs
 	do
 	  node=`scontrol show job $job | grep  BatchHost | grep -o node.*`
 	  status=`scontrol show job  $job | grep "JobState=.* " `
 	  dir=`scontrol show job $job | grep WorkDir | sed 's/   WorkDir=//g'`
-	  echo ""
-	  echo "job $job is running on node $node with status $status"
-	  echo "in directory:"
-	  echo "$dir"
-	  echo ""
+# because the job may have been submitted with sbatch, it might not be the correct dir:
+          if [ -f "$dir"/log ];then
+            last_dir=$dir
+            echo ""
+            echo "job $job is running on node $node with status $status"
+            echo "in directory:"
+            echo "$last_dir"
+	    echo ""
+          else
+            last_dir=$(find "${dir:-.}" -name "log" -type f -mmin -20 -printf "%T@ %h\n" | awk '{ print $2 }')
+            for dir in $last_dir;do
+              echo ""
+              echo "job is running in directory:"
+              echo "$dir"
+      	      echo ""
+            done
+            exit
+          fi
 	done
+        echo "more details with scontrol show job num_job"
         if  [ $numjobs = "0" ];then
           echo "no dp3D process found with squeue"
         fi
